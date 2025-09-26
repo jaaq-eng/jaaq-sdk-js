@@ -1,4 +1,4 @@
-# JAAQ TypeScript SDK (`jaaq-sdk-ts`)
+# JAAQ TypeScript SDK (`jaaq-sdk-js`)
 
 A lightweight, type-safe SDK for interacting with the **JAAQ API (v1)**.  
 It provides a simple client with typed resources generated from the backend OpenAPI specification.
