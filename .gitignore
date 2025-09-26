@@ -1,0 +1,21 @@
+# Build artifacts
+dist
+
+# Dependencies
+node_modules
+
+# Env files
+.env*
+!.env.example
+
+# Logs & coverage
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+coverage
+
+# Do NOT ignore generated types (we commit them)
+# src/gen/   <-- remove this line if it existed
+
+# Ignore local OpenAPI spec; it's downloaded locally
+openapi.json
