@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { JaaqSDK } from "@src/index";
+import { createJaaqClient } from "@src/index";
 import videos from "@tests/mocks/videos.json";
 
 describe("videos resource", () => {
   it("getVideos returns list", async () => {
-    const sdk = JaaqSDK.init({
+    const sdk = createJaaqClient({
       baseUrl: "http://localhost:3000",
       apiKey: "test-key",
       clientId: "acme",
