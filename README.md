@@ -17,6 +17,16 @@ It provides a simple client with typed resources generated from the backend Open
   - mocks/
   - setup.ts
 
+## Relative paths:
+
+```bash
+"@src/*": ["src/*"],
+"@core/*": ["src/core/*"],
+"@resources/*": ["src/resources/*"],
+"@gen/*": ["src/gen/*"],
+"@tests/*": ["tests/*"]
+```
+
 ## Installation
 
 ```bash

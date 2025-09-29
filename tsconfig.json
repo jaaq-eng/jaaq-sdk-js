@@ -18,5 +18,5 @@
       "@tests/*": ["tests/*"]
     }
   },
-  "include": ["src", "tests", "../DEV/index copy.ts"]
+  "include": ["src", "tests"]
 }
