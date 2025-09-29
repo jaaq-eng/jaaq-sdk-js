@@ -10,7 +10,17 @@
     "build:prod": "cross-env NODE_ENV=production tsup",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:smoke": "vitest run tests/build",
+    "check-paths-in-bundle": "grep -R -nE '@core/|@resources/' dist || echo 'OK no aliases found'",
     "openapi:gen": "openapi-typescript ./openapi.json -o ./src/gen/openapi.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.mjs"
+    }
   },
   "keywords": [],
   "author": "",
@@ -24,5 +34,8 @@
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@esbuild-plugins/tsconfig-paths": "^0.1.2"
   }
 }
