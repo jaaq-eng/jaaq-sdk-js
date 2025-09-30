@@ -1,0 +1,22 @@
+name: CI - Production (Manual Only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type 'release' to confirm running the production pipeline"
+        required: true
+        default: "release"
+
+jobs:
+  run-base:
+    # Ejecuta solo si:
+    # 1) El usuario ha escrito 'release'
+    # 2) La referencia de ejecución es la rama main
+    if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.confirm == 'release' }}
+    name: Production pipeline
+    uses: ./.github/workflows/base.yml
+    with:
+      environment: production
+    environment: production
+    secrets: inherit

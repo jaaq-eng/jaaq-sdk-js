@@ -1,0 +1,17 @@
+name: CI - Staging
+
+on:
+  push:
+    branches: ["release/**"]
+  pull_request:
+    branches: ["release/**"]
+  workflow_dispatch: {}
+
+jobs:
+  run-base:
+    name: Staging pipeline
+    uses: ./.github/workflows/base.yml
+    with:
+      environment: staging
+    environment: staging
+    secrets: inherit

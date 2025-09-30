@@ -1,0 +1,17 @@
+name: CI - Development
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+  workflow_dispatch: {}
+
+jobs:
+  run-base:
+    name: Development pipeline
+    uses: ./.github/workflows/base.yml
+    with:
+      environment: development
+    environment: development
+    secrets: inherit
