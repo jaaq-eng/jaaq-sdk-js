@@ -94,3 +94,9 @@ console.log(videos);
 - timeoutMs (optional) – Request timeout in ms.
 - headers (optional) – Extra headers for all requests.
 - apiKeyHeaderName (optional) – Defaults to x-api-key.
+
+## Env publish strategy:
+
+- npm publish --tag dev → for development
+- npm publish --tag next → for staging
+- npm publish → for producción
