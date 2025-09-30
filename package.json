@@ -30,6 +30,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.17.1",
   "devDependencies": {
+    "@esbuild-plugins/tsconfig-paths": "^0.1.2",
     "@types/node": "^24.5.2",
     "cross-env": "^10.1.0",
     "dotenv": "^17.2.2",
@@ -38,8 +39,5 @@
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
-  },
-  "dependencies": {
-    "@esbuild-plugins/tsconfig-paths": "^0.1.2"
   }
 }
