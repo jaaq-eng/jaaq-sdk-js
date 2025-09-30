@@ -1,5 +1,3 @@
-// src/index.ts
-
 import {
   createHttpClient,
   type HttpClient,

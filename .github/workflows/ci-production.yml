@@ -10,9 +10,6 @@ on:
 
 jobs:
   run-base:
-    # Ejecuta solo si:
-    # 1) El usuario ha escrito 'release'
-    # 2) La referencia de ejecución es la rama main
     if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.confirm == 'release' }}
     name: Production pipeline
     uses: ./.github/workflows/base.yml

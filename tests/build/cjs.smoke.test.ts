@@ -1,18 +1,9 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import * as path from "node:path";
 import * as fs from "node:fs";
-import * as dotenv from "dotenv";
-
+import { loadEnvForTests } from "./utils";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const sdk = require("../../dist/index.cjs");
-
-function loadEnvForTests() {
-  const envName = process.env.NODE_ENV ?? "development";
-  const byName = path.resolve(process.cwd(), `.env.${envName}`);
-  const def = path.resolve(process.cwd(), `.env`);
-  if (fs.existsSync(byName)) dotenv.config({ path: byName, override: false });
-  else if (fs.existsSync(def)) dotenv.config({ path: def, override: false });
-}
 
 beforeAll(loadEnvForTests);
 
