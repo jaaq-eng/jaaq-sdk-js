@@ -1,0 +1,56 @@
+name: Reusable CI Base
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "pnpm"
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Show versions and environment
+        run: |
+          node -v
+          pnpm -v
+          echo "ENVIRONMENT=${{ inputs.environment }}"
+          echo "NODE_ENV=${{ env.NODE_ENV }}"
+          echo "JAAQ_API_URL=${{ env.JAAQ_API_URL }}"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Smoke tests
+        run: |
+          if [ "${{ inputs.environment }}" = "development" ]; then pnpm run test:smoke:dev; fi
+          if [ "${{ inputs.environment }}" = "staging" ]; then pnpm run test:smoke:staging; fi
+          if [ "${{ inputs.environment }}" = "production" ]; then pnpm run test:smoke:prod; fi
+
+      - name: Publish info
+        run: |
+          if [ "${{ inputs.environment }}" = "development" ]; then
+            echo "Publish (dev pre-release): set NPM_TOKEN; pnpm version prerelease --preid dev && pnpm publish --tag dev --access public";
+          elif [ "${{ inputs.environment }}" = "staging" ]; then
+            echo "Publish (next pre-release): set NPM_TOKEN; pnpm version prerelease --preid next && pnpm publish --tag next --access public";
+          elif [ "${{ inputs.environment }}" = "production" ]; then
+            echo "Publish (stable): set NPM_TOKEN; pnpm version <major|minor|patch> && pnpm publish --tag latest --access public";
+          fi

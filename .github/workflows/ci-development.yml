@@ -1,15 +1,15 @@
 name: CI - Development
 
 on:
-  push:
+  pull_request:
     branches: [develop]
-  workflow_dispatch: {}
+    types: [closed]
 
 jobs:
   run-base:
+    if: ${{ github.event.pull_request.merged == true }}
     name: Development pipeline
     uses: ./.github/workflows/base.yml
     with:
       environment: development
-    environment: development
     secrets: inherit
