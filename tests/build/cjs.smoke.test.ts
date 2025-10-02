@@ -1,11 +1,8 @@
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect } from "vitest";
 import * as path from "node:path";
 import * as fs from "node:fs";
-import { loadEnvForTests } from "./utils";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const sdk = require("../../dist/index.cjs");
-
-beforeAll(loadEnvForTests);
 
 const distCjs = path.resolve(process.cwd(), "dist", "index.cjs");
 const code = fs.readFileSync(distCjs, "utf8");

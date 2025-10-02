@@ -1,11 +1,8 @@
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect } from "vitest";
 import * as path from "node:path";
 import * as fs from "node:fs";
-import { loadEnvForTests } from "./utils";
 // @ts-ignore
 import * as sdk from "../../dist/index.mjs";
-
-beforeAll(loadEnvForTests);
 
 const distMjs = path.resolve(process.cwd(), "dist", "index.mjs");
 const code = fs.readFileSync(distMjs, "utf8");
