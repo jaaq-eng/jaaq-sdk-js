@@ -11,12 +11,8 @@ export default defineConfig({
   target: "es2020",
   platform: "neutral", // not asume node or browser.
   define: {
-    "process.env.JAAQ_API_URL": process.env.JAAQ_API_URL
-      ? JSON.stringify(process.env.JAAQ_API_URL)
-      : "undefined",
-    "process.env.NODE_ENV": JSON.stringify(
-      process.env.NODE_ENV ?? "production"
-    ),
+    "process.env.JAAQ_API_URL": JSON.stringify(process.env.JAAQ_API_URL),
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
   },
   esbuildPlugins: [TsconfigPathsPlugin({})],
   outExtension({ format }) {

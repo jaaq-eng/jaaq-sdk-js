@@ -19,8 +19,9 @@ describe("esm build", () => {
   });
 
   it("should inline the expected BASE_URL literal and export it", () => {
-    const expected = process.env.JAAQ_API_URL ?? "https://api.jaaq.app/v1";
+    const expected = process.env.JAAQ_API_URL;
     expect(code).toContain(expected);
+    expect(sdk.BASE_URL).toBeDefined();
     expect(sdk.BASE_URL).toBe(expected);
   });
 });
