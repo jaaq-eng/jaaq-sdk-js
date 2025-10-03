@@ -1,7 +1,19 @@
 {
-  "items": [
-    { "id": "v1", "title": "Intro", "durationSec": 120 },
-    { "id": "v2", "title": "Deep Dive", "durationSec": 540 }
-  ],
-  "total": 2
+  "video": {
+    "id": "3dfc6f50-6b3b-4fb2-998a-b1d7e496de5c",
+    "videoId": "rbzseace",
+    "questionId": "88edb44b-4aa4-403f-844f-ceb0345d51e2",
+    "question": "What would you tell your younger self?",
+    "status": null,
+    "transcription": null,
+    "createdAt": "2025-09-30T11:26:11.198Z",
+    "modifiedAt": "2025-09-30T11:26:11.198Z",
+    "videoUrl": "https://d1qbtov12ipuur.cloudfront.net//rbzseacem3u8",
+    "published": false,
+    "tags": [],
+    "severity": null,
+    "duration": 14,
+    "subTopics": [],
+    "description": "What would you tell your younger self?"
+  }
 }

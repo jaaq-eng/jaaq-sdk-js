@@ -7,7 +7,9 @@ import {
 } from "@core/httpClient";
 import { createVideosResource, type VideosResource } from "@resources/videos";
 
-export const BASE_URL = "https://api.jaaq.app/v1";
+export const BASE_URL =
+  process.env.JAAQ_API_URL ??
+  "https://4x38uqj47j.execute-api.eu-west-1.amazonaws.com/";
 
 export interface SDKConfig {
   baseUrl?: string; // Pending to approve
