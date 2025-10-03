@@ -6,6 +6,10 @@ import {
   type FetchLike,
 } from "@core/httpClient";
 import { createVideosResource, type VideosResource } from "@resources/videos";
+import {
+  createCollectionsResource,
+  type CollectionsResource,
+} from "@resources/collections";
 
 export const BASE_URL =
   process.env.JAAQ_API_URL ??
@@ -23,10 +27,12 @@ export interface SDKConfig {
 
 export class JaaqClient {
   public readonly videos: VideosResource;
+  public readonly collections: CollectionsResource;
 
   // Keep constructor private to enforce controlled instantiation.
   private constructor(private readonly http: HttpClient) {
     this.videos = createVideosResource(http);
+    this.collections = createCollectionsResource(http);
   }
 
   /**

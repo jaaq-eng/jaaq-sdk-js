@@ -1,3 +1,5 @@
+import type { Video } from "@src/types/videos";
+
 interface Collection {
   id: string;
   name: string;
