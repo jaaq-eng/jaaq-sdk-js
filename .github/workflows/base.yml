@@ -23,9 +23,6 @@ jobs:
           node-version: "20.x"
           cache: "pnpm"
 
-      - name: Enable corepack
-        run: corepack enable
-
       - name: Show versions and environment
         run: |
           node -v
