@@ -11,6 +11,9 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    env:
+      NODE_ENV: ${{ inputs.environment }}
+      JAAQ_API_URL: ${{ vars.JAAQ_API_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,6 +33,9 @@ jobs:
           echo "ENVIRONMENT=${{ inputs.environment }}"
           echo "NODE_ENV=${{ env.NODE_ENV }}"
           echo "JAAQ_API_URL=${{ env.JAAQ_API_URL }}"
+
+      - name: audit dependencies
+        run: pnpm run audit:moderate
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
