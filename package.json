@@ -5,11 +5,16 @@
   "main": "index.js",
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:smoke": "vitest run tests/build",
-    "check-paths-in-bundle": "grep -R -nE '@core/|@resources/' dist || echo 'OK no aliases found'",
+    "dev": "dotenvx run -f .env.development -- tsup --watch",
+    "build:dev": "dotenvx run -f .env.development -- tsup",
+    "build:staging": "dotenvx run -f .env.staging -- tsup",
+    "build:prod": "dotenvx run -f .env.production -- tsup",
+    "test": "vitest run --exclude=tests/build",
+    "test:watch": "vitest --exclude=tests/build",
+    "test:smoke:dev": "dotenvx run -f .env.development -- vitest run tests/build",
+    "test:smoke:staging": "dotenvx run -f .env.staging -- vitest run tests/build",
+    "test:smoke:prod": "dotenvx run -f .env.production -- vitest run tests/build",
+    "check-paths-in-bundle": "grep -R -nE --exclude='*.map' '@core/|@resources/' dist || echo 'OK no aliases found'",
     "openapi:gen": "openapi-typescript ./openapi.json -o ./src/gen/openapi.ts"
   },
   "exports": {
@@ -25,14 +30,13 @@
   "license": "ISC",
   "packageManager": "pnpm@10.17.1",
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.51.0",
+    "@esbuild-plugins/tsconfig-paths": "^0.1.2",
     "@types/node": "^24.5.2",
     "msw": "^2.11.3",
     "openapi-typescript": "^7.9.1",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
-  },
-  "dependencies": {
-    "@esbuild-plugins/tsconfig-paths": "^0.1.2"
   }
 }

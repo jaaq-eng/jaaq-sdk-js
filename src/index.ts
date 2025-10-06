@@ -1,5 +1,3 @@
-// src/index.ts
-
 import {
   createHttpClient,
   type HttpClient,
@@ -11,10 +9,7 @@ import {
   type CollectionsResource,
 } from "@resources/collections";
 
-export const BASE_URL =
-  process.env.JAAQ_API_URL ??
-  "https://4x38uqj47j.execute-api.eu-west-1.amazonaws.com/";
-
+export const BASE_URL = process.env.JAAQ_API_URL as string;
 export interface SDKConfig {
   baseUrl?: string; // Pending to approve
   apiKey: string; // Provided by backend per client

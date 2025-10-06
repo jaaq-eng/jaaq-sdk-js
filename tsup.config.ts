@@ -1,5 +1,6 @@
-import { defineConfig } from "tsup";
+/// <reference types="node" />
 import { TsconfigPathsPlugin } from "@esbuild-plugins/tsconfig-paths";
+import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: ["src/index.ts"],
@@ -7,13 +8,12 @@ export default defineConfig({
   dts: true,
   format: ["esm", "cjs"],
   sourcemap: true,
-  splitting: false,
-  clean: true,
   target: "es2020",
-  treeshake: true,
-  minify: false,
   platform: "neutral", // not asume node or browser.
-  skipNodeModulesBundle: true, // do not bundle node_modules
+  define: {
+    "process.env.JAAQ_API_URL": JSON.stringify(process.env.JAAQ_API_URL),
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+  },
   esbuildPlugins: [TsconfigPathsPlugin({})],
   outExtension({ format }) {
     return { js: format === "esm" ? ".mjs" : ".cjs" };
