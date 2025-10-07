@@ -15,7 +15,8 @@
     "test:smoke:staging": "dotenvx run -f .env.staging -- vitest run tests/build",
     "test:smoke:prod": "dotenvx run -f .env.production -- vitest run tests/build",
     "check-paths-in-bundle": "grep -R -nE --exclude='*.map' '@core/|@resources/' dist || echo 'OK no aliases found'",
-    "openapi:gen": "openapi-typescript ./openapi.json -o ./src/gen/openapi.ts"
+    "openapi:gen": "openapi-typescript ./openapi.json -o ./src/gen/openapi.ts",
+    "audit:moderate": "pnpm audit --audit-level=moderate"
   },
   "exports": {
     ".": {

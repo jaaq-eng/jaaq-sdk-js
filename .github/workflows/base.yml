@@ -11,16 +11,20 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    env:
+      NODE_ENV: ${{ inputs.environment }}
+      JAAQ_API_URL: ${{ vars.JAAQ_API_URL }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.1
 
       - uses: actions/setup-node@v4
         with:
           node-version: "20.x"
           cache: "pnpm"
-
-      - name: Enable corepack
-        run: corepack enable
 
       - name: Show versions and environment
         run: |
@@ -29,6 +33,9 @@ jobs:
           echo "ENVIRONMENT=${{ inputs.environment }}"
           echo "NODE_ENV=${{ env.NODE_ENV }}"
           echo "JAAQ_API_URL=${{ env.JAAQ_API_URL }}"
+
+      - name: audit dependencies
+        run: pnpm run audit:moderate
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
