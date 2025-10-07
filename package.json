@@ -16,7 +16,12 @@
     "test:smoke:prod": "dotenvx run -f .env.production -- vitest run tests/build",
     "check-paths-in-bundle": "grep -R -nE --exclude='*.map' '@core/|@resources/' dist || echo 'OK no aliases found'",
     "openapi:gen": "openapi-typescript ./openapi.json -o ./src/gen/openapi.ts",
-    "audit:moderate": "pnpm audit --audit-level=moderate"
+    "audit:moderate": "pnpm audit --audit-level=moderate",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
   },
   "exports": {
     ".": {
@@ -30,7 +35,17 @@
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.17.1",
+  "lint-staged": {
+    "*.{ts,tsx,js}": [
+      "eslint --fix --max-warnings=0"
+    ],
+    "*.{json,md,yml,yaml,ts,tsx,js}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@dotenvx/dotenvx": "^1.51.0",
     "@esbuild-plugins/tsconfig-paths": "^0.1.2",
     "@types/node": "^24.5.2",
@@ -38,6 +53,8 @@
     "@typescript-eslint/parser": "^8.46.0",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.3",
     "msw": "^2.11.3",
     "openapi-typescript": "^7.9.1",
     "prettier": "^3.6.2",
