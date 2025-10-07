@@ -1,5 +1,3 @@
- 
-
 import type { HttpClient } from '@core/httpClient';
 import type { paths, components } from '@gen/openapi';
 

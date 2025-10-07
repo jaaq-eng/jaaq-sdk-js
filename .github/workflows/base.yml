@@ -23,8 +23,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          cache: "pnpm"
+          node-version: '20.x'
+          cache: 'pnpm'
 
       - name: Show versions and environment
         run: |
