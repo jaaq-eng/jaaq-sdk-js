@@ -9,6 +9,10 @@ import {
   type CollectionsResource,
 } from "@resources/collections";
 
+// Public type exports for consumers
+export type { Video } from "@src/types/videos";
+export type { Collection } from "@src/types/collection";
+
 export const BASE_URL = process.env.JAAQ_API_URL as string;
 export interface SDKConfig {
   baseUrl?: string; // Pending to approve
