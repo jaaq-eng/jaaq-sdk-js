@@ -19,3 +19,6 @@ coverage
 
 # Ignore local OpenAPI spec; it's downloaded locally
 openapi.json
+
+# OS generated files
+.DS_Store
