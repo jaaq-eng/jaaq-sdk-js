@@ -94,3 +94,14 @@ console.log(videos);
 - timeoutMs (optional) – Request timeout in ms.
 - headers (optional) – Extra headers for all requests.
 - apiKeyHeaderName (optional) – Defaults to x-api-key.
+
+## Linting
+
+- ESLint (code rules) and Prettier (formatting).
+- On save: use the Prettier editor extension (Format on Save).
+- Pre-commit: lint-staged runs ESLint --fix on TS/JS and Prettier on staged files.
+- Manual:
+  - `pnpm lint` / `pnpm lint:fix`
+  - `pnpm format` / `pnpm format:check`
+- Commit messages: validated by commitlint (Husky commit-msg hook).
+- PRs: CI runs `pnpm lint` and `pnpm format:check` on pull_request.
