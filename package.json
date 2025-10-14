@@ -14,6 +14,7 @@
     "test:smoke:dev": "dotenvx run -f .env.development -- vitest run tests/build",
     "test:smoke:staging": "dotenvx run -f .env.staging -- vitest run tests/build",
     "test:smoke:prod": "dotenvx run -f .env.production -- vitest run tests/build",
+    "test:smoke:ci": "vitest run tests/build",
     "check-paths-in-bundle": "grep -R -nE --exclude='*.map' '@core/|@resources/' dist || echo 'OK no aliases found'",
     "openapi:gen": "openapi-typescript ./openapi.json -o ./src/gen/openapi.ts",
     "audit:moderate": "pnpm audit --audit-level=moderate",
@@ -43,6 +44,11 @@
       "prettier --write"
     ]
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",

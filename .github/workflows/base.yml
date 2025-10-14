@@ -47,10 +47,7 @@ jobs:
         run: pnpm build
 
       - name: Smoke tests
-        run: |
-          if [ "${{ inputs.environment }}" = "development" ]; then pnpm run test:smoke:dev; fi
-          if [ "${{ inputs.environment }}" = "staging" ]; then pnpm run test:smoke:staging; fi
-          if [ "${{ inputs.environment }}" = "production" ]; then pnpm run test:smoke:prod; fi
+        run: pnpm run test:smoke:ci
 
       - name: Publish info
         run: |

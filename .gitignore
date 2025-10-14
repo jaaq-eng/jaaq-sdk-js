@@ -20,5 +20,5 @@ coverage
 # Ignore local OpenAPI spec; it's downloaded locally
 openapi.json
 
-# macOS Finder metadata
+# OS generated files
 .DS_Store

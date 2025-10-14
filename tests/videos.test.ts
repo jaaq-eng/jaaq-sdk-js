@@ -1,17 +1,17 @@
 import { describe, it, expect } from 'vitest';
-import { createJaaqClient } from '@src/index';
-import videos from '@tests/mocks/videos.json';
+import { JaaqClient } from '@src/index';
+import videoResp from '@tests/mocks/video.json';
 
 describe('videos resource', () => {
-  it('getVideos returns list', async () => {
-    const sdk = createJaaqClient({
+  it('getById returns a single video', async () => {
+    const sdk = JaaqClient.init({
       baseUrl: 'http://localhost:3000',
       apiKey: 'test-key',
       clientId: 'acme',
     });
 
-    const res = await sdk.videos.getVideos();
-    expect(res.items.length).toBe(videos.items.length);
-    expect(res.total).toBe(videos.total);
+    const res = await sdk.videos.getById(videoResp.video.id);
+    expect(res.id).toBe(videoResp.video.id);
+    expect(res.videoId).toBe(videoResp.video.videoId);
   });
 });
