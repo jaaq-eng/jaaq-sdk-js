@@ -132,7 +132,7 @@ or
 client.collections.list()
 ```
 
-#### Ex: Getting and displaying a video (.m3u8)
+#### Ex: Getting and displaying a video
 
 ```bash
 import { useEffect, useRef } from "react";
@@ -166,7 +166,7 @@ export default function VideoExample({ id }: { id: string }) {
 }
 ```
 
-#### if extension is .m3u8
+#### If extension is .m3u8
 
 ```bash
 import { useEffect, useRef } from "react";
