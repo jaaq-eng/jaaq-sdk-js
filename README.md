@@ -132,34 +132,35 @@ or
 client.collections.list()
 ```
 
-#### Ex: Getting and displaying a video
+#### Ex: Getting and displaying a video (.m3u8)
 
 ```bash
+import { useEffect, useRef } from "react";
 import { createJaaqClient } from "jaaq-sdk-js";
 
-export default function VideosPage() {
+const API_KEY = import.meta.env.VITE_JAAQ_API_KEY;
+const CLIENT_ID = import.meta.env.VITE_JAAQ_CLIENT_ID;
 
-const client = createJaaqClient({
-  apiKey: '<YOUR_API_KEY>',
-  clientId: '<YOUR_CLIENT_ID>',
-});
+export default function VideoExample({ id }: { id: string }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
-useEffect(() => {
-  if(!client) return
-  const resp = await client.videos.getById(id);
-  setSrc(resp.video.videoUrl);
-}, [client])
+  useEffect(() => {
+    (async () => {
+      const client = createJaaqClient({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID
+      });
+      const resp = await client.videos.getById(id);
+      const url = resp.video.videoUrl;
+      videoRef.current.src = url;
+    })();
+  }, [id]);
 
-return (
-    <div className="video-container">
-      <video
-        className="video-player"
-        ref={videoRef}
-        controls
-        playsInline
-        autoPlay
-      />
-    </div>
-  )
+  return (
+    <video
+      ref={videoRef}
+      autoPlay
+      controls
+    />;
 }
 ```
