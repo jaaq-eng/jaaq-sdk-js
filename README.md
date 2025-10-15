@@ -162,5 +162,49 @@ export default function VideoExample({ id }: { id: string }) {
       autoPlay
       controls
     />;
+  )
+}
+```
+
+#### if extension is .m3u8
+
+```bash
+import { useEffect, useRef } from "react";
+import { createJaaqClient } from "jaaq-sdk-js";
+import Hls from "hls.js";
+
+const API_KEY = import.meta.env.VITE_JAAQ_API_KEY!;
+const CLIENT_ID = import.meta.env.VITE_JAAQ_CLIENT_ID!;
+
+export default function VideoExample({ id }: { id: string }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    let hls: Hls | undefined;
+
+    (async () => {
+      const client = createJaaqClient({ apiKey: API_KEY, clientId: CLIENT_ID });
+      const resp = await client.videos.getById(id);
+      const url = resp.video.videoUrl; // e.g. https://.../video.m3u8
+      const video = videoRef.current;
+      if (!video || !url) return;
+
+      if (Hls.isSupported()) {
+        hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+      }
+    })();
+
+    return () => hls?.destroy();
+  }, [id]);
+
+  return (
+    <video
+      ref={videoRef}
+      autoPlay
+      controls
+    />;
+  )
 }
 ```
