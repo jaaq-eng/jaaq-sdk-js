@@ -1,7 +1,0 @@
-{
-  "items": [
-    { "id": "v1", "title": "Intro", "durationSec": 120 },
-    { "id": "v2", "title": "Deep Dive", "durationSec": 540 }
-  ],
-  "total": 2
-}

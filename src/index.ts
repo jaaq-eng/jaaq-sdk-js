@@ -1,13 +1,12 @@
-// src/index.ts
+import { createHttpClient, type HttpClient, type FetchLike } from '@core/httpClient';
+import { createVideosResource, type VideosResource } from '@resources/videos';
+import { createCollectionsResource, type CollectionsResource } from '@resources/collections';
 
-import {
-  createHttpClient,
-  type HttpClient,
-  type FetchLike,
-} from "@core/httpClient";
-import { createVideosResource, type VideosResource } from "@resources/videos";
+// Public type exports for consumers
+export type { Video } from '@src/types/videos';
+export type { Collection } from '@src/types/collection';
 
-export const BASE_URL = "https://api.jaaq.app/v1";
+export const BASE_URL = process.env.JAAQ_API_URL as string;
 
 export interface SDKConfig {
   baseUrl?: string; // Pending to approve
@@ -21,10 +20,12 @@ export interface SDKConfig {
 
 export class JaaqClient {
   public readonly videos: VideosResource;
+  public readonly collections: CollectionsResource;
 
   // Keep constructor private to enforce controlled instantiation.
-  private constructor(private readonly http: HttpClient) {
+  private constructor(http: HttpClient) {
     this.videos = createVideosResource(http);
+    this.collections = createCollectionsResource(http);
   }
 
   /**
@@ -59,15 +60,7 @@ export function createJaaqClient(config: SDKConfig): JaaqClient {
  * The constructor stays private; instantiation is funneled via `JaaqClient.fromHttp`.
  */
 function buildClient(config: SDKConfig): JaaqClient {
-  const {
-    baseUrl = BASE_URL,
-    apiKey,
-    clientId,
-    fetch: fetchImpl,
-    timeoutMs,
-    headers,
-    apiKeyHeaderName = "x-api-key",
-  } = config;
+  const { baseUrl = BASE_URL, apiKey, clientId, fetch: fetchImpl, headers, apiKeyHeaderName = 'x-api-key' } = config;
 
   const http = createHttpClient({
     baseUrl,
@@ -75,7 +68,6 @@ function buildClient(config: SDKConfig): JaaqClient {
     clientId,
     apiKeyHeaderName,
     fetch: fetchImpl ?? (globalThis.fetch as FetchLike | undefined),
-    timeoutMs,
     headers,
   });
 

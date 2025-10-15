@@ -1,11 +1,24 @@
-import { describe, it, expect } from "vitest";
-// @ts-ignore
-const sdk = require("../../dist/index.cjs");
+import { describe, it, expect } from 'vitest';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
+const sdk = require('../../dist/index.cjs');
 
-describe("cjs build", () => {
-  it("expose public API", () => {
-    expect(Object.keys(sdk)).toEqual(
-      expect.arrayContaining(["createJaaqClient", "JaaqClient", "BASE_URL"])
-    );
+const distCjs = path.resolve(process.cwd(), 'dist', 'index.cjs');
+const code = fs.readFileSync(distCjs, 'utf8');
+
+describe('cjs build', () => {
+  it('exposes public API', () => {
+    expect(Object.keys(sdk)).toEqual(expect.arrayContaining(['createJaaqClient', 'JaaqClient', 'BASE_URL']));
+  });
+
+  it('should not contain process.env references', () => {
+    expect(code).not.toMatch(/process\.env/);
+  });
+
+  it('should inline the expected BASE_URL literal and export it', () => {
+    const expected = process.env.JAAQ_API_URL;
+    expect(code).toContain(expected);
+    expect(sdk.BASE_URL).toBeDefined();
+    expect(sdk.BASE_URL).toBe(expected);
   });
 });
