@@ -54,7 +54,7 @@ jobs:
           if [ "${{ inputs.environment }}" = "development" ]; then
             echo "Publish (dev pre-release): set NPM_TOKEN; pnpm version prerelease --preid dev && pnpm publish --tag dev --access public";
           elif [ "${{ inputs.environment }}" = "staging" ]; then
-            echo "Publish (next pre-release): set NPM_TOKEN; pnpm version prerelease --preid next && pnpm publish --tag next --access public";
+            echo "Publish (rc pre-release): set NPM_TOKEN; pnpm version prerelease --preid rc && pnpm publish --tag rc --access public";
           elif [ "${{ inputs.environment }}" = "production" ]; then
             echo "Publish (stable): set NPM_TOKEN; pnpm version <major|minor|patch> && pnpm publish --tag latest --access public";
           fi
