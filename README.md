@@ -69,22 +69,6 @@ type GetVideosParams = paths['/videos']['get']['parameters']['query'];
 
 ```
 
-## Usage:
-
-```bash
-import { createJaaqClient } from 'jaaq-sdk-ts';
-
-const client = createJaaqClient({
-  apiKey: '<YOUR_API_KEY>',
-  clientId: '<YOUR_CLIENT_ID>',
-});
-
-// Fetch videos
-const videos = await client.videos.getVideos();
-console.log(videos);
-
-```
-
 ## Configuration options:
 
 - apiKey (required) – Provided by backend.
@@ -105,3 +89,122 @@ console.log(videos);
   - `pnpm format` / `pnpm format:check`
 - Commit messages: validated by commitlint (Husky commit-msg hook).
 - PRs: CI runs `pnpm lint` and `pnpm format:check` on pull_request.
+
+## Usage:
+
+#### install module:
+
+![Install module screenshot](./docs/install-sdk.png)
+
+#### classic mode:
+
+```bash
+// Import module
+import { JaaqClient } from "jaaq-sdk-js";
+
+const client = JaaqClient.init({
+  apiKey: '<YOUR_API_KEY>',
+  clientId: '<YOUR_CLIENT_ID>',
+});
+```
+
+#### JS mode:
+
+```bash
+// Import module
+import { createJaaqClient } from "jaaq-sdk-js";
+
+const client = createJaaqClient({
+  apiKey: '<YOUR_API_KEY>',
+  clientId: '<YOUR_CLIENT_ID>',
+});
+```
+
+#### Access to the different resources:
+
+```bash
+client.videos.getById('xxxxxx')
+```
+
+or
+
+```bash
+client.collections.list()
+```
+
+#### Ex: Getting and displaying a video
+
+```bash
+import { useEffect, useRef } from "react";
+import { createJaaqClient } from "jaaq-sdk-js";
+
+const API_KEY = import.meta.env.VITE_JAAQ_API_KEY;
+const CLIENT_ID = import.meta.env.VITE_JAAQ_CLIENT_ID;
+
+export default function VideoExample({ id }: { id: string }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const client = createJaaqClient({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID
+      });
+      const resp = await client.videos.getById(id);
+      const url = resp.video.videoUrl;
+      videoRef.current.src = url;
+    })();
+  }, [id]);
+
+  return (
+    <video
+      ref={videoRef}
+      autoPlay
+      controls
+    />;
+  )
+}
+```
+
+#### If extension is .m3u8
+
+```bash
+import { useEffect, useRef } from "react";
+import { createJaaqClient } from "jaaq-sdk-js";
+import Hls from "hls.js";
+
+const API_KEY = import.meta.env.VITE_JAAQ_API_KEY!;
+const CLIENT_ID = import.meta.env.VITE_JAAQ_CLIENT_ID!;
+
+export default function VideoExample({ id }: { id: string }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    let hls: Hls | undefined;
+
+    (async () => {
+      const client = createJaaqClient({ apiKey: API_KEY, clientId: CLIENT_ID });
+      const resp = await client.videos.getById(id);
+      const url = resp.video.videoUrl; // e.g. https://.../video.m3u8
+      const video = videoRef.current;
+      if (!video || !url) return;
+
+      if (Hls.isSupported()) {
+        hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+      }
+    })();
+
+    return () => hls?.destroy();
+  }, [id]);
+
+  return (
+    <video
+      ref={videoRef}
+      autoPlay
+      controls
+    />;
+  )
+}
+```
