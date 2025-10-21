@@ -2,9 +2,8 @@ import { createHttpClient, type HttpClient, type FetchLike } from '@core/httpCli
 import { createVideosResource, type VideosResource } from '@resources/videos';
 import { createCollectionsResource, type CollectionsResource } from '@resources/collections';
 
-// Public type exports for consumers
-export type { Video } from '@src/types/videos';
-export type { Collection } from '@src/types/collection';
+// Public type exports for consumers (barrel)
+export * from '@src/types';
 
 export const BASE_URL = process.env.JAAQ_API_URL as string;
 
