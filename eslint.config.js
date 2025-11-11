@@ -26,7 +26,16 @@ module.exports = defineConfig([
   // Test files (Vitest) globals
   {
     files: ['**/*.test.ts', 'tests/**/*.ts'],
-    languageOptions: { globals: { ...globals.vitest, require: 'readonly' } },
+    languageOptions: {
+      globals: {
+        ...globals.vitest,
+        ...globals.node,
+        require: 'readonly',
+        Response: 'readonly',
+        RequestInit: 'readonly',
+        URL: 'readonly',
+      },
+    },
   },
 
   // Node/CommonJS config files
