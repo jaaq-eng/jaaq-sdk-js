@@ -11,6 +11,9 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
     env:
       NODE_ENV: ${{ inputs.environment }}
       JAAQ_API_URL: ${{ vars.JAAQ_API_URL }}
@@ -48,6 +51,19 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Upload CJS to S3
+        env:
+          S3_BUCKET: ${{ vars.S3_BUCKET }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          aws s3 cp dist/index.cjs s3://$S3_BUCKET/v$VERSION/jaaq-sdk.min.js
 
       - name: Smoke tests
         run: pnpm run test:smoke:ci
