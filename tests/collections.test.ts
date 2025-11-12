@@ -25,4 +25,28 @@ describe('collections resource', () => {
     expect(res.id).toBe(collectionResp.collection.id);
     expect(res.name).toBe(collectionResp.collection.name);
   });
+
+  it('getById throws error for 404 status', async () => {
+    await expect(sdk.collections.getById('non-existent-id')).rejects.toThrow('HTTP 404');
+  });
+
+  it('getById throws error for 500 status', async () => {
+    await expect(sdk.collections.getById('server-error')).rejects.toThrow('HTTP 500');
+  });
+
+  it('handles URL encoding for special characters in collection ID', async () => {
+    const specialId = 'special-chars-collection-id';
+    const res = await sdk.collections.getById(specialId);
+    expect(res.id).toBe(specialId);
+  });
+
+  it('handles already encoded collection IDs', async () => {
+    const encodedId = 'special%20chars%20collection%20id';
+    const res = await sdk.collections.getById(encodedId);
+    expect(res.id).toBe(encodedId);
+  });
+
+  it('handles empty string ID', async () => {
+    await expect(sdk.collections.getById('')).rejects.toThrow();
+  });
 });
