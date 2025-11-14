@@ -83,8 +83,9 @@ jobs:
           S3_BUCKET: ${{ vars.S3_BUCKET }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          PACKAGE_NAME=$(node -p "require('./package.json').name")
-          aws s3 cp dist/index.cjs s3://$S3_BUCKET/v$VERSION/$PACKAGE_NAME.min.js
+          PACKAGE_NAME=$(node -p "require('./package.json').name.replace('@jaaq/', '')")
+          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/$PACKAGE_NAME/v$VERSION/index.min.js
+          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/$PACKAGE_NAME/latest/index.min.js
 
       - name: Smoke tests
         run: pnpm run test:smoke:ci
