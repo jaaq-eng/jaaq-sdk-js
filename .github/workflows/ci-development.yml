@@ -4,12 +4,20 @@ on:
   pull_request:
     branches: [main]
     types: [closed]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
+        type: string
 
 jobs:
   run-base:
-    if: ${{ github.event.pull_request.merged == true }}
+    if: ${{ github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch' }}
     name: Development pipeline
     uses: ./.github/workflows/base.yml
     with:
       environment: development
+      ref: ${{ github.event_name == 'workflow_dispatch' && inputs.branch || github.ref }}
     secrets: inherit

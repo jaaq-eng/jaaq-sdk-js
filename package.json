@@ -1,5 +1,5 @@
 {
-  "name": "jaaq-sdk-js",
+  "name": "@jaaq/jaaq-sdk-js",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
