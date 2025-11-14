@@ -90,12 +90,21 @@ jobs:
       - name: Smoke tests
         run: pnpm run test:smoke:ci
 
-      - name: Publish info
+      - name: Setup npm auth
         run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Version and publish
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
           if [ "${{ inputs.environment }}" = "development" ]; then
-            echo "Publish (@jaaq/jaaq-sdk-js-dev): pnpm version prerelease --preid dev && pnpm publish --tag dev --access restricted";
+            pnpm version prerelease --preid dev --no-git-tag-version
+            pnpm publish --tag dev --access restricted --no-git-checks
           elif [ "${{ inputs.environment }}" = "staging" ]; then
-            echo "Publish (@jaaq/jaaq-sdk-js-stage): pnpm version prerelease --preid rc && pnpm publish --tag rc --access restricted";
+            pnpm version prerelease --preid rc --no-git-tag-version
+            pnpm publish --tag rc --access restricted --no-git-checks
           elif [ "${{ inputs.environment }}" = "production" ]; then
-            echo "Publish (@jaaq/jaaq-sdk-js): pnpm version <major|minor|patch> && pnpm publish --tag latest --access restricted";
+            pnpm publish --tag latest --access restricted --no-git-checks
           fi
