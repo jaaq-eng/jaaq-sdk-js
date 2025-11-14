@@ -45,6 +45,9 @@ jobs:
           echo "ENVIRONMENT=${{ inputs.environment }}"
           echo "NODE_ENV=${{ env.NODE_ENV }}"
           echo "JAAQ_API_URL=${{ env.JAAQ_API_URL }}"
+          echo "S3_BUCKET=${{ env.S3_BUCKET }}"
+          echo "AWS_ROLE_ARN=${{ env.AWS_ROLE_ARN }}"
+          echo "AWS_REGION=${{ env.AWS_REGION }}"
 
       - name: audit dependencies
         run: pnpm run audit:moderate
