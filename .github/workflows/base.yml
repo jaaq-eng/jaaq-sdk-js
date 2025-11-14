@@ -6,16 +6,25 @@ on:
       environment:
         required: true
         type: string
+      ref:
+        required: false
+        type: string
+        default: ''
 
 jobs:
   ci:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
     env:
       NODE_ENV: ${{ inputs.environment }}
       JAAQ_API_URL: ${{ vars.JAAQ_API_URL }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref != '' && inputs.ref || github.ref }}
 
       - uses: pnpm/action-setup@v4
         with:
@@ -40,6 +49,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Set package name based on environment
+        run: |
+          if [ "${{ inputs.environment }}" = "development" ]; then
+            npm pkg set name=@jaaq/jaaq-sdk-js-dev
+          elif [ "${{ inputs.environment }}" = "staging" ]; then
+            npm pkg set name=@jaaq/jaaq-sdk-js-stage
+          fi
+
       - name: Run unit tests
         run: pnpm test
 
@@ -49,15 +66,29 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Upload CJS to S3
+        env:
+          S3_BUCKET: ${{ vars.S3_BUCKET }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          aws s3 cp dist/index.cjs s3://$S3_BUCKET/v$VERSION/$PACKAGE_NAME.min.js
+
       - name: Smoke tests
         run: pnpm run test:smoke:ci
 
       - name: Publish info
         run: |
           if [ "${{ inputs.environment }}" = "development" ]; then
-            echo "Publish (dev pre-release): set NPM_TOKEN; pnpm version prerelease --preid dev && pnpm publish --tag dev --access public";
+            echo "Publish (@jaaq/jaaq-sdk-js-dev): pnpm version prerelease --preid dev && pnpm publish --tag dev --access restricted";
           elif [ "${{ inputs.environment }}" = "staging" ]; then
-            echo "Publish (rc pre-release): set NPM_TOKEN; pnpm version prerelease --preid rc && pnpm publish --tag rc --access public";
+            echo "Publish (@jaaq/jaaq-sdk-js-stage): pnpm version prerelease --preid rc && pnpm publish --tag rc --access restricted";
           elif [ "${{ inputs.environment }}" = "production" ]; then
-            echo "Publish (stable): set NPM_TOKEN; pnpm version <major|minor|patch> && pnpm publish --tag latest --access public";
+            echo "Publish (@jaaq/jaaq-sdk-js): pnpm version <major|minor|patch> && pnpm publish --tag latest --access restricted";
           fi

@@ -2,9 +2,8 @@ name: CI - Production
 
 on:
   pull_request:
-    branches: ['release/**']
+    branches: ['release/**', 'production']
     types: [closed]
-
 jobs:
   run-base:
     if: ${{ github.event.pull_request.merged == true }}
