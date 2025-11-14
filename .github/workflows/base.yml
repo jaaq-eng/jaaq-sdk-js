@@ -21,6 +21,9 @@ jobs:
     env:
       NODE_ENV: ${{ inputs.environment }}
       JAAQ_API_URL: ${{ vars.JAAQ_API_URL }}
+      S3_BUCKET: ${{ vars.S3_BUCKET }}
+      AWS_ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,12 +72,12 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload CJS to S3
         env:
-          S3_BUCKET: ${{ vars.S3_BUCKET }}
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
           PACKAGE_NAME=$(node -p "require('./package.json').name")
