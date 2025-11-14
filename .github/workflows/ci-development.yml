@@ -16,6 +16,9 @@ jobs:
   run-base:
     if: ${{ github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch' }}
     name: Development pipeline
+    permissions:
+      id-token: write
+      contents: read
     uses: ./.github/workflows/base.yml
     with:
       environment: development

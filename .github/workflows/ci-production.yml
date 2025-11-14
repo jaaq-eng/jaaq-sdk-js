@@ -8,6 +8,9 @@ jobs:
   run-base:
     if: ${{ github.event.pull_request.merged == true }}
     name: Production pipeline
+    permissions:
+      id-token: write
+      contents: read
     uses: ./.github/workflows/base.yml
     with:
       environment: production
