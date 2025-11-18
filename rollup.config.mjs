@@ -14,7 +14,7 @@ const replacePlugin = replace({
   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
   preventAssignment: true,
 });
-const typescriptPlugin = typescript({ tsconfig: './tsconfig.json', declaration: false });
+const typescriptPlugin = typescript({ tsconfig: './tsconfig.build.json', declaration: false });
 
 export default defineConfig([
   {
