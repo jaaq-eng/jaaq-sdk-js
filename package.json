@@ -54,7 +54,7 @@
   },
   "homepage": "https://github.com/jaaq-eng/jaaq-sdk-js#readme",
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "packageManager": "pnpm@10.17.1",
   "lint-staged": {
