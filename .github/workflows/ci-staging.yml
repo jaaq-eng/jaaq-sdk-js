@@ -2,25 +2,18 @@ name: CI - Staging
 
 on:
   pull_request:
-    branches: ['staging', 'hotfix/**', 'rc/**']
+    branches: ['staging']
     types: [closed]
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to deploy'
-        required: true
-        default: 'main'
-        type: string
 
 jobs:
   run-base:
-    if: ${{ github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event.pull_request.merged == true }}
     name: Staging pipeline
     permissions:
       id-token: write
-      contents: read
+      contents: write
     uses: ./.github/workflows/base.yml
     with:
       environment: staging
-      ref: ${{ github.event_name == 'workflow_dispatch' && inputs.branch || github.ref }}
+      ref: ${{ github.ref }}
     secrets: inherit

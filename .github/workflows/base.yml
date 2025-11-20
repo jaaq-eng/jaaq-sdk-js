@@ -17,7 +17,7 @@ jobs:
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
-      contents: read
+      contents: write
     env:
       NODE_ENV: ${{ inputs.environment }}
       JAAQ_API_URL: ${{ vars.JAAQ_API_URL }}
@@ -55,14 +55,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Set package name based on environment
-        run: |
-          if [ "${{ inputs.environment }}" = "development" ]; then
-            npm pkg set name=@jaaq/jaaq-sdk-js-dev
-          elif [ "${{ inputs.environment }}" = "staging" ]; then
-            npm pkg set name=@jaaq/jaaq-sdk-js-stage
-          fi
-
       - name: Run unit tests
         run: pnpm test
 
@@ -78,14 +70,24 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Upload CJS to S3
+      - name: Upload UMD to S3
         env:
           S3_BUCKET: ${{ vars.S3_BUCKET }}
         run: |
-          VERSION=$(node -p "require('./package.json').version")
-          PACKAGE_NAME=$(node -p "require('./package.json').name.replace('@jaaq/', '')")
-          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/$PACKAGE_NAME/v$VERSION/index.min.js
-          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/$PACKAGE_NAME/latest/index.min.js
+          BASE_VERSION=$(node -p "require('./package.json').version")
+          SHORT_HASH=$(git rev-parse --short HEAD)
+          DATE=$(date +%Y%m%d)
+
+          if [ "${{ inputs.environment }}" = "development" ]; then
+            FULL_VERSION="$BASE_VERSION-dev-$SHORT_HASH-$DATE"
+          elif [ "${{ inputs.environment }}" = "staging" ]; then
+            FULL_VERSION="$BASE_VERSION-rc-$SHORT_HASH-$DATE"
+          else
+            FULL_VERSION="$BASE_VERSION"
+          fi
+
+          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/index.min.js
+          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/jaaq-sdk-js/latest/index.min.js
 
       - name: Smoke tests
         run: pnpm run test:smoke:ci
@@ -94,17 +96,29 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
-      - name: Version and publish
+      - name: Compute version and publish
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          BASE_VERSION=$(node -p "require('./package.json').version")
+          SHORT_HASH=$(git rev-parse --short HEAD)
+          DATE=$(date +%Y%m%d)
 
           if [ "${{ inputs.environment }}" = "development" ]; then
-            pnpm version prerelease --preid dev --no-git-tag-version
-            pnpm publish --tag dev --access restricted --no-git-checks
+            PUBLISH_VERSION="$BASE_VERSION-dev-$SHORT_HASH-$DATE"
+            npm version $PUBLISH_VERSION --no-git-tag-version
+            pnpm publish --tag dev --no-git-checks
           elif [ "${{ inputs.environment }}" = "staging" ]; then
-            pnpm version prerelease --preid rc --no-git-tag-version
-            pnpm publish --tag rc --access restricted --no-git-checks
+            PUBLISH_VERSION="$BASE_VERSION-rc-$SHORT_HASH-$DATE"
+            npm version $PUBLISH_VERSION --no-git-tag-version
+            pnpm publish --tag rc --no-git-checks
           elif [ "${{ inputs.environment }}" = "production" ]; then
-            pnpm publish --tag latest --access restricted --no-git-checks
+            pnpm publish --tag latest --no-git-checks
           fi
+
+      - name: Create Git Tag for Production
+        if: inputs.environment == 'production'
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION"

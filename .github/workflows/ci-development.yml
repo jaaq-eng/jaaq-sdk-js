@@ -5,12 +5,6 @@ on:
     branches: [main]
     types: [closed]
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to deploy'
-        required: true
-        default: 'main'
-        type: string
 
 jobs:
   run-base:
@@ -18,9 +12,9 @@ jobs:
     name: Development pipeline
     permissions:
       id-token: write
-      contents: read
+      contents: write
     uses: ./.github/workflows/base.yml
     with:
       environment: development
-      ref: ${{ github.event_name == 'workflow_dispatch' && inputs.branch || github.ref }}
+      ref: ${{ github.event_name == 'workflow_dispatch' && github.ref || github.event.pull_request.merge_commit_sha }}
     secrets: inherit

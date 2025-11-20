@@ -2,16 +2,18 @@ name: CI - Production
 
 on:
   pull_request:
-    branches: ['release/**', 'production']
+    branches: ['production']
     types: [closed]
+
 jobs:
   run-base:
     if: ${{ github.event.pull_request.merged == true }}
     name: Production pipeline
     permissions:
       id-token: write
-      contents: read
+      contents: write
     uses: ./.github/workflows/base.yml
     with:
       environment: production
+      ref: ${{ github.ref }}
     secrets: inherit

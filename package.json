@@ -1,8 +1,10 @@
 {
   "name": "@jaaq/jaaq-sdk-js",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "Official JavaScript SDK for JAAQ API",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rollup -c",
     "dev": "dotenvx run -f .env.development -- rollup -c --watch",
@@ -34,9 +36,26 @@
       "default": "./dist/index.mjs"
     }
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "jaaq",
+    "sdk",
+    "api",
+    "video",
+    "collections"
+  ],
+  "author": "JAAQ",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaaq-eng/jaaq-sdk-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jaaq-eng/jaaq-sdk-js/issues"
+  },
+  "homepage": "https://github.com/jaaq-eng/jaaq-sdk-js#readme",
+  "publishConfig": {
+    "access": "restricted"
+  },
   "packageManager": "pnpm@10.17.1",
   "lint-staged": {
     "*.{ts,tsx,js}": [
