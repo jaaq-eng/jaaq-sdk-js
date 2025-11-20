@@ -20,6 +20,7 @@ jobs:
       contents: write
     env:
       NODE_ENV: ${{ inputs.environment }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       JAAQ_API_URL: ${{ vars.JAAQ_API_URL }}
       S3_BUCKET: ${{ vars.S3_BUCKET }}
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
@@ -42,6 +43,7 @@ jobs:
         run: |
           node -v
           pnpm -v
+          echo "NPM_TOKEN=${{ env.NPM_TOKEN }}"
           echo "ENVIRONMENT=${{ inputs.environment }}"
           echo "NODE_ENV=${{ env.NODE_ENV }}"
           echo "JAAQ_API_URL=${{ env.JAAQ_API_URL }}"
