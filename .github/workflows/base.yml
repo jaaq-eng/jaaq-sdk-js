@@ -90,8 +90,8 @@ jobs:
             FULL_VERSION="$BASE_VERSION"
           fi
 
-          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/index.min.js
-          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/jaaq-sdk-js/latest/index.min.js
+          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/jaaq-sdk.min.js
+          aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/jaaq-sdk-js/latest/jaaq-sdk.min.js
 
       - name: Invalidate CloudFront cache
         env:
