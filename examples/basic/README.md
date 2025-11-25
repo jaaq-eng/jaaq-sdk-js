@@ -21,7 +21,7 @@ cp .env.example .env
 ```
 JAAQ_API_KEY=your_actual_api_key
 JAAQ_CLIENT_ID=your_actual_client_id
-JAAQ_API_URL=https://api.jaaq.app/v1
+JAAQ_API_URL=https://api.jaaq.app
 ```
 
 Note: `JAAQ_API_URL` is optional. If not set, the SDK uses the default production URL.

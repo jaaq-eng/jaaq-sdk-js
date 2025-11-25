@@ -128,15 +128,13 @@ export default function VideoExample({ id }: { id: string }) {
 
 ## Configuration
 
-| Option             | Type                     | Required | Default                   | Description                         |
-| ------------------ | ------------------------ | -------- | ------------------------- | ----------------------------------- |
-| `apiKey`           | `string`                 | Yes      | -                         | Your JAAQ API key                   |
-| `clientId`         | `string`                 | Yes      | -                         | Your client identifier              |
-| `baseUrl`          | `string`                 | No       | `https://api.jaaq.app/v1` | API base URL                        |
-| `fetch`            | `Function`               | No       | `globalThis.fetch`        | Custom fetch implementation         |
-| `timeoutMs`        | `number`                 | No       | -                         | Request timeout in milliseconds     |
-| `headers`          | `Record<string, string>` | No       | `{}`                      | Additional headers for all requests |
-| `apiKeyHeaderName` | `string`                 | No       | `x-api-key`               | Custom header name for API key      |
+| Option      | Type       | Required | Default                | Description                     |
+| ----------- | ---------- | -------- | ---------------------- | ------------------------------- |
+| `apiKey`    | `string`   | Yes      | -                      | Your JAAQ API key               |
+| `clientId`  | `string`   | Yes      | -                      | Your client identifier          |
+| `baseUrl`   | `string`   | No       | `https://api.jaaq.app` | API base URL                    |
+| `fetch`     | `Function` | No       | `globalThis.fetch`     | Custom fetch implementation     |
+| `timeoutMs` | `number`   | No       | -                      | Request timeout in milliseconds |
 
 ## Resources
 

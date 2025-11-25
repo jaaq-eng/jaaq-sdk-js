@@ -73,11 +73,9 @@ type GetVideosParams = paths['/videos']['get']['parameters']['query'];
 
 - apiKey (required) – Provided by backend.
 - clientId (required) – Provided by consuming company.
-- baseUrl (optional) – Defaults to https://api.jaaq.app/v1.
+- baseUrl (optional) – Defaults to https://api.jaaq.app.
 - fetch (optional) – Custom fetch implementation (for Node < 18).
 - timeoutMs (optional) – Request timeout in ms.
-- headers (optional) – Extra headers for all requests.
-- apiKeyHeaderName (optional) – Defaults to x-api-key.
 
 ## Linting
 

@@ -63,7 +63,6 @@ function buildClient(config: SDKConfig): JaaqClient {
     baseUrl,
     apiKey,
     clientId,
-    apiKeyHeaderName: 'x-api-key',
     fetch: fetchImpl ?? (globalThis.fetch as FetchLike | undefined),
   });
 

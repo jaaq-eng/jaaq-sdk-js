@@ -31,7 +31,7 @@ cp .env.example .env
 ```env
 VITE_JAAQ_API_KEY=your_actual_api_key
 VITE_JAAQ_CLIENT_ID=your_actual_client_id
-VITE_JAAQ_API_URL=https://api.jaaq.app/v1
+VITE_JAAQ_API_URL=https://api.jaaq.app
 ```
 
 Note: `VITE_JAAQ_API_URL` is optional. If not set, the SDK uses the default production URL.
@@ -137,7 +137,7 @@ Required environment variables:
 
 Optional environment variables:
 
-- `VITE_JAAQ_API_URL` - Custom API URL (defaults to `https://api.jaaq.app/v1`)
+- `VITE_JAAQ_API_URL` - Custom API URL (defaults to `https://api.jaaq.app`)
 
 ⚠️ **Important**: Never commit your `.env` file with actual credentials to version control.
 
