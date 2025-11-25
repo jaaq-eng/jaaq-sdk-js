@@ -13,8 +13,6 @@ export interface SDKConfig {
   clientId: string; // Provided by each consuming company at init
   fetch?: FetchLike; // Optional fetch injection (Node/custom envs) // Pending to approve
   timeoutMs?: number;
-  headers?: Record<string, string>; // Pending to approve
-  apiKeyHeaderName?: string;
 }
 
 export class JaaqClient {
@@ -59,15 +57,13 @@ export function createJaaqClient(config: SDKConfig): JaaqClient {
  * The constructor stays private; instantiation is funneled via `JaaqClient.fromHttp`.
  */
 function buildClient(config: SDKConfig): JaaqClient {
-  const { baseUrl = BASE_URL, apiKey, clientId, fetch: fetchImpl, headers, apiKeyHeaderName = 'x-api-key' } = config;
+  const { baseUrl = BASE_URL, apiKey, clientId, fetch: fetchImpl } = config;
 
   const http = createHttpClient({
     baseUrl,
     apiKey,
     clientId,
-    apiKeyHeaderName,
     fetch: fetchImpl ?? (globalThis.fetch as FetchLike | undefined),
-    headers,
   });
 
   return JaaqClient.fromHttp(http);

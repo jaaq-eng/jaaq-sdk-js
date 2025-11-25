@@ -110,37 +110,6 @@ describe('httpClient', () => {
       expect(result.headers['x-client-id']).toBe('my-client-id');
     });
 
-    it('uses custom apiKeyHeaderName', async () => {
-      const http = createHttpClient({
-        baseUrl: 'http://localhost:3000',
-        apiKey: 'my-api-key',
-        clientId: 'my-client-id',
-        apiKeyHeaderName: 'authorization',
-        fetch: globalThis.fetch,
-      });
-
-      const result = await http.get<{ headers: Record<string, string> }>('test/check-headers');
-      expect(result.headers['authorization']).toBe('my-api-key');
-      expect(result.headers['x-api-key']).toBeUndefined();
-    });
-
-    it('merges custom headers with default headers', async () => {
-      const http = createHttpClient({
-        baseUrl: 'http://localhost:3000',
-        apiKey: 'my-api-key',
-        clientId: 'my-client-id',
-        headers: {
-          'X-Custom-Header': 'custom-value',
-          'x-client-id': 'overridden-client-id',
-        },
-        fetch: globalThis.fetch,
-      });
-
-      const result = await http.get<{ headers: Record<string, string> }>('test/check-headers');
-      expect(result.headers['x-custom-header']).toBe('custom-value');
-      expect(result.headers['x-client-id']).toBe('overridden-client-id');
-    });
-
     it('allows overriding headers per request', async () => {
       const http = createHttpClient({
         baseUrl: 'http://localhost:3000',

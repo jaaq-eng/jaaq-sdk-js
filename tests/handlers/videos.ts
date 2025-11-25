@@ -24,15 +24,15 @@ export const videosHandlers = [
     }
 
     if (decodedId === videoResp.video.id || id === videoResp.video.id) {
-      return HttpResponse.json(videoResp.video, { status: 200 });
+      return HttpResponse.json({ video: videoResp.video }, { status: 200 });
     }
 
     if (decodedId === 'special-chars-video-id' || id === 'special-chars-video-id') {
-      return HttpResponse.json({ ...videoResp.video, id: 'special-chars-video-id' }, { status: 200 });
+      return HttpResponse.json({ video: { ...videoResp.video, id: 'special-chars-video-id' } }, { status: 200 });
     }
 
     if (id === 'special%20chars%20video%20id') {
-      return HttpResponse.json({ ...videoResp.video, id: 'special%20chars%20video%20id' }, { status: 200 });
+      return HttpResponse.json({ video: { ...videoResp.video, id: 'special%20chars%20video%20id' } }, { status: 200 });
     }
 
     return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
