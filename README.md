@@ -1,106 +1,27 @@
-# JAAQ TypeScript SDK (`jaaq-sdk-js`)
+# JAAQ TypeScript SDK
 
-A lightweight, type-safe SDK for interacting with the **JAAQ API (v1)**.  
-It provides a simple client with typed resources generated from the backend OpenAPI specification.
-
----
-
-## Project Structure
-
-- src/
-  - core/ # HTTP client
-  - gen/ # Generated OpenAPI types
-  - resources/ # API resources (e.g., videos)
-  - index.ts
-- test/
-  - handlers/
-  - mocks/
-  - setup.ts
-
-## Relative paths:
-
-```bash
-"@src/*": ["src/*"],
-"@core/*": ["src/core/*"],
-"@resources/*": ["src/resources/*"],
-"@gen/*": ["src/gen/*"],
-"@tests/*": ["tests/*"]
-```
+A lightweight, type-safe SDK for interacting with the JAAQ API. Built with TypeScript and optimized for modern JavaScript frameworks.
 
 ## Installation
 
 ```bash
-pnpm install
+npm install jaaq-sdk-js
 ```
 
-## Build
-
 ```bash
-pnpm build
+yarn add jaaq-sdk-js
 ```
 
-## Run tests
-
 ```bash
-pnpm test
+pnpm add jaaq-sdk-js
 ```
 
-or
+## Quick Start
 
-```bash
-pnpm test:watch
-```
+### Using JaaqClient (Class-based)
 
-## Create types
-
-Once we have the last openApi.json file from the Back-end
-
-```bash
-pnpm openapi:gen
-```
-
-And then:
-
-```bash
-import type { paths, components } from '@gen/openapi';
-
-type GetVideosResponse = components['schemas']['GetVideosResponse'];
-type GetVideosParams = paths['/videos']['get']['parameters']['query'];
-
-```
-
-## Configuration options:
-
-- apiKey (required) – Provided by backend.
-- clientId (required) – Provided by consuming company.
-- baseUrl (optional) – Defaults to https://api.jaaq.app/v1.
-- fetch (optional) – Custom fetch implementation (for Node < 18).
-- timeoutMs (optional) – Request timeout in ms.
-- headers (optional) – Extra headers for all requests.
-- apiKeyHeaderName (optional) – Defaults to x-api-key.
-
-## Linting
-
-- ESLint (code rules) and Prettier (formatting).
-- On save: use the Prettier editor extension (Format on Save).
-- Pre-commit: lint-staged runs ESLint --fix on TS/JS and Prettier on staged files.
-- Manual:
-  - `pnpm lint` / `pnpm lint:fix`
-  - `pnpm format` / `pnpm format:check`
-- Commit messages: validated by commitlint (Husky commit-msg hook).
-- PRs: CI runs `pnpm lint` and `pnpm format:check` on pull_request.
-
-## Usage:
-
-#### install module:
-
-![Install module screenshot](./docs/install-sdk.png)
-
-#### classic mode:
-
-```bash
-// Import module
-import { JaaqClient } from "jaaq-sdk-js";
+```typescript
+import { JaaqClient } from 'jaaq-sdk-js';
 
 const client = JaaqClient.init({
   apiKey: '<YOUR_API_KEY>',
@@ -108,11 +29,10 @@ const client = JaaqClient.init({
 });
 ```
 
-#### JS mode:
+### Using createJaaqClient (Functional)
 
-```bash
-// Import module
-import { createJaaqClient } from "jaaq-sdk-js";
+```typescript
+import { createJaaqClient } from 'jaaq-sdk-js';
 
 const client = createJaaqClient({
   apiKey: '<YOUR_API_KEY>',
@@ -120,21 +40,18 @@ const client = createJaaqClient({
 });
 ```
 
-#### Access to the different resources:
+## Usage
 
-```bash
-client.videos.getById('xxxxxx')
+### Accessing Resources
+
+```typescript
+const video = await client.videos.getById('video-id');
+const collections = await client.collections.list();
 ```
 
-or
+### React Example: Basic Video
 
-```bash
-client.collections.list()
-```
-
-#### Ex: Getting and displaying a video
-
-```bash
+```typescript
 import { useEffect, useRef } from "react";
 import { createJaaqClient } from "jaaq-sdk-js";
 
@@ -161,14 +78,14 @@ export default function VideoExample({ id }: { id: string }) {
       ref={videoRef}
       autoPlay
       controls
-    />;
-  )
+    />
+  );
 }
 ```
 
-#### If extension is .m3u8
+### React Example: HLS Streaming (.m3u8)
 
-```bash
+```typescript
 import { useEffect, useRef } from "react";
 import { createJaaqClient } from "jaaq-sdk-js";
 import Hls from "hls.js";
@@ -185,7 +102,7 @@ export default function VideoExample({ id }: { id: string }) {
     (async () => {
       const client = createJaaqClient({ apiKey: API_KEY, clientId: CLIENT_ID });
       const resp = await client.videos.getById(id);
-      const url = resp.video.videoUrl; // e.g. https://.../video.m3u8
+      const url = resp.video.videoUrl;
       const video = videoRef.current;
       if (!video || !url) return;
 
@@ -204,7 +121,32 @@ export default function VideoExample({ id }: { id: string }) {
       ref={videoRef}
       autoPlay
       controls
-    />;
-  )
+    />
+  );
 }
 ```
+
+## Configuration
+
+| Option             | Type                     | Required | Default                   | Description                         |
+| ------------------ | ------------------------ | -------- | ------------------------- | ----------------------------------- |
+| `apiKey`           | `string`                 | Yes      | -                         | Your JAAQ API key                   |
+| `clientId`         | `string`                 | Yes      | -                         | Your client identifier              |
+| `baseUrl`          | `string`                 | No       | `https://api.jaaq.app/v1` | API base URL                        |
+| `fetch`            | `Function`               | No       | `globalThis.fetch`        | Custom fetch implementation         |
+| `timeoutMs`        | `number`                 | No       | -                         | Request timeout in milliseconds     |
+| `headers`          | `Record<string, string>` | No       | `{}`                      | Additional headers for all requests |
+| `apiKeyHeaderName` | `string`                 | No       | `x-api-key`               | Custom header name for API key      |
+
+## Resources
+
+- [Development Guide](./DEVELOPMENT.md) - For SDK contributors and developers
+- [Release Notes](./RELEASE.md) - Version history and changelog
+
+## TypeScript Support
+
+This SDK is written in TypeScript and includes complete type definitions. Types are automatically generated from the JAAQ OpenAPI specification.
+
+## License
+
+MIT

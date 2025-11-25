@@ -9,7 +9,6 @@ export interface HttpClientConfig {
   apiKeyHeaderName?: string;
   fetch?: FetchLike;
   timeoutMs?: number;
-  headers?: Record<string, string>;
 }
 
 export interface HttpClient {
@@ -43,7 +42,7 @@ function joinUrl(baseUrl: string, path: string): string {
 }
 
 export function createHttpClient(config: HttpClientConfig): HttpClient {
-  const { baseUrl, apiKey, clientId, fetch: fetchImpl, headers, apiKeyHeaderName = 'x-api-key' } = config;
+  const { baseUrl, apiKey, clientId, fetch: fetchImpl, apiKeyHeaderName = 'x-api-key' } = config;
 
   const f: FetchLike | undefined = fetchImpl ?? (globalThis.fetch as FetchLike | undefined);
   if (!f) {
@@ -54,7 +53,6 @@ export function createHttpClient(config: HttpClientConfig): HttpClient {
     'Content-Type': 'application/json',
     [apiKeyHeaderName]: apiKey,
     'x-client-id': clientId,
-    ...headers,
   };
 
   const fullUrl = (path: string) => joinUrl(baseUrl, path);

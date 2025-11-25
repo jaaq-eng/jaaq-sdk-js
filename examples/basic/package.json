@@ -1,0 +1,14 @@
+{
+  "name": "jaaq-sdk-basic-examples",
+  "version": "1.0.0",
+  "description": "Basic Node.js examples for JAAQ SDK",
+  "type": "module",
+  "scripts": {
+    "esm": "node node-esm.js",
+    "cjs": "node node-cjs.js"
+  },
+  "dependencies": {
+    "@jaaq/jaaq-sdk-js": "^0.0.1",
+    "dotenv": "^16.0.0"
+  }
+}

@@ -9,7 +9,8 @@ export function createVideosResource(http: HttpClient): VideosResource {
   return {
     async getById(id: string) {
       const path = `b2b/videos/${encodeURIComponent(id)}`;
-      return http.get<Video>(path);
+      const response = await http.get<{ video: Video }>(path);
+      return response.video;
     },
   };
 }

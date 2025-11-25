@@ -10,11 +10,13 @@ export function createCollectionsResource(http: HttpClient): CollectionsResource
   return {
     async list() {
       const path = 'b2b/collections';
-      return http.get<Collection[]>(path);
+      const response = await http.get<{ collections: Collection[] }>(path);
+      return response.collections;
     },
     async getById(id: string) {
       const path = `b2b/collections/${encodeURIComponent(id)}`;
-      return http.get<Collection>(path);
+      const response = await http.get<{ collection: Collection }>(path);
+      return response.collection;
     },
   };
 }
