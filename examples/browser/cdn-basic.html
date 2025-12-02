@@ -134,7 +134,8 @@
         if (!client) return showError({ message: 'Client not initialized. Check config.json' });
         showLoading();
         try {
-          const collections = await client.collections.list();
+          const response = await client.collections.list();
+          const collections = response?.collections || [];
           showResult('Collections List', collections);
         } catch (error) {
           showError(error);
@@ -145,12 +146,14 @@
         if (!client) return showError({ message: 'Client not initialized. Check config.json' });
         showLoading();
         try {
-          const collections = await client.collections.list();
+          const collectionsResponse = await client.collections.list();
+          const collections = collectionsResponse?.collections || [];
           if (collections.length === 0) {
             showResult('No Collections', { message: 'No collections found' });
             return;
           }
-          const collection = await client.collections.getById(collections[0].id);
+          const collectionResponse = await client.collections.getById(collections[0].id);
+          const collection = collectionResponse?.collection || null;
           showResult('First Collection Details', collection);
         } catch (error) {
           showError(error);
@@ -161,13 +164,15 @@
         if (!client) return showError({ message: 'Client not initialized. Check config.json' });
         showLoading();
         try {
-          const collections = await client.collections.list();
+          const collectionsResponse = await client.collections.list();
+          const collections = collectionsResponse?.collections || [];
           if (collections.length === 0 || !collections[0].videos || collections[0].videos.length === 0) {
             showResult('No Videos', { message: 'No videos found in collections' });
             return;
           }
           const videoId = collections[0].videos[0].videoId;
-          const video = await client.videos.getById(videoId);
+          const videoResponse = await client.videos.getById(videoId);
+          const video = videoResponse?.video || null;
           showResult('First Video Details', video);
         } catch (error) {
           showError(error);

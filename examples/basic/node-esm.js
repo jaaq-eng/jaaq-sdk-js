@@ -17,7 +17,8 @@ async function main() {
 
   try {
     console.log('\nFetching collections...');
-    const collections = await client1.collections.list();
+    const response = await client1.collections.list();
+    const collections = response?.collections || [];
     console.log(`Found ${collections.length} collections`);
     collections.forEach((col, i) => {
       console.log(`  ${i + 1}. ${col.name} (ID: ${col.id})`);
@@ -41,14 +42,16 @@ async function main() {
   });
 
   try {
-    const collections = await client2.collections.list();
+    const response = await client2.collections.list();
+    const collections = response?.collections || [];
     if (collections.length > 0 && collections[0].videos?.length > 0) {
       const videoId = collections[0].videos[0].id;
       console.log(`\nFetching video with ID: ${videoId}`);
-      const video = await client2.videos.getById(videoId);
-      console.log(`Video question: ${video.question}`);
-      console.log(`Video URL: ${video.videoUrl}`);
-      console.log(`Duration: ${video.duration}s`);
+      const response = await client2.videos.getById(videoId);
+      const video = response?.video || null;
+      console.log(`Video question: ${video?.question}`);
+      console.log(`Video URL: ${video?.videoUrl}`);
+      console.log(`Duration: ${video?.duration}s`);
     }
   } catch (error) {
     console.error('Error:', error.message);

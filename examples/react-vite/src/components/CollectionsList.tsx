@@ -17,8 +17,7 @@ export default function CollectionsList() {
       setLoading(true);
       setError(null);
       const data = await jaaqClient.collections.list();
-      console.log('collections', data);
-      setCollections(data);
+      setCollections(data?.collections || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load collections');
     } finally {
@@ -29,7 +28,7 @@ export default function CollectionsList() {
   async function handleCollectionClick(collection: Collection) {
     try {
       const details = await jaaqClient.collections.getById(collection.id);
-      setSelectedCollection(details);
+      setSelectedCollection(details?.collection || null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load collection details');
     }

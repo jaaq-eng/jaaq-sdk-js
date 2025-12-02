@@ -22,7 +22,8 @@ export default function VideoGallery() {
       setLoading(true);
       setError(null);
 
-      const collections = await jaaqClient.collections.list();
+      const response = await jaaqClient.collections.list();
+      const collections = response?.collections || [];
 
       const allVideos: VideoWithCollection[] = [];
 
@@ -47,7 +48,8 @@ export default function VideoGallery() {
 
   async function handleVideoClick(video: VideoWithCollection) {
     try {
-      const fullVideo = await jaaqClient.videos.getById(video.videoId);
+      const response = await jaaqClient.videos.getById(video.videoId);
+      const fullVideo = response?.video || null;
       setSelectedVideo({
         ...fullVideo,
         collectionName: video.collectionName,
@@ -123,7 +125,7 @@ export default function VideoGallery() {
               <strong>Duration:</strong> {selectedVideo.duration || 'Unknown'} seconds
             </p>
             <p>
-              <strong>Format:</strong> {selectedVideo.videoUrl?.endsWith('.m3u8') ? 'HLS' : 'MP4'}
+              <strong>Format:</strong> {selectedVideo.videoUrl?.includes('.m3u8') ? 'HLS' : 'MP4'}
             </p>
             {selectedVideo.videoUrl && (
               <p>

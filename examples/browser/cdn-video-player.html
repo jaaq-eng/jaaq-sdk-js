@@ -145,16 +145,17 @@
         infoDiv.style.display = 'none';
 
         try {
-          const video = await client.videos.getById(videoId);
+          const videoResponse = await client.videos.getById(videoId);
+          const video = videoResponse?.video || null;
 
-          videoPlayer.src = video.videoUrl;
+          videoPlayer.src = video?.videoUrl || '';
           videoPlayer.load();
 
           videoInfoDiv.innerHTML = `
           <p><strong>Question:</strong> ${video.question || 'N/A'}</p>
-          <p><strong>Duration:</strong> ${video.duration || 'N/A'} seconds</p>
-          <p><strong>Format:</strong> ${video.videoUrl.endsWith('.m3u8') ? 'HLS' : 'MP4'}</p>
-          <p><strong>Video ID:</strong> ${video.id}</p>
+          <p><strong>Duration:</strong> ${video?.duration || 'N/A'} seconds</p>
+          <p><strong>Format:</strong> ${video?.videoUrl.endsWith('.m3u8') ? 'HLS' : 'MP4'}</p>
+          <p><strong>Video ID:</strong> ${video?.id}</p>
         `;
 
           infoDiv.style.display = 'block';
@@ -175,7 +176,8 @@
       async function loadFirstVideo() {
         if (!client) return;
         try {
-          const collections = await client.collections.list();
+          const collectionsResponse = await client.collections.list();
+          const collections = collectionsResponse?.collections || [];
           if (collections.length > 0 && collections[0].videos && collections[0].videos.length > 0) {
             videoIdInput.value = collections[0].videos[0].videoId;
           }
