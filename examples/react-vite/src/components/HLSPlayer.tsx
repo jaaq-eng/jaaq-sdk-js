@@ -47,7 +47,7 @@ export default function HLSPlayer() {
 
       const video = await jaaqClient.videos.getById(videoId.trim());
 
-      if (!video.videoUrl.endsWith('.m3u8')) {
+      if (!video.videoUrl.includes('.m3u8')) {
         setError('This video is not in HLS format. Please use the basic Video Player instead.');
         setLoading(false);
         return;
