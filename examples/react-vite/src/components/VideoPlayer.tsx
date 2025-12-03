@@ -74,7 +74,7 @@ export default function VideoPlayer() {
               <strong>Duration:</strong> {videoData.duration || 'Unknown'} seconds
             </p>
             <p>
-              <strong>Format:</strong> {videoData.videoUrl.endsWith('.m3u8') ? 'HLS' : 'MP4'}
+              <strong>Format:</strong> {videoData.videoUrl.includes('.m3u8') ? 'HLS' : 'MP4'}
             </p>
             <p>
               <strong>URL:</strong> {videoData.videoUrl}
