@@ -75,7 +75,7 @@ describe('httpClient', () => {
     });
 
     it('POST request with undefined body does not include body', async () => {
-      const customFetch = vi.fn(async (url: string, init?: RequestInit) => {
+      const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0], init?: Parameters<typeof fetch>[1]) => {
         expect(init?.body).toBeUndefined();
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
@@ -195,8 +195,8 @@ describe('httpClient', () => {
 
   describe('URL handling', () => {
     it('joins baseUrl and relative path correctly', async () => {
-      const customFetch = vi.fn(async (url: string) => {
-        expect(url).toBe('http://localhost:3000/test/get');
+      const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
+        expect(input).toBe('http://localhost:3000/test/get');
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
@@ -215,8 +215,8 @@ describe('httpClient', () => {
     });
 
     it('handles baseUrl with trailing slash', async () => {
-      const customFetch = vi.fn(async (url: string) => {
-        expect(url).toBe('http://localhost:3000/test/get');
+      const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
+        expect(input).toBe('http://localhost:3000/test/get');
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
@@ -235,8 +235,8 @@ describe('httpClient', () => {
     });
 
     it('handles path with leading slash', async () => {
-      const customFetch = vi.fn(async (url: string) => {
-        expect(url).toBe('http://localhost:3000/test/get');
+      const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
+        expect(input).toBe('http://localhost:3000/test/get');
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
@@ -306,7 +306,7 @@ describe('httpClient', () => {
 
   describe('Body serialization', () => {
     it('serializes body to JSON string', async () => {
-      const customFetch = vi.fn(async (url: string, init?: RequestInit) => {
+      const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0], init?: Parameters<typeof fetch>[1]) => {
         expect(init?.body).toBe(JSON.stringify({ test: 'value', number: 42 }));
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
