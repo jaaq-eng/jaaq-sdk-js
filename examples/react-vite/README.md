@@ -125,7 +125,7 @@ const video = await client.videos.getById(id);
 The SDK provides full TypeScript support. Import types from the SDK:
 
 ```typescript
-import type { Collection, Video } from '@jaaq/jaaq-sdk-js';
+import type { CollectionDTO, VideoDTO } from '@jaaq/jaaq-sdk-js';
 ```
 
 ## Environment Variables

@@ -1,4 +1,4 @@
-type Video = {
+type VideoDTO = {
   id: string;
   videoId: string;
   question: string;
@@ -14,4 +14,4 @@ type Video = {
   description: string;
 };
 
-export type { Video };
+export type { VideoDTO };
