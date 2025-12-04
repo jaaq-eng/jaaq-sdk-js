@@ -3,14 +3,14 @@ import collections from '@tests/mocks/collections.json';
 import collection from '@tests/mocks/collection.json';
 
 export const collectionsHandlers = [
-  http.get('http://localhost:3000/b2b/v1/:clientId/collections', ({ request }) => {
+  http.get('http://localhost:3000/b2b/v1/subscription/:clientId/collections', ({ request }) => {
     const url = new URL(request.url);
     if (url.pathname.endsWith('/') && !url.pathname.endsWith('/collections')) {
       return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
     }
     return HttpResponse.json(collections, { status: 200 });
   }),
-  http.get('http://localhost:3000/b2b/v1/:clientId/collections/:id', ({ params }) => {
+  http.get('http://localhost:3000/b2b/v1/subscription/:clientId/collections/:id', ({ params }) => {
     const { id } = params as { id: string };
 
     if (!id || id === '') {

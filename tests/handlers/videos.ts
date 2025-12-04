@@ -2,10 +2,10 @@ import { http, HttpResponse } from 'msw';
 import videoResp from '@tests/mocks/video.json';
 
 export const videosHandlers = [
-  http.get('http://localhost:3000/b2b/v1/:clientId/videos/', () => {
+  http.get('http://localhost:3000/b2b/v1/subscription/:clientId/videos/', () => {
     return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
   }),
-  http.get('http://localhost:3000/b2b/v1/:clientId/videos/:id', ({ params }) => {
+  http.get('http://localhost:3000/b2b/v1/subscription/:clientId/videos/:id', ({ params }) => {
     const { id } = params as { id: string };
 
     if (!id || id === '') {

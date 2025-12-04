@@ -32,7 +32,7 @@ function joinUrl(baseUrl: string, clientId: string, path: string): string {
   if (/^https?:\/\//i.test(path)) return path;
   const base = baseUrl.replace(/\/+$/, '');
   const relative = path.replace(/^\/+/, '');
-  return `${base}/b2b/v1/${encodeURIComponent(clientId)}${relative.startsWith('/') ? relative : `/${relative}`}`;
+  return `${base}/b2b/v1/subscription/${encodeURIComponent(clientId)}${relative.startsWith('/') ? relative : `/${relative}`}`;
 }
 
 export function createHttpClient(config: HttpClientConfig): HttpClient {
