@@ -96,7 +96,7 @@ describe('httpClient', () => {
   });
 
   describe('Headers', () => {
-    it('includes default headers: Content-Type, apiKey, and clientId', async () => {
+    it('includes default headers: Content-Type and apiKey', async () => {
       const http = createHttpClient({
         baseUrl: 'http://localhost:3000',
         apiKey: 'my-api-key',
@@ -107,7 +107,6 @@ describe('httpClient', () => {
       const result = await http.get<{ headers: Record<string, string> }>('test/check-headers');
       expect(result.headers['content-type']).toBe('application/json');
       expect(result.headers['x-api-key']).toBe('my-api-key');
-      expect(result.headers['x-client-id']).toBe('my-client-id');
     });
 
     it('allows overriding headers per request', async () => {
@@ -196,7 +195,7 @@ describe('httpClient', () => {
   describe('URL handling', () => {
     it('joins baseUrl and relative path correctly', async () => {
       const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
-        expect(input).toBe('http://localhost:3000/test/get');
+        expect(input).toBe('http://localhost:3000/b2b/v1/test-client/test/get');
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
@@ -216,7 +215,7 @@ describe('httpClient', () => {
 
     it('handles baseUrl with trailing slash', async () => {
       const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
-        expect(input).toBe('http://localhost:3000/test/get');
+        expect(input).toBe('http://localhost:3000/b2b/v1/test-client/test/get');
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
@@ -236,7 +235,7 @@ describe('httpClient', () => {
 
     it('handles path with leading slash', async () => {
       const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
-        expect(input).toBe('http://localhost:3000/test/get');
+        expect(input).toBe('http://localhost:3000/b2b/v1/test-client/test/get');
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
