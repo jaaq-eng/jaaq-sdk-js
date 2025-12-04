@@ -5,15 +5,15 @@ A lightweight, type-safe SDK for interacting with the JAAQ API. Built with TypeS
 ## Installation
 
 ```bash
-npm install jaaq-sdk-js
+npm install @jaaq/jaaq-sdk-js
 ```
 
 ```bash
-yarn add jaaq-sdk-js
+yarn add @jaaq/jaaq-sdk-js
 ```
 
 ```bash
-pnpm add jaaq-sdk-js
+pnpm add @jaaq/jaaq-sdk-js
 ```
 
 ## Quick Start
@@ -21,7 +21,7 @@ pnpm add jaaq-sdk-js
 ### Using JaaqClient (Class-based)
 
 ```typescript
-import { JaaqClient } from 'jaaq-sdk-js';
+import { JaaqClient } from '@jaaq/jaaq-sdk-js';
 
 const client = JaaqClient.init({
   apiKey: '<YOUR_API_KEY>',
@@ -32,7 +32,7 @@ const client = JaaqClient.init({
 ### Using createJaaqClient (Functional)
 
 ```typescript
-import { createJaaqClient } from 'jaaq-sdk-js';
+import { createJaaqClient } from '@jaaq/jaaq-sdk-js';
 
 const client = createJaaqClient({
   apiKey: '<YOUR_API_KEY>',
@@ -53,7 +53,7 @@ const collections = await client.collections.list();
 
 ```typescript
 import { useEffect, useRef } from "react";
-import { createJaaqClient } from "jaaq-sdk-js";
+import { createJaaqClient } from "@jaaq/jaaq-sdk-js";
 
 const API_KEY = import.meta.env.VITE_JAAQ_API_KEY;
 const CLIENT_ID = import.meta.env.VITE_JAAQ_CLIENT_ID;
@@ -87,7 +87,7 @@ export default function VideoExample({ id }: { id: string }) {
 
 ```typescript
 import { useEffect, useRef } from "react";
-import { createJaaqClient } from "jaaq-sdk-js";
+import { createJaaqClient } from "@jaaq/jaaq-sdk-js";
 import Hls from "hls.js";
 
 const API_KEY = import.meta.env.VITE_JAAQ_API_KEY!;

@@ -9,10 +9,10 @@ It provides a simple client with typed resources generated from the backend Open
 
 - src/
   - core/ # HTTP client
-  - gen/ # Generated OpenAPI types
+  - types/ # Type definitions
   - resources/ # API resources (e.g., videos)
   - index.ts
-- test/
+- tests/
   - handlers/
   - mocks/
   - setup.ts
@@ -23,9 +23,10 @@ It provides a simple client with typed resources generated from the backend Open
 "@src/*": ["src/*"],
 "@core/*": ["src/core/*"],
 "@resources/*": ["src/resources/*"],
-"@gen/*": ["src/gen/*"],
 "@tests/*": ["tests/*"]
 ```
+
+Types are imported from `@src/types/*` (e.g., `import type { VideoDTO } from '@src/types/videos'`).
 
 ## Installation
 
@@ -53,21 +54,26 @@ pnpm test:watch
 
 ## Create types
 
-Once we have the last openApi.json file from the Back-end
+To generate types from OpenAPI specification:
+
+1. Obtain the `openapi.json` file from the backend
+2. Place it in the repository root directory
+3. Run the generation command:
 
 ```bash
 pnpm openapi:gen
 ```
 
-And then:
+This will generate types to `src/gen/openapi.ts`. You can then import and use them:
 
-```bash
+```typescript
 import type { paths, components } from '@gen/openapi';
 
 type GetVideosResponse = components['schemas']['GetVideosResponse'];
 type GetVideosParams = paths['/videos']['get']['parameters']['query'];
-
 ```
+
+Note: Currently, types are manually maintained in `src/types/`. The OpenAPI generation is available for future use when the backend provides the specification file.
 
 ## Configuration options:
 
@@ -96,9 +102,8 @@ type GetVideosParams = paths['/videos']['get']['parameters']['query'];
 
 #### classic mode:
 
-```bash
-// Import module
-import { JaaqClient } from "jaaq-sdk-js";
+```typescript
+import { JaaqClient } from '@jaaq/jaaq-sdk-js';
 
 const client = JaaqClient.init({
   apiKey: '<YOUR_API_KEY>',
@@ -108,9 +113,8 @@ const client = JaaqClient.init({
 
 #### JS mode:
 
-```bash
-// Import module
-import { createJaaqClient } from "jaaq-sdk-js";
+```typescript
+import { createJaaqClient } from '@jaaq/jaaq-sdk-js';
 
 const client = createJaaqClient({
   apiKey: '<YOUR_API_KEY>',
@@ -120,21 +124,21 @@ const client = createJaaqClient({
 
 #### Access to the different resources:
 
-```bash
-client.videos.getById('xxxxxx')
+```typescript
+client.videos.getById('xxxxxx');
 ```
 
 or
 
-```bash
-client.collections.list()
+```typescript
+client.collections.list();
 ```
 
 #### Ex: Getting and displaying a video
 
-```bash
+```typescript
 import { useEffect, useRef } from "react";
-import { createJaaqClient } from "jaaq-sdk-js";
+import { createJaaqClient } from "@jaaq/jaaq-sdk-js";
 
 const API_KEY = import.meta.env.VITE_JAAQ_API_KEY;
 const CLIENT_ID = import.meta.env.VITE_JAAQ_CLIENT_ID;
@@ -159,16 +163,16 @@ export default function VideoExample({ id }: { id: string }) {
       ref={videoRef}
       autoPlay
       controls
-    />;
-  )
+    />
+  );
 }
 ```
 
 #### If extension is .m3u8
 
-```bash
+```typescript
 import { useEffect, useRef } from "react";
-import { createJaaqClient } from "jaaq-sdk-js";
+import { createJaaqClient } from "@jaaq/jaaq-sdk-js";
 import Hls from "hls.js";
 
 const API_KEY = import.meta.env.VITE_JAAQ_API_KEY!;
@@ -183,7 +187,7 @@ export default function VideoExample({ id }: { id: string }) {
     (async () => {
       const client = createJaaqClient({ apiKey: API_KEY, clientId: CLIENT_ID });
       const resp = await client.videos.getById(id);
-      const url = resp.video.videoUrl; // e.g. https://.../video.m3u8
+      const url = resp.video.videoUrl;
       const video = videoRef.current;
       if (!video || !url) return;
 
@@ -202,7 +206,7 @@ export default function VideoExample({ id }: { id: string }) {
       ref={videoRef}
       autoPlay
       controls
-    />;
-  )
+    />
+  );
 }
 ```
