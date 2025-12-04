@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import Hls from 'hls.js';
 import { jaaqClient } from '../lib/jaaq';
-import type { Video } from '@jaaq/jaaq-sdk-js';
+import type { VideoDTO } from '@jaaq/jaaq-sdk-js';
 
 export default function HLSPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
   const [videoId, setVideoId] = useState('');
-  const [videoData, setVideoData] = useState<Video | null>(null);
+  const [videoData, setVideoData] = useState<VideoDTO | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hlsSupported, setHlsSupported] = useState(true);
@@ -47,7 +47,7 @@ export default function HLSPlayer() {
 
       const video = await jaaqClient.videos.getById(videoId.trim());
 
-      if (!video.videoUrl.endsWith('.m3u8')) {
+      if (!video.videoUrl.includes('.m3u8')) {
         setError('This video is not in HLS format. Please use the basic Video Player instead.');
         setLoading(false);
         return;

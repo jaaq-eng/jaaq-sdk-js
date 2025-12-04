@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { jaaqClient } from '../lib/jaaq';
-import type { Video } from '@jaaq/jaaq-sdk-js';
+import type { VideoDTO } from '@jaaq/jaaq-sdk-js';
 
-type VideoWithCollection = Video & {
+type VideoWithCollection = VideoDTO & {
   collectionName: string;
   collectionId: string;
 };

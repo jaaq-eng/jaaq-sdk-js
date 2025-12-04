@@ -1,12 +1,12 @@
-import type { Video } from '@src/types/videos';
+import type { VideoDTO } from '@src/types/videos';
 
-type Collection = {
+type CollectionDTO = {
   id: string;
   name: string;
   description: string;
   imageUrl: string;
   createdAt: string;
-  videos: Video[];
+  videos: VideoDTO[];
 };
 
-export type { Collection };
+export type { CollectionDTO };

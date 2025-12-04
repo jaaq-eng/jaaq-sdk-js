@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { jaaqClient } from '../lib/jaaq';
-import type { Collection } from '@jaaq/jaaq-sdk-js';
+import type { CollectionDTO } from '@jaaq/jaaq-sdk-js';
 
 export default function CollectionsList() {
-  const [collections, setCollections] = useState<Collection[]>([]);
+  const [collections, setCollections] = useState<CollectionDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedCollection, setSelectedCollection] = useState<Collection | null>(null);
+  const [selectedCollection, setSelectedCollection] = useState<CollectionDTO | null>(null);
 
   useEffect(() => {
     loadCollections();
@@ -26,7 +26,7 @@ export default function CollectionsList() {
     }
   }
 
-  async function handleCollectionClick(collection: Collection) {
+  async function handleCollectionClick(collection: CollectionDTO) {
     try {
       const details = await jaaqClient.collections.getById(collection.id);
       setSelectedCollection(details);
