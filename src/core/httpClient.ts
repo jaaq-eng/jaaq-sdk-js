@@ -27,17 +27,12 @@ async function parseJson<T>(res: FetchResponse): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-/**
- * Join base URL and path avoiding duplicate slashes.
- * - Preserves absolute paths (http/https) as-is.
- * - Trims trailing slashes from base and leading slashes from path.
- */
-function joinUrl(baseUrl: string, path: string): string {
+function joinUrl(baseUrl: string, clientId: string, path: string): string {
   // return path if it is an absolute URL
   if (/^https?:\/\//i.test(path)) return path;
   const base = baseUrl.replace(/\/+$/, '');
   const relative = path.replace(/^\/+/, '');
-  return `${base}/${relative}`;
+  return `${base}/b2b/v1/${encodeURIComponent(clientId)}${relative.startsWith('/') ? relative : `/${relative}`}`;
 }
 
 export function createHttpClient(config: HttpClientConfig): HttpClient {
@@ -51,10 +46,9 @@ export function createHttpClient(config: HttpClientConfig): HttpClient {
   const baseHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
     'x-api-key': apiKey,
-    'x-client-id': clientId,
   };
 
-  const fullUrl = (path: string) => joinUrl(baseUrl, path);
+  const fullUrl = (path: string) => joinUrl(baseUrl, clientId, path);
 
   const request = async <T>(method: string, path: string, init?: RequestOptions, body?: unknown) => {
     const reqInit: RequestOptions = {
