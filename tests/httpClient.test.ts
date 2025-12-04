@@ -195,7 +195,7 @@ describe('httpClient', () => {
   describe('URL handling', () => {
     it('joins baseUrl and relative path correctly', async () => {
       const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
-        expect(input).toBe('http://localhost:3000/b2b/v1/test-client/test/get');
+        expect(input).toBe('http://localhost:3000/b2b/v1/subscription/test-client/test/get');
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
@@ -215,7 +215,7 @@ describe('httpClient', () => {
 
     it('handles baseUrl with trailing slash', async () => {
       const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
-        expect(input).toBe('http://localhost:3000/b2b/v1/test-client/test/get');
+        expect(input).toBe('http://localhost:3000/b2b/v1/subscription/test-client/test/get');
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
@@ -235,7 +235,7 @@ describe('httpClient', () => {
 
     it('handles path with leading slash', async () => {
       const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
-        expect(input).toBe('http://localhost:3000/b2b/v1/test-client/test/get');
+        expect(input).toBe('http://localhost:3000/b2b/v1/subscription/test-client/test/get');
         return new Response(JSON.stringify({ success: true }), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
