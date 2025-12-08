@@ -100,9 +100,10 @@ function App() {
 
 ### Vanilla JS Video Player
 
+**Option 1: Bundled (includes hls.js)**
+
 ```html
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="node_modules/@jaaq/jaaq-sdk-js/dist/ui/jaaq-ui.min.js"></script>
+<script src="node_modules/@jaaq/jaaq-sdk-js/dist/ui/jaaq-ui-bundled.min.js"></script>
 
 <div id="player-container"></div>
 
@@ -118,6 +119,24 @@ function App() {
   player.on('pause', () => console.log('Paused'));
   player.on('timeupdate', (time) => console.log('Time:', time));
   player.on('error', (error) => console.error('Error:', error));
+</script>
+```
+
+**Option 2: Unbundled (load hls.js separately for smaller bundle)**
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="node_modules/@jaaq/jaaq-sdk-js/dist/ui/jaaq-ui.min.js"></script>
+
+<div id="player-container"></div>
+
+<script>
+  const player = new JaaqUI.JaaqVideoPlayer('#player-container', {
+    apiKey: 'your-api-key',
+    clientId: 'your-client-id',
+    videoId: 'video-id',
+    autoplay: false,
+  });
 </script>
 ```
 
@@ -166,6 +185,8 @@ The SDK provides a native web component `<jaaq-video-player>` with Shadow DOM en
 
 #### Installation & Registration
 
+**For ES modules (npm/import):**
+
 ```bash
 npm install @jaaq/jaaq-sdk-js hls.js
 ```
@@ -176,7 +197,9 @@ npm install @jaaq/jaaq-sdk-js hls.js
 import '@jaaq/jaaq-sdk-js/ui/webcomponents';
 ```
 
-Or use the bundled version (includes hls.js, auto-registers):
+**For browser/CDN (no build step):**
+
+Use the bundled version (includes hls.js, auto-registers):
 
 ```html
 <script src="node_modules/@jaaq/jaaq-sdk-js/dist/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
