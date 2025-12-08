@@ -1,102 +1,188 @@
-# Browser Examples
+# JAAQ SDK Browser Examples
 
-Vanilla JavaScript examples demonstrating JAAQ SDK in the browser using CDN or local bundles.
+This directory contains HTML examples for using the JAAQ SDK in the browser.
 
 ## Examples
 
 ### Basic Examples
 
-- **cdn-basic.html** - Simple API calls with results displayed on page
-- **cdn-video-player.html** - Basic HTML5 video player
-- **cdn-hls-player.html** - HLS streaming with hls.js library
-- **local-bundle.html** - Init method testing (createJaaqClient vs JaaqClient.init)
+- `cdn-basic.html` - Basic SDK usage with CDN
+- `cdn-video-player.html` - Video player example with CDN
 
-### Advanced Examples
+### Vanilla JS UI Player Examples
 
-- **advanced/collections-gallery.html** - Interactive gallery displaying all collections
-- **advanced/video-playlist.html** - Full-featured video playlist with playback controls
+- `ui-vanilla.html` - Manual instantiation with full control
+- `ui-vanilla-declarative.html` - Declarative setup with data attributes
+- `ui-vanilla-simple-declarative.html` - Minimal declarative example
+- `ui-vanilla-multiple.html` - Multiple players on the same page
+- `ui-vanilla-embed.html` - Embedded player configuration
 
-## Setup
+### Web Components Examples
 
-All examples use the local SDK bundle via a symlink to the repository's `dist` folder:
+- `webcomponent-simple.html` - Simple web component usage
+- `webcomponent-declarative.html` - Declarative web component setup
+- `webcomponent-advanced.html` - Advanced web component features with event handling
+
+### Demo & Showcase
+
+- `embed-demo.html` - Comprehensive embed demo showcasing all player features
+
+## UI Components
+
+The JAAQ SDK includes pre-built embeddable video players in the `/ui` sub-package:
+
+### Vanilla JS Player
+
+**Approach 1: Declarative (Easiest) - Auto-initialized with data attributes**
 
 ```html
-<script src="./dist/jaaq-sdk.min.js"></script>
+<div data-jaaq-player data-api-key="your-api-key" data-client-id="your-client-id" data-video-id="video-id" data-autoplay="false"></div>
+
+<script src="path/to/dist/ui/jaaq-ui-bundled.min.js"></script>
+
+<script>
+  const player = JaaqUI.JaaqPlayer.getPlayer('[data-video-id="video-id"]');
+  player.on('play', () => console.log('Video playing'));
+  player.on('pause', () => console.log('Video paused'));
+</script>
 ```
 
-The `dist` directory is a symlink pointing to `../../dist`, making the built SDK accessible to the examples.
+**Approach 2: Manual Instantiation - Full control**
 
-The SDK is available as `JaaqSDK` global object:
+```html
+<script src="path/to/dist/ui/jaaq-ui-bundled.min.js"></script>
 
-```javascript
-const { createJaaqClient } = JaaqSDK;
+<div id="player-container"></div>
+
+<script>
+  const player = new JaaqUI.JaaqVideoPlayer('#player-container', {
+    apiKey: 'your-api-key',
+    clientId: 'your-client-id',
+    videoId: 'video-id',
+    autoplay: false,
+  });
+
+  player.on('play', () => console.log('Video playing'));
+  player.on('pause', () => console.log('Video paused'));
+</script>
 ```
 
-This approach is useful for:
+**Approach 3: External hls.js - Smaller bundle, load hls.js separately**
 
-- Testing local changes
-- Development without network access
-- No external dependencies
+```html
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="path/to/dist/ui/jaaq-ui.min.js"></script>
 
-## Configuration
+<div id="player-container"></div>
 
-All browser examples load credentials from `config.json`:
+<script>
+  const player = new JaaqUI.JaaqVideoPlayer('#player-container', {
+    apiKey: 'your-api-key',
+    clientId: 'your-client-id',
+    videoId: 'video-id',
+    autoplay: false,
+  });
 
-1. Copy `config.example.json` to `config.json`:
-
-```bash
-cp config.example.json config.json
+  player.on('play', () => console.log('Video playing'));
+  player.on('pause', () => console.log('Video paused'));
+</script>
 ```
 
-2. Update `config.json` with your credentials:
+### Web Components (Custom Elements)
 
-```json
-{
-  "apiKey": "your_api_key_here",
-  "clientId": "your_client_id_here",
-  "baseUrl": "https://api.jaaq.com"
-}
+**Declarative usage:**
+
+```html
+<script src="path/to/dist/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
+
+<jaaq-video-player video-id="your-video-id" api-key="your-api-key" client-id="your-client-id" autoplay="false"> </jaaq-video-player>
+
+<script>
+  const player = document.querySelector('jaaq-video-player');
+  player.addEventListener('jaaq:play', () => console.log('Playing'));
+  player.addEventListener('jaaq:pause', () => console.log('Paused'));
+</script>
 ```
 
-⚠️ **Security Note**: `config.json` is gitignored. Never commit your actual API keys to version control.
+**Programmatic usage:**
 
-## Running the Examples
+```html
+<script type="module">
+  import '@jaaq/jaaq-sdk-js/ui/webcomponents';
 
-1. Update the API credentials in each HTML file
-2. Open the HTML file directly in your browser, or
-3. Serve via a local server:
+  const player = document.createElement('jaaq-video-player');
+  player.setAttribute('video-id', 'your-video-id');
+  player.setAttribute('api-key', 'your-api-key');
+  player.setAttribute('client-id', 'your-client-id');
 
-```bash
-# Using npm (recommended)
-npm install
-npm start
-# Opens http://localhost:3000
+  player.addEventListener('jaaq:loaded', (e) => {
+    console.log('Video loaded:', e.detail);
+  });
 
-# Or using Python
-python3 -m http.server 8000
-
-# Or using Node.js (http-server)
-npx http-server
-
-# Or using PHP
-php -S localhost:8000
+  document.body.appendChild(player);
+</script>
 ```
 
-Then navigate to the appropriate localhost URL and select an example.
+### React Player
 
-## Build Requirements
+```html
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="path/to/dist/ui/react/jaaq-ui-react.min.js"></script>
 
-Make sure to build the SDK before running the examples:
+<script type="text/babel">
+  const { VideoPlayer } = JaaqUIReact;
 
-```bash
-cd ../..
-npm run build
+  function App() {
+    return (
+      <VideoPlayer
+        videoId="video-id"
+        apiKey="your-api-key"
+        clientId="your-client-id"
+        autoplay={false}
+        showInfo={true}
+        onPlay={() => console.log('Playing')}
+        onError={(err) => console.error(err)}
+      />
+    );
+  }
+
+  ReactDOM.render(<App />, document.getElementById('root'));
+</script>
 ```
 
-This generates `dist/jaaq-sdk.min.js` which is accessible via the `dist` symlink in this directory.
+## Running Examples
 
-## Browser Compatibility
+1. Build the SDK:
 
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- ES6+ support required
-- For older browsers, use transpiled versions
+   ```bash
+   pnpm build
+   ```
+
+2. Serve the examples:
+
+   ```bash
+   cd examples/browser
+   npx serve
+   ```
+
+3. Open the examples in your browser
+
+## Features
+
+All players (Vanilla JS, Web Components, and React) include:
+
+- ▶️ Custom video controls (play/pause, progress bar, volume, fullscreen)
+- 🎬 HLS streaming support (adaptive bitrate with hls.js)
+- 📹 MP4 playback support
+- 🎨 Modern, responsive design
+- ⚡ Loading states and error handling
+- 📊 Event system for tracking player state
+- 📱 Mobile-friendly touch controls
+
+Web Components additionally provide:
+
+- 🔒 Shadow DOM encapsulation (no CSS conflicts)
+- 🌐 Framework-agnostic usage
+- ♿ Declarative HTML API

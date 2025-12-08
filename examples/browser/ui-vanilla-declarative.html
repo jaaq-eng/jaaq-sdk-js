@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JAAQ SDK - Declarative Vanilla UI Player</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: #f5f5f5;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .card h2 {
+        margin-bottom: 16px;
+        color: #333;
+      }
+
+      .info {
+        background: #e7f3ff;
+        padding: 16px;
+        border-radius: 8px;
+        border-left: 4px solid #007bff;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #004085;
+      }
+
+      .code-block {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        overflow-x: auto;
+        margin: 16px 0;
+        border: 1px solid #dee2e6;
+      }
+
+      .code-block pre {
+        margin: 0;
+        color: #212529;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+
+      button {
+        padding: 12px 24px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-right: 8px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      button.secondary {
+        background: #6c757d;
+      }
+
+      button.secondary:hover {
+        background: #545b62;
+      }
+
+      #player-container {
+        margin-top: 20px;
+      }
+
+      .controls-demo {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .status {
+        margin-top: 12px;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        background: #f8f9fa;
+        color: #666;
+      }
+
+      .status.success {
+        background: #d4edda;
+        color: #155724;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JAAQ SDK - Declarative Vanilla UI Player</h1>
+        <p>Auto-initialized video player using data attributes</p>
+      </div>
+
+      <div class="info">
+        <strong>Declarative Approach:</strong> Simply add data attributes to a div element and the player will auto-initialize on page load.
+        No manual JavaScript instantiation required!
+      </div>
+
+      <div class="card">
+        <h2>How It Works</h2>
+        <p>Add this HTML to your page:</p>
+        <div class="code-block">
+          <pre>
+&lt;div data-jaaq-player
+     data-api-key="your_api_key"
+     data-client-id="your_client_id"
+     data-video-id="your_video_id"
+     data-autoplay="false"&gt;&lt;/div&gt;
+
+&lt;script src="https://cdn.jaaq.com/player.js"&gt;&lt;/script&gt;</pre
+          >
+        </div>
+        <p style="margin-top: 12px">Access the player instance programmatically:</p>
+        <div class="code-block">
+          <pre>
+const player = JaaqUI.JaaqPlayer.getPlayer('[data-video-id="your_video_id"]');
+player.on('play', () => console.log('Playing'));</pre
+          >
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Configuration</h2>
+        <div class="form-group">
+          <label for="apiKey">API Key</label>
+          <input type="text" id="apiKey" placeholder="Enter your API key" value="" />
+        </div>
+        <div class="form-group">
+          <label for="clientId">Client ID</label>
+          <input type="text" id="clientId" placeholder="Enter your client ID" value="" />
+        </div>
+        <div class="form-group">
+          <label for="videoId">Video ID</label>
+          <input type="text" id="videoId" placeholder="Enter video ID" value="" />
+        </div>
+        <button id="createBtn">Create Declarative Player</button>
+        <button class="secondary" id="destroyBtn">Destroy Player</button>
+      </div>
+
+      <div id="player-container"></div>
+
+      <div id="controlsCard" class="card" style="display: none">
+        <h2>Player Controls (via API)</h2>
+        <div class="controls-demo">
+          <button id="playBtn">Play</button>
+          <button id="pauseBtn">Pause</button>
+          <button id="muteBtn">Toggle Mute</button>
+        </div>
+        <div class="status" id="status">Player ready</div>
+      </div>
+    </div>
+
+    <script src="../../dist/ui/jaaq-ui-bundled.min.js"></script>
+
+    <script>
+      let currentPlayerElement = null;
+
+      document.getElementById('createBtn').addEventListener('click', () => {
+        const apiKey = document.getElementById('apiKey').value;
+        const clientId = document.getElementById('clientId').value;
+        const videoId = document.getElementById('videoId').value;
+
+        if (!apiKey || !clientId || !videoId) {
+          alert('Please fill in all fields');
+          return;
+        }
+
+        const container = document.getElementById('player-container');
+        container.innerHTML = '';
+
+        const playerDiv = document.createElement('div');
+        playerDiv.setAttribute('data-jaaq-player', '');
+        playerDiv.setAttribute('data-api-key', apiKey);
+        playerDiv.setAttribute('data-client-id', clientId);
+        playerDiv.setAttribute('data-video-id', videoId);
+        playerDiv.setAttribute('data-autoplay', 'false');
+
+        container.appendChild(playerDiv);
+        currentPlayerElement = playerDiv;
+
+        JaaqUI.JaaqPlayer.init(container);
+
+        const player = JaaqUI.JaaqPlayer.getPlayer(playerDiv);
+
+        if (player) {
+          player.on('loaded', (video) => {
+            document.getElementById('status').textContent = `Loaded: ${video.question || video.description || video.id}`;
+            document.getElementById('status').className = 'status success';
+          });
+
+          player.on('play', () => {
+            document.getElementById('status').textContent = 'Playing';
+          });
+
+          player.on('pause', () => {
+            document.getElementById('status').textContent = 'Paused';
+          });
+
+          player.on('error', (error) => {
+            document.getElementById('status').textContent = `Error: ${error.message}`;
+            document.getElementById('status').className = 'status';
+          });
+
+          document.getElementById('controlsCard').style.display = 'block';
+        }
+      });
+
+      document.getElementById('destroyBtn').addEventListener('click', () => {
+        if (currentPlayerElement) {
+          const player = JaaqUI.JaaqPlayer.getPlayer(currentPlayerElement);
+          if (player) {
+            player.destroy();
+          }
+          document.getElementById('player-container').innerHTML = '';
+          document.getElementById('controlsCard').style.display = 'none';
+          document.getElementById('status').textContent = 'Player destroyed';
+          document.getElementById('status').className = 'status';
+          currentPlayerElement = null;
+        }
+      });
+
+      document.getElementById('playBtn').addEventListener('click', () => {
+        if (currentPlayerElement) {
+          const player = JaaqUI.JaaqPlayer.getPlayer(currentPlayerElement);
+          player?.play();
+        }
+      });
+
+      document.getElementById('pauseBtn').addEventListener('click', () => {
+        if (currentPlayerElement) {
+          const player = JaaqUI.JaaqPlayer.getPlayer(currentPlayerElement);
+          player?.pause();
+        }
+      });
+
+      document.getElementById('muteBtn').addEventListener('click', () => {
+        if (currentPlayerElement) {
+          const player = JaaqUI.JaaqPlayer.getPlayer(currentPlayerElement);
+          player?.toggleMute();
+        }
+      });
+    </script>
+  </body>
+</html>

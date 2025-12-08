@@ -1,0 +1,7 @@
+.jaaq-vanilla-player {
+  user-select: none;
+}
+
+.jaaq-vanilla-player video {
+  outline: none;
+}

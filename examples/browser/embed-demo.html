@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JAAQ Embed Player - Demo</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: #f5f5f5;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .card h2 {
+        margin-bottom: 16px;
+        color: #333;
+        font-size: 20px;
+      }
+
+      .card h3 {
+        margin-bottom: 12px;
+        margin-top: 20px;
+        color: #555;
+        font-size: 16px;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+
+      button {
+        padding: 12px 24px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      button.secondary {
+        background: #6c757d;
+      }
+
+      button.secondary:hover {
+        background: #545b62;
+      }
+
+      .iframe-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 20px;
+      }
+
+      .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .code-block {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        overflow-x: auto;
+        margin: 16px 0;
+        border: 1px solid #dee2e6;
+      }
+
+      .code-block pre {
+        margin: 0;
+        color: #212529;
+      }
+
+      .info {
+        background: #e7f3ff;
+        padding: 16px;
+        border-radius: 8px;
+        border-left: 4px solid #007bff;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #004085;
+      }
+
+      .events-log {
+        max-height: 250px;
+        overflow-y: auto;
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        margin-top: 16px;
+      }
+
+      .event-item {
+        margin-bottom: 4px;
+        color: #666;
+      }
+
+      .event-time {
+        color: #999;
+      }
+
+      .controls {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JAAQ Embed Player - Demo</h1>
+        <p>Learn how to embed the JAAQ video player in an iframe</p>
+      </div>
+
+      <div class="info">
+        <strong>Iframe Embed:</strong> Use the ui-vanilla-embed.html file as your iframe src with URL query parameters. The player
+        communicates with the parent page via postMessage for events and commands.
+      </div>
+
+      <div class="card">
+        <h2>Configuration</h2>
+        <div class="form-group">
+          <label for="apiKey">API Key</label>
+          <input type="text" id="apiKey" placeholder="Enter your API key" value="" />
+        </div>
+        <div class="form-group">
+          <label for="clientId">Client ID</label>
+          <input type="text" id="clientId" placeholder="Enter your client ID" value="" />
+        </div>
+        <div class="form-group">
+          <label for="videoId">Video ID</label>
+          <input type="text" id="videoId" placeholder="Enter video ID" value="" />
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="autoplay" />
+            Autoplay
+          </label>
+        </div>
+        <button id="loadBtn">Load Embedded Player</button>
+        <button class="secondary" id="clearBtn">Clear</button>
+      </div>
+
+      <div class="card" id="playerCard" style="display: none">
+        <h2>Embedded Player</h2>
+        <div class="iframe-container" id="iframeContainer"></div>
+
+        <h3>Player Controls (via postMessage)</h3>
+        <div class="controls">
+          <button id="playBtn">Play</button>
+          <button id="pauseBtn">Pause</button>
+          <button id="muteBtn">Toggle Mute</button>
+          <button id="stateBtn">Get State</button>
+        </div>
+
+        <h3>Events from Player</h3>
+        <div class="events-log" id="eventsLog">
+          <div class="event-item">Waiting for events...</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Usage Examples</h2>
+
+        <h3>Basic HTML Embed</h3>
+        <div class="code-block">
+          <pre>
+&lt;iframe
+  src="ui-vanilla-embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID"
+  width="800"
+  height="450"
+  frameborder="0"
+  allowfullscreen
+&gt;&lt;/iframe&gt;</pre
+          >
+        </div>
+
+        <h3>With Autoplay</h3>
+        <div class="code-block">
+          <pre>
+&lt;iframe
+  src="ui-vanilla-embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID&autoplay=true"
+  width="800"
+  height="450"
+  frameborder="0"
+  allowfullscreen
+&gt;&lt;/iframe&gt;</pre
+          >
+        </div>
+
+        <h3>Dynamic JavaScript Creation</h3>
+        <div class="code-block">
+          <pre>
+const iframe = document.createElement('iframe');
+iframe.src = `ui-vanilla-embed.html?apiKey=${apiKey}&clientId=${clientId}&videoId=${videoId}`;
+iframe.width = '800';
+iframe.height = '450';
+iframe.frameBorder = '0';
+iframe.allowFullscreen = true;
+document.getElementById('container').appendChild(iframe);</pre
+          >
+        </div>
+
+        <h3>Listening to Events (postMessage)</h3>
+        <div class="code-block">
+          <pre>
+window.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'jaaq-player-event') {
+    console.log('Event:', event.data.event, event.data.data);
+    
+    switch (event.data.event) {
+      case 'loaded':
+        console.log('Video loaded:', event.data.data.title);
+        break;
+      case 'play':
+        console.log('Video started playing');
+        break;
+      case 'pause':
+        console.log('Video paused');
+        break;
+      case 'ended':
+        console.log('Video ended');
+        break;
+    }
+  }
+});</pre
+          >
+        </div>
+
+        <h3>Sending Commands to Player</h3>
+        <div class="code-block">
+          <pre>
+const iframe = document.querySelector('iframe');
+
+iframe.contentWindow.postMessage({
+  type: 'jaaq-player-command',
+  command: 'play'
+}, '*');
+
+iframe.contentWindow.postMessage({
+  type: 'jaaq-player-command',
+  command: 'setVolume',
+  args: { volume: 0.5 }
+}, '*');
+
+iframe.contentWindow.postMessage({
+  type: 'jaaq-player-command',
+  command: 'seek',
+  args: { time: 30 }
+}, '*');</pre
+          >
+        </div>
+
+        <h3>Available URL Parameters</h3>
+        <div class="code-block">
+          <pre>
+apiKey      (required) - Your JAAQ API key
+clientId    (required) - Your JAAQ client ID
+videoId     (required) - Video ID to load
+autoplay    (optional) - true/false, default: false
+width       (optional) - Player width, default: 100%
+height      (optional) - Player height, default: 100%
+baseUrl     (optional) - Custom API base URL</pre
+          >
+        </div>
+
+        <h3>Available Events</h3>
+        <div class="code-block">
+          <pre>
+ready           - Player is ready
+loaded          - Video metadata loaded
+play            - Video started playing
+pause           - Video paused
+timeupdate      - Current time updated
+volumechange    - Volume changed
+ended           - Video finished playing
+error           - Error occurred
+fullscreenchange - Fullscreen toggled</pre
+          >
+        </div>
+
+        <h3>Available Commands</h3>
+        <div class="code-block">
+          <pre>
+play        - Start playback
+pause       - Pause playback
+toggleMute  - Toggle mute
+setVolume   - Set volume (args: { volume: 0-1 })
+seek        - Seek to time (args: { time: seconds })
+getState    - Get current player state</pre
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentIframe = null;
+      const eventsLog = document.getElementById('eventsLog');
+
+      function logEvent(event, data) {
+        const time = new Date().toLocaleTimeString();
+        const eventItem = document.createElement('div');
+        eventItem.className = 'event-item';
+        eventItem.innerHTML = `<span class="event-time">[${time}]</span> <strong>${event}</strong>: ${JSON.stringify(data || 'N/A')}`;
+        eventsLog.insertBefore(eventItem, eventsLog.firstChild);
+      }
+
+      window.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'jaaq-player-event') {
+          logEvent(event.data.event, event.data.data);
+        }
+      });
+
+      document.getElementById('loadBtn').addEventListener('click', () => {
+        const apiKey = document.getElementById('apiKey').value;
+        const clientId = document.getElementById('clientId').value;
+        const videoId = document.getElementById('videoId').value;
+        const autoplay = document.getElementById('autoplay').checked;
+
+        if (!apiKey || !clientId || !videoId) {
+          alert('Please fill in all required fields');
+          return;
+        }
+
+        const params = new URLSearchParams({
+          apiKey,
+          clientId,
+          videoId,
+          autoplay: autoplay.toString(),
+        });
+
+        const iframeUrl = `ui-vanilla-embed.html?${params.toString()}`;
+
+        const container = document.getElementById('iframeContainer');
+        container.innerHTML = '';
+
+        const iframe = document.createElement('iframe');
+        iframe.src = iframeUrl;
+        iframe.allowFullscreen = true;
+        currentIframe = iframe;
+
+        container.appendChild(iframe);
+        document.getElementById('playerCard').style.display = 'block';
+
+        eventsLog.innerHTML = '<div class="event-item">Player loading...</div>';
+      });
+
+      document.getElementById('clearBtn').addEventListener('click', () => {
+        document.getElementById('iframeContainer').innerHTML = '';
+        document.getElementById('playerCard').style.display = 'none';
+        currentIframe = null;
+        eventsLog.innerHTML = '<div class="event-item">Waiting for events...</div>';
+      });
+
+      function sendCommand(command, args = null) {
+        if (!currentIframe) {
+          alert('Please load a player first');
+          return;
+        }
+
+        const message = {
+          type: 'jaaq-player-command',
+          command,
+        };
+
+        if (args) {
+          message.args = args;
+        }
+
+        currentIframe.contentWindow.postMessage(message, '*');
+      }
+
+      document.getElementById('playBtn').addEventListener('click', () => {
+        sendCommand('play');
+      });
+
+      document.getElementById('pauseBtn').addEventListener('click', () => {
+        sendCommand('pause');
+      });
+
+      document.getElementById('muteBtn').addEventListener('click', () => {
+        sendCommand('toggleMute');
+      });
+
+      document.getElementById('stateBtn').addEventListener('click', () => {
+        sendCommand('getState');
+      });
+    </script>
+  </body>
+</html>
