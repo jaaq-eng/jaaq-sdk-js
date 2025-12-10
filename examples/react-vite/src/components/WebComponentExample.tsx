@@ -79,6 +79,59 @@ export default function WebComponentExample() {
         <h2>Web Component in React</h2>
         <p style={{ marginBottom: '16px', color: '#666' }}>This example uses the native &lt;jaaq-video-player&gt; web component in React</p>
 
+        <details style={{ marginBottom: '16px', padding: '12px', background: '#f8f9fa', borderRadius: '8px' }}>
+          <summary style={{ cursor: 'pointer', fontWeight: '500', color: '#333' }}>Usage Example</summary>
+          <pre
+            style={{
+              marginTop: '12px',
+              padding: '12px',
+              background: '#fff',
+              borderRadius: '6px',
+              overflow: 'auto',
+              fontSize: '12px',
+              border: '1px solid #dee2e6',
+            }}
+          >
+            {`npm install @jaaq/jaaq-sdk-js
+
+import { useEffect, useRef } from 'react';
+import '@jaaq/jaaq-sdk-js/ui/webcomponents';
+import type { JaaqVideoPlayerElement } from '@jaaq/jaaq-sdk-js/ui/webcomponents';
+
+function App() {
+  const playerRef = useRef<JaaqVideoPlayerElement>(null);
+
+  useEffect(() => {
+    const player = playerRef.current;
+    if (!player) return;
+
+    const handlePlay = () => console.log('Playing');
+    const handleLoaded = (e: Event) => {
+      console.log('Loaded:', (e as CustomEvent).detail);
+    };
+
+    player.addEventListener('jaaq:play', handlePlay);
+    player.addEventListener('jaaq:loaded', handleLoaded);
+
+    return () => {
+      player.removeEventListener('jaaq:play', handlePlay);
+      player.removeEventListener('jaaq:loaded', handleLoaded);
+    };
+  }, []);
+
+  return (
+    <jaaq-video-player
+      ref={playerRef}
+      video-id="your-video-id"
+      api-key="your-api-key"
+      client-id="your-client-id"
+      autoplay="false"
+    />
+  );
+}`}
+          </pre>
+        </details>
+
         <input
           type="text"
           placeholder="Enter API Key"

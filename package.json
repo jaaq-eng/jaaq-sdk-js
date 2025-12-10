@@ -11,6 +11,7 @@
     "build:dev": "dotenvx run -f .env.development -- rollup -c",
     "build:staging": "dotenvx run -f .env.staging -- rollup -c",
     "build:prod": "dotenvx run -f .env.production -- rollup -c",
+    "build:local": "JAAQ_CDN_URL=http://localhost:9999 NODE_ENV=development rollup -c",
     "test": "vitest run --exclude=tests/build",
     "test:watch": "vitest --exclude=tests/build",
     "test:coverage": "vitest run --coverage --exclude=tests/build",

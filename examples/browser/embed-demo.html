@@ -198,8 +198,42 @@
       </div>
 
       <div class="info">
-        <strong>Iframe Embed:</strong> Use the ui-vanilla-embed.html file as your iframe src with URL query parameters. The player
-        communicates with the parent page via postMessage for events and commands.
+        <strong>Iframe Embed:</strong> Use the ui-vanilla-embed.html file as your iframe src with URL query parameters. The embed uses the
+        <code>&lt;jaaq-video-player&gt;</code> web component internally and communicates with the parent page via postMessage for events and
+        commands. <br /><br />
+        <strong>Local Testing:</strong> Run <code>pnpm build:local</code> from project root, then <code>pnpm serve</code> from
+        examples/browser. The embed will be available at <code>http://localhost:9999/jaaq-sdk-js/latest/embed.html</code>
+      </div>
+
+      <div class="card">
+        <h2>CDN Usage</h2>
+        <p style="margin-bottom: 16px; color: #666">Use this snippet to embed the player from CDN in production:</p>
+        <div class="code-block">
+          <pre>
+&lt;iframe 
+  src="https://cdn.jaaq.app/jaaq-sdk-js/latest/embed/embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID"
+  width="800" 
+  height="450" 
+  frameborder="0" 
+  allowfullscreen&gt;
+&lt;/iframe&gt;
+
+&lt;script&gt;
+  const iframe = document.querySelector('iframe');
+  
+  iframe.contentWindow.postMessage({
+    type: 'jaaq-player-command',
+    command: 'play'
+  }, '*');
+  
+  window.addEventListener('message', (event) => {
+    if (event.data?.type === 'jaaq-player-event') {
+      console.log(event.data.event, event.data.data);
+    }
+  });
+&lt;/script&gt;</pre
+          >
+        </div>
       </div>
 
       <div class="card">
@@ -414,7 +448,7 @@ getState    - Get current player state</pre
           autoplay: autoplay.toString(),
         });
 
-        const iframeUrl = `ui-vanilla-embed.html?${params.toString()}`;
+        const iframeUrl = `jaaq-sdk-js/latest/embed.html?${params.toString()}`;
 
         const container = document.getElementById('iframeContainer');
         container.innerHTML = '';

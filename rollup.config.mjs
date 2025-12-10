@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { defineConfig } from 'rollup';
+import { config } from '@dotenvx/dotenvx';
 import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -7,7 +8,13 @@ import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
 import dts from 'rollup-plugin-dts';
 import tsConfigPaths from 'rollup-plugin-tsconfig-paths';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+config();
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const tsConfigPathsPlugin = tsConfigPaths();
 const replacePlugin = replace({
@@ -69,6 +76,40 @@ function cssAsStringExport() {
   };
 }
 
+function buildEmbed() {
+  return {
+    name: 'build-embed',
+    writeBundle() {
+      const cdnBaseUrl = process.env.JAAQ_CDN_URL;
+      if (!cdnBaseUrl) {
+        console.warn('⚠ JAAQ_CDN_URL not set, skipping embed.html generation');
+        return;
+      }
+
+      const templatePath = join(__dirname, 'src/ui/embed/embed.html');
+      const outputDir = join(__dirname, 'dist/embed');
+      const outputPath = join(outputDir, 'embed.html');
+
+      if (!existsSync(templatePath)) {
+        console.error(`Template file not found: ${templatePath}`);
+        return;
+      }
+
+      let template = readFileSync(templatePath, 'utf8');
+
+      const cdnUrl = `${cdnBaseUrl}/jaaq-sdk-js/latest`;
+      template = template.replace(/__JAAQ_CDN_URL__/g, cdnUrl);
+
+      if (!existsSync(outputDir)) {
+        mkdirSync(outputDir, { recursive: true });
+      }
+
+      writeFileSync(outputPath, template, 'utf8');
+      console.log(`✓ Embed HTML written to: ${outputPath} (CDN: ${cdnUrl})`);
+    },
+  };
+}
+
 export default defineConfig([
   {
     input: 'src/index.ts',
@@ -90,6 +131,7 @@ export default defineConfig([
       typescriptPlugin,
       replacePlugin,
       commonjs(),
+      buildEmbed(),
     ],
   },
   {
@@ -208,7 +250,7 @@ export default defineConfig([
     plugins: [
       tsConfigPathsPlugin,
       typescript({ tsconfig: './tsconfig.json', declaration: false, jsx: 'react', exclude: ['tests', '**/*.test.ts'] }),
-      cssAutoInject(),
+      cssAsStringExport(),
       resolve({ browser: true, preferBuiltins: false, extensions: ['.ts', '.tsx', '.js', '.css'] }),
       replacePlugin,
       commonjs(),
@@ -231,7 +273,7 @@ export default defineConfig([
     plugins: [
       tsConfigPathsPlugin,
       typescript({ tsconfig: './tsconfig.json', declaration: false, jsx: 'react', exclude: ['tests', '**/*.test.ts'] }),
-      cssAutoInject(),
+      cssAsStringExport(),
       resolve({ browser: true, preferBuiltins: false, extensions: ['.ts', '.tsx', '.js', '.css'] }),
       replacePlugin,
       commonjs(),

@@ -156,6 +156,40 @@
         approach, while Player 3 uses manual instantiation.
       </div>
 
+      <div style="background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin-bottom: 20px">
+        <h2 style="margin-bottom: 16px; color: #333">CDN Usage</h2>
+        <p style="margin-bottom: 16px; color: #666">Use this snippet to load the vanilla UI player from CDN without building:</p>
+        <pre
+          style="
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+            border: 1px solid #dee2e6;
+            margin: 0;
+          "
+        >
+&lt;script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/jaaq-ui-bundled.min.js"&gt;&lt;/script&gt;
+
+&lt;div id="player"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  const player = new JaaqUI.JaaqVideoPlayer(
+    document.getElementById('player'),
+    {
+      apiKey: 'your-api-key',
+      clientId: 'your-client-id',
+      videoId: 'your-video-id',
+      autoplay: false
+    }
+  );
+  
+  player.on('loaded', (video) => console.log(video));
+&lt;/script&gt;</pre
+        >
+      </div>
+
       <div class="players-grid">
         <div class="player-card">
           <h3>Player 1 (Declarative)</h3>

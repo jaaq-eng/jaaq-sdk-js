@@ -153,6 +153,26 @@
       </div>
 
       <div class="card">
+        <h2>CDN Usage</h2>
+        <p style="margin-bottom: 16px; color: #666">Use this snippet to load the player from CDN without building:</p>
+        <pre style="background: #f8f9fa; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; border: 1px solid #dee2e6">
+&lt;script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/webcomponents/jaaq-webcomponents-bundled.min.js"&gt;&lt;/script&gt;
+
+&lt;jaaq-video-player 
+  video-id="your-video-id" 
+  api-key="your-api-key" 
+  client-id="your-client-id"&gt;
+&lt;/jaaq-video-player&gt;
+
+&lt;script&gt;
+  const player = document.querySelector('jaaq-video-player');
+  player.addEventListener('jaaq:loaded', (e) => console.log(e.detail));
+  player.play();
+&lt;/script&gt;</pre
+        >
+      </div>
+
+      <div class="card">
         <h2>Configuration</h2>
         <div class="form-group">
           <label for="apiKey">API Key</label>

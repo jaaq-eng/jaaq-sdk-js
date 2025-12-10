@@ -33,16 +33,11 @@ export function isRegistered(): boolean {
 }
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-  const currentScript = document.currentScript as HTMLScriptElement | null;
-  const shouldAutoRegister = currentScript?.hasAttribute('data-auto-register') ?? true;
-
-  if (shouldAutoRegister) {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        registerJaaqComponents();
-      });
-    } else {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
       registerJaaqComponents();
-    }
+    });
+  } else {
+    registerJaaqComponents();
   }
 }

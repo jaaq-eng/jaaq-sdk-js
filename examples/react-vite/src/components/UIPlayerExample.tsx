@@ -18,8 +18,46 @@ export default function UIPlayerExample() {
   return (
     <div>
       <div className="card">
-        <h2>UI Package Video Player</h2>
-        <p style={{ marginBottom: '16px', color: '#666' }}>This example uses the VideoPlayer component from @jaaq/jaaq-sdk-js/ui/react</p>
+        <h2>React Video Player Wrapper</h2>
+        <p style={{ marginBottom: '16px', color: '#666' }}>
+          This example uses the VideoPlayer component from @jaaq/jaaq-sdk-js/ui/react. The React component is a thin wrapper around the web
+          component with React-friendly props and callbacks.
+        </p>
+
+        <details style={{ marginBottom: '16px', padding: '12px', background: '#f8f9fa', borderRadius: '8px' }}>
+          <summary style={{ cursor: 'pointer', fontWeight: '500', color: '#333' }}>Usage Example</summary>
+          <pre
+            style={{
+              marginTop: '12px',
+              padding: '12px',
+              background: '#fff',
+              borderRadius: '6px',
+              overflow: 'auto',
+              fontSize: '12px',
+              border: '1px solid #dee2e6',
+            }}
+          >
+            {`npm install @jaaq/jaaq-sdk-js react react-dom
+
+import { VideoPlayer } from '@jaaq/jaaq-sdk-js/ui/react';
+
+function App() {
+  return (
+    <VideoPlayer
+      videoId="your-video-id"
+      apiKey="your-api-key"
+      clientId="your-client-id"
+      autoplay={false}
+      showInfo={true}
+      onPlay={() => console.log('Playing')}
+      onPause={() => console.log('Paused')}
+      onError={(error) => console.error(error)}
+      onLoaded={(video) => console.log('Loaded:', video)}
+    />
+  );
+}`}
+          </pre>
+        </details>
 
         <input
           type="text"
