@@ -217,21 +217,7 @@
   frameborder="0" 
   allowfullscreen&gt;
 &lt;/iframe&gt;
-
-&lt;script&gt;
-  const iframe = document.querySelector('iframe');
-  
-  iframe.contentWindow.postMessage({
-    type: 'jaaq-player-command',
-    command: 'play'
-  }, '*');
-  
-  window.addEventListener('message', (event) => {
-    if (event.data?.type === 'jaaq-player-event') {
-      console.log(event.data.event, event.data.data);
-    }
-  });
-&lt;/script&gt;</pre
+</pre
           >
         </div>
       </div>
