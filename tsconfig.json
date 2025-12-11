@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "target": "ES2020",
     "module": "ESNext",
     "lib": ["ES2020", "DOM"],
@@ -15,7 +16,8 @@
       "@core/*": ["src/core/*"],
       "@resources/*": ["src/resources/*"],
       "@gen/*": ["src/gen/*"],
-      "@tests/*": ["tests/*"]
+      "@tests/*": ["tests/*"],
+      "@ui/*": ["src/ui/*"]
     }
   },
   "include": ["src", "tests"]

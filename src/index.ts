@@ -5,7 +5,7 @@ import { createCollectionsResource, type CollectionsResource } from '@resources/
 // Public type exports for consumers (barrel)
 export * from '@src/types';
 
-export const BASE_URL = process.env.JAAQ_API_URL as string;
+export const BASE_URL = process.env.JAAQ_API_URL || 'https://api.jaaq.app';
 
 export interface SDKConfig {
   baseUrl?: string; // Pending to approve
