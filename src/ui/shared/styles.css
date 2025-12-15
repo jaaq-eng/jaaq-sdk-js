@@ -93,7 +93,6 @@
   cursor: not-allowed;
 }
 
-
 .jaaq-loading {
   position: absolute;
   top: 50%;
@@ -159,7 +158,13 @@
   font-size: 16px;
   font-weight: 600;
   z-index: 10;
-  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    'Archivo',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   letter-spacing: 0.5px;
   pointer-events: none;
 }
@@ -208,7 +213,13 @@
 }
 
 .jaaq-caption-display {
-  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    'Archivo',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
@@ -224,7 +235,13 @@
 }
 
 .jaaq-video-title {
-  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    'Archivo',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   font-weight: 600;
   font-size: 18.695px;
   line-height: 21.5px;
@@ -234,7 +251,13 @@
 }
 
 .jaaq-video-author {
-  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    'Archivo',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   font-weight: 500;
   font-size: 14.021px;
   line-height: 16.825px;
@@ -245,7 +268,13 @@
 }
 
 .jaaq-video-description {
-  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    'Archivo',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   font-weight: 400;
   font-size: 11px;
   line-height: 16px;
