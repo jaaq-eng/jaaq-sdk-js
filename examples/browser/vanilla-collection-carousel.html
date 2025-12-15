@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JAAQ SDK - Vanilla JS Collection Carousel</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: #f5f5f5;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .card h2 {
+        color: #333;
+        margin-bottom: 16px;
+        font-size: 20px;
+      }
+
+      .info {
+        background: #e3f2fd;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        border-left: 4px solid #2196f3;
+      }
+
+      .info p {
+        color: #1976d2;
+        line-height: 1.6;
+        margin-bottom: 8px;
+      }
+
+      .info code {
+        background: rgba(0, 0, 0, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 13px;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #2196f3;
+      }
+
+      .form-group input[type='checkbox'] {
+        width: auto;
+        margin-right: 8px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+
+      .controls button,
+      .form-group button {
+        background: #2196f3;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+      }
+
+      .controls button:hover,
+      .form-group button:hover {
+        background: #1976d2;
+      }
+
+      .controls button:active,
+      .form-group button:active {
+        transform: scale(0.98);
+      }
+
+      .controls button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .controls button.secondary {
+        background: #6c757d;
+      }
+
+      .controls button.secondary:hover {
+        background: #545b62;
+      }
+
+      .event-log {
+        background: #263238;
+        color: #aed581;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: 'Monaco', 'Courier New', monospace;
+        font-size: 13px;
+        max-height: 300px;
+        overflow-y: auto;
+        margin-top: 16px;
+      }
+
+      .event-log .event {
+        margin-bottom: 4px;
+      }
+
+      .event-log .timestamp {
+        color: #78909c;
+        margin-right: 8px;
+      }
+
+      .error {
+        background: #ffebee;
+        color: #c62828;
+        padding: 16px;
+        border-radius: 8px;
+        border-left: 4px solid #d32f2f;
+        margin-bottom: 20px;
+      }
+
+      .collection-info {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        margin-top: 16px;
+      }
+
+      .collection-info h3 {
+        margin: 0 0 8px 0;
+        color: #333;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .collection-info p {
+        margin: 4px 0;
+        color: #666;
+        font-size: 14px;
+      }
+
+      #carousel-container {
+        margin-bottom: 20px;
+      }
+
+      #carousel-target {
+        min-height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JAAQ Vanilla JS - Collection Carousel</h1>
+        <p>Pure JavaScript implementation with Splide.js integration</p>
+      </div>
+
+      <div class="info">
+        <p><strong>Features:</strong></p>
+        <p>- Event emitter pattern with <code>on()</code> and <code>off()</code> methods</p>
+        <p>- Programmatic API: <code>next()</code>, <code>prev()</code>, <code>go(index)</code>, <code>refresh()</code></p>
+        <p>- Responsive: 3 videos on desktop, 2 on tablet, 1 on mobile</p>
+      </div>
+
+      <div class="card">
+        <h2>Minimal Example</h2>
+        <pre
+          style="
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+            border: 1px solid #dee2e6;
+            line-height: 1.5;
+          "
+        >
+<span style="color: #998">&lt;script src="jaaq-vanilla-bundled.min.js">&lt;/script></span>
+<span style="color: #998">&lt;div id="carousel">&lt;/div></span>
+<span style="color: #998">&lt;script></span>
+  <span style="color: #008">const</span> { JaaqCollectionPlayer, registerJaaqComponents } = JaaqVanilla;
+  
+  registerJaaqComponents();
+
+  <span style="color: #008">const</span> carousel = <span style="color: #008">new</span> JaaqCollectionPlayer(<span style="color: #d14">'#carousel'</span>, {
+    collectionId: <span style="color: #d14">'your-collection-id'</span>,
+    apiKey: <span style="color: #d14">'your-api-key'</span>,
+    clientId: <span style="color: #d14">'your-client-id'</span>,
+    autoplay: <span style="color: #008">true</span>
+  });
+<span style="color: #998">&lt;/script></span></pre>
+      </div>
+
+      <div id="error-container"></div>
+
+      <div class="card">
+        <h2>Configuration</h2>
+        <div class="form-group">
+          <label for="apiKey">API Key</label>
+          <input type="text" id="apiKey" placeholder="Enter your API key" />
+        </div>
+        <div class="form-group">
+          <label for="clientId">Client ID</label>
+          <input type="text" id="clientId" placeholder="Enter your client ID" />
+        </div>
+        <div class="form-group">
+          <label for="collectionId">Collection ID</label>
+          <input type="text" id="collectionId" placeholder="Enter collection ID" />
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="autoplay" />
+            Enable Autoplay (1s delay)
+          </label>
+        </div>
+        <div class="form-group">
+          <button id="loadBtn">Load Collection Carousel</button>
+        </div>
+      </div>
+
+      <div class="card" id="carouselCard" style="display: none">
+        <h2>Collection Carousel</h2>
+        <div id="carousel-container"></div>
+      </div>
+
+      <div class="card" id="controlsCard" style="display: none">
+        <h2>Carousel Controls</h2>
+        <div class="controls">
+          <button id="prevBtn">Previous</button>
+          <button id="nextBtn">Next</button>
+          <button id="goTo0Btn">Go to Slide 0</button>
+          <button id="goTo1Btn">Go to Slide 1</button>
+          <button id="goTo2Btn">Go to Slide 2</button>
+          <button class="secondary" id="refreshBtn">Refresh</button>
+          <button class="secondary" id="destroyBtn">Destroy</button>
+        </div>
+        <div class="collection-info" id="collectionInfo" style="display: none">
+          <h3 id="collectionName"></h3>
+          <p id="collectionDescription"></p>
+          <p><strong>Videos:</strong> <span id="videoCount"></span></p>
+        </div>
+        <div id="event-log" class="event-log"></div>
+      </div>
+    </div>
+
+    <script src="../../dist/ui/vanilla/jaaq-vanilla-bundled.min.js"></script>
+    <script>
+      const { JaaqCollectionPlayer, registerJaaqComponents } = JaaqVanilla;
+
+      registerJaaqComponents();
+
+      const CONFIG_FILE = './config.json';
+      const eventLog = document.getElementById('event-log');
+      const errorContainer = document.getElementById('error-container');
+      let eventCount = 0;
+      const MAX_EVENTS = 50;
+      let carouselPlayer = null;
+
+      function logEvent(type, data) {
+        const timestamp = new Date().toLocaleTimeString();
+        const eventDiv = document.createElement('div');
+        eventDiv.className = 'event';
+        eventDiv.innerHTML = `<span class="timestamp">[${timestamp}]</span><strong>${type}:</strong> ${JSON.stringify(data)}`;
+
+        eventLog.insertBefore(eventDiv, eventLog.firstChild);
+
+        eventCount++;
+        if (eventCount > MAX_EVENTS) {
+          eventLog.removeChild(eventLog.lastChild);
+          eventCount--;
+        }
+      }
+
+      function showError(message) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error';
+        errorDiv.innerHTML = `<strong>Error:</strong> ${message}`;
+        errorContainer.appendChild(errorDiv);
+      }
+
+      async function loadConfig() {
+        try {
+          const response = await fetch(CONFIG_FILE);
+          if (!response.ok) {
+            throw new Error(`Failed to load config: ${response.statusText}`);
+          }
+          const config = await response.json();
+          document.getElementById('apiKey').value = config.apiKey || '';
+          document.getElementById('clientId').value = config.clientId || '';
+          document.getElementById('collectionId').value = config.collectionId || '';
+          return config;
+        } catch (error) {
+          console.warn('Config file not found, user will need to enter credentials manually');
+        }
+      }
+
+      document.getElementById('loadBtn').addEventListener('click', () => {
+        const apiKey = document.getElementById('apiKey').value;
+        const clientId = document.getElementById('clientId').value;
+        const collectionId = document.getElementById('collectionId').value;
+        const autoplay = document.getElementById('autoplay').checked;
+
+        if (!apiKey || !clientId || !collectionId) {
+          showError('Please fill in API Key, Client ID, and Collection ID');
+          return;
+        }
+
+        if (carouselPlayer) {
+          carouselPlayer.destroy();
+          carouselPlayer = null;
+        }
+
+        const container = document.getElementById('carousel-container');
+        container.innerHTML = '<div id="carousel-target"></div>';
+
+        try {
+          carouselPlayer = new JaaqCollectionPlayer('#carousel-target', {
+            collectionId,
+            apiKey,
+            clientId,
+            autoplay,
+          });
+
+          carouselPlayer.on('loaded', (collection) => {
+            logEvent('loaded', { name: collection.name, videos: collection.videos.length });
+            document.getElementById('carouselCard').style.display = 'block';
+            document.getElementById('controlsCard').style.display = 'block';
+            document.getElementById('collectionInfo').style.display = 'block';
+            document.getElementById('collectionName').textContent = collection.name || 'Untitled Collection';
+            document.getElementById('collectionDescription').textContent = collection.description || 'No description';
+            document.getElementById('videoCount').textContent = collection.videos.length;
+          });
+
+          carouselPlayer.on('slidechange', (data) => {
+            logEvent('slidechange', { index: data.index, videoId: data.video.videoId });
+          });
+
+          carouselPlayer.on('error', (error) => {
+            logEvent('error', error.message);
+            showError(error.message);
+          });
+
+          logEvent('init', 'Carousel initialized');
+        } catch (error) {
+          showError(error.message);
+          logEvent('error', error.message);
+        }
+      });
+
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        if (carouselPlayer) {
+          carouselPlayer.prev();
+          logEvent('action', 'prev()');
+        }
+      });
+
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        if (carouselPlayer) {
+          carouselPlayer.next();
+          logEvent('action', 'next()');
+        }
+      });
+
+      document.getElementById('goTo0Btn').addEventListener('click', () => {
+        if (carouselPlayer) {
+          carouselPlayer.go(0);
+          logEvent('action', 'go(0)');
+        }
+      });
+
+      document.getElementById('goTo1Btn').addEventListener('click', () => {
+        if (carouselPlayer) {
+          carouselPlayer.go(1);
+          logEvent('action', 'go(1)');
+        }
+      });
+
+      document.getElementById('goTo2Btn').addEventListener('click', () => {
+        if (carouselPlayer) {
+          carouselPlayer.go(2);
+          logEvent('action', 'go(2)');
+        }
+      });
+
+      document.getElementById('refreshBtn').addEventListener('click', () => {
+        if (carouselPlayer) {
+          carouselPlayer.refresh();
+          logEvent('action', 'refresh()');
+        }
+      });
+
+      document.getElementById('destroyBtn').addEventListener('click', () => {
+        if (carouselPlayer) {
+          carouselPlayer.destroy();
+          carouselPlayer = null;
+          document.getElementById('carousel-container').innerHTML = '';
+          document.getElementById('carouselCard').style.display = 'none';
+          document.getElementById('controlsCard').style.display = 'none';
+          logEvent('action', 'destroy()');
+        }
+      });
+
+      loadConfig();
+    </script>
+  </body>
+</html>

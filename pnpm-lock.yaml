@@ -10,6 +10,9 @@ overrides:
 importers:
   .:
     dependencies:
+      '@splidejs/splide':
+        specifier: ^4.1.4
+        version: 4.1.4
       hls.js:
         specifier: ^1.0.0
         version: 1.6.15
@@ -691,6 +694,9 @@ packages:
     resolution: { integrity: sha512-k+/Rkcyx//P6fetPoLMb8pBeqJBNGx81uuf7iljX9++yNBVRDQgD04L+SVXmXmh5ZP4/WOp4mWF0kmi06PW2tA== }
     cpu: [x64]
     os: [win32]
+
+  '@splidejs/splide@4.1.4':
+    resolution: { integrity: sha512-5I30evTJcAJQXt6vJ26g2xEkG+l1nXcpEw4xpKh0/FWQ8ozmAeTbtniVtVmz2sH1Es3vgfC4SS8B2X4o5JMptA== }
 
   '@standard-schema/spec@1.0.0':
     resolution: { integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA== }
@@ -2577,6 +2583,8 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.53.2':
     optional: true
+
+  '@splidejs/splide@4.1.4': {}
 
   '@standard-schema/spec@1.0.0': {}
 

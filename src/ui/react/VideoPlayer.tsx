@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
   registerJaaqComponents();
 }
 
-type VideoPlayerProps = Omit<PlayerConfig, 'controls'> & {
+type VideoPlayerProps = PlayerConfig & {
   onPlay?: () => void;
   onPause?: () => void;
   onError?: (_error: Error) => void;
@@ -39,9 +39,15 @@ function VideoPlayerComponent(
     client,
     baseUrl,
     autoplay = false,
+    controls = true,
     width = '100%',
     height = 'auto',
     className = '',
+    showLogo = true,
+    showTitle = true,
+    showAuthor = true,
+    showDescription = true,
+    showCaptions = true,
     onPlay,
     onPause,
     onError,
@@ -131,6 +137,12 @@ function VideoPlayerComponent(
         client-id={clientId}
         base-url={baseUrl}
         autoplay={autoplay ? 'true' : 'false'}
+        controls={controls ? 'true' : 'false'}
+        show-logo={showLogo ? 'true' : 'false'}
+        show-title={showTitle ? 'true' : 'false'}
+        show-author={showAuthor ? 'true' : 'false'}
+        show-description={showDescription ? 'true' : 'false'}
+        show-captions={showCaptions ? 'true' : 'false'}
         width="100%"
         height="auto"
       />

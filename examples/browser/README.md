@@ -177,6 +177,39 @@ window.addEventListener('message', (event) => {
 });
 ```
 
+### Collection Carousel Embed from CDN
+
+```html
+<iframe
+  src="https://cdn.jaaq.app/jaaq-sdk-js/latest/embed/embed-collection.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&collectionId=YOUR_COLLECTION_ID&autoplay=false"
+  width="100%"
+  height="600"
+  frameborder="0"
+  allow="autoplay"
+>
+</iframe>
+```
+
+**Control the carousel:**
+
+```javascript
+const iframe = document.querySelector('iframe');
+
+iframe.contentWindow.postMessage(
+  {
+    type: 'jaaq-collection-command',
+    command: 'next',
+  },
+  '*',
+);
+
+window.addEventListener('message', (event) => {
+  if (event.data?.type === 'jaaq-collection-event') {
+    console.log(event.data.event, event.data.data);
+  }
+});
+```
+
 ## UI Architecture
 
 The JAAQ SDK has a layered UI architecture:

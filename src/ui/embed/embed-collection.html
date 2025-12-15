@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JAAQ Embed Collection Player</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: #000;
+      }
+
+      #player-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      jaaq-collection-player {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      jaaq-collection-player::part(container) {
+        height: 100% !important;
+      }
+
+      .error-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background: #1a1a1a;
+        color: #fff;
+        padding: 20px;
+      }
+
+      .error-content {
+        text-align: center;
+        max-width: 400px;
+      }
+
+      .error-content h1 {
+        font-size: 18px;
+        margin-bottom: 12px;
+        color: #ff6b6b;
+      }
+
+      .error-content p {
+        font-size: 14px;
+        color: #ccc;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="player-container"></div>
+
+    <script>
+      function showError(message) {
+        console.error('[Embed Collection] Showing error:', message);
+        const container = document.getElementById('player-container');
+        if (!container) {
+          console.error('[Embed Collection] Container not found!');
+          return;
+        }
+        container.innerHTML = `
+          <div class="error-container">
+            <div class="error-content">
+              <h1>⚠️ Collection Player Error</h1>
+              <p>${message}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        const config = {};
+
+        const apiKey = params.get('apiKey');
+        const clientId = params.get('clientId');
+        const collectionId = params.get('collectionId');
+
+        if (!apiKey || !clientId || !collectionId) {
+          const missing = [];
+          if (!apiKey) missing.push('apiKey');
+          if (!clientId) missing.push('clientId');
+          if (!collectionId) missing.push('collectionId');
+          throw new Error(`Missing required parameters: ${missing.join(', ')}`);
+        }
+
+        config.apiKey = apiKey;
+        config.clientId = clientId;
+        config.collectionId = collectionId;
+
+        const autoplay = params.get('autoplay');
+        if (autoplay !== null) {
+          config.autoplay = autoplay === 'true' || autoplay === '1';
+        }
+
+        const baseUrl = params.get('baseUrl');
+        if (baseUrl) {
+          config.baseUrl = baseUrl;
+        }
+
+        return config;
+      }
+
+      function notifyParent(event, data) {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage(
+            {
+              type: 'jaaq-collection-event',
+              event: event,
+              data: data,
+            },
+            '*',
+          );
+        }
+      }
+
+      function initPlayer() {
+        try {
+          console.log('[Embed Collection] Initializing player...');
+          const config = getQueryParams();
+          console.log('[Embed Collection] Config:', config);
+          const container = document.getElementById('player-container');
+
+          const player = document.createElement('jaaq-collection-player');
+          console.log('[Embed Collection] Created web component:', player);
+          player.setAttribute('collection-id', config.collectionId);
+          player.setAttribute('api-key', config.apiKey);
+          player.setAttribute('client-id', config.clientId);
+
+          if (config.baseUrl) {
+            player.setAttribute('base-url', config.baseUrl);
+          }
+
+          if (config.autoplay) {
+            player.setAttribute('autoplay', 'true');
+          }
+
+          player.style.width = '100%';
+          player.style.height = '100%';
+          player.style.display = 'block';
+
+          setTimeout(() => {
+            if (player.shadowRoot) {
+              const container = player.shadowRoot.querySelector('.jaaq-collection-player');
+              if (container) {
+                container.style.height = '100%';
+                container.style.display = 'flex';
+                container.style.flexDirection = 'column';
+              }
+            }
+          }, 100);
+
+          player.addEventListener('jaaq:collection:loaded', (e) => {
+            const collection = e.detail;
+            notifyParent('loaded', {
+              collection: {
+                id: collection.id,
+                name: collection.name,
+                description: collection.description,
+              },
+              videoCount: collection.videos?.length || 0,
+            });
+          });
+
+          player.addEventListener('jaaq:collection:slidechange', (e) => {
+            const { index, video } = e.detail;
+            notifyParent('slidechange', {
+              index,
+              video: video
+                ? {
+                    id: video.videoId,
+                    title: video.title,
+                    question: video.question,
+                  }
+                : null,
+            });
+          });
+
+          player.addEventListener('jaaq:collection:error', (e) => {
+            console.error('[Embed Collection] Player error event:', e.detail);
+            showError(e.detail?.message || 'Unknown collection error');
+            notifyParent('error', { message: e.detail?.message || 'Unknown error' });
+          });
+
+          window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'jaaq-collection-command') {
+              const { command, args } = event.data;
+
+              switch (command) {
+                case 'next':
+                  player.next();
+                  break;
+                case 'prev':
+                  player.prev();
+                  break;
+                case 'goToSlide':
+                  if (args && typeof args.index === 'number') {
+                    player.go(args.index);
+                  }
+                  break;
+                case 'refresh':
+                  player.refresh();
+                  break;
+                case 'getCollection':
+                  const collectionData = player.getCollection();
+                  notifyParent('collection-data', { collection: collectionData });
+                  break;
+              }
+            }
+          });
+
+          container.appendChild(player);
+          console.log('[Embed Collection] Player appended to container');
+          notifyParent('ready', null);
+        } catch (error) {
+          console.error('[Embed Collection] Initialization error:', error);
+          showError(error.message);
+          notifyParent('error', { message: error.message });
+        }
+      }
+
+      function waitForComponent() {
+        if (customElements.get('jaaq-collection-player')) {
+          console.log('[Embed Collection] Web component already registered');
+          initPlayer();
+        } else {
+          console.log('[Embed Collection] Waiting for web component registration...');
+
+          if (typeof JaaqWebComponents !== 'undefined' && JaaqWebComponents.registerJaaqComponents) {
+            console.log('[Embed Collection] Manually registering components...');
+            JaaqWebComponents.registerJaaqComponents();
+            initPlayer();
+          } else {
+            customElements.whenDefined('jaaq-collection-player').then(() => {
+              console.log('[Embed Collection] Web component registered');
+              initPlayer();
+            });
+          }
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', waitForComponent);
+      } else {
+        waitForComponent();
+      }
+    </script>
+
+    <script
+      src="__JAAQ_CDN_URL__/jaaq-webcomponents-bundled.min.js"
+      onerror="console.error('[Embed Collection] Failed to load web component script'); showError('Failed to load collection player script');"
+      onload="console.log('[Embed Collection] Web component script loaded');"
+    ></script>
+  </body>
+</html>

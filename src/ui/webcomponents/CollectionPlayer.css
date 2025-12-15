@@ -1,11 +1,3 @@
-.jaaq-vanilla-player {
-  user-select: none;
-}
-
-.jaaq-vanilla-player video {
-  outline: none;
-}
-
 .jaaq-collection-player {
   width: 100%;
   max-width: 1400px;
@@ -118,7 +110,7 @@
 }
 
 .jaaq-collection-carousel .splide__pagination__page.is-active {
-  background: #007bff;
+  background: white;
   transform: scale(1.3);
 }
 
