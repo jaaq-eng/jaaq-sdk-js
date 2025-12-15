@@ -42,7 +42,21 @@ export class JaaqVideoPlayerElement extends HTMLElement {
   private connected = false;
 
   static get observedAttributes() {
-    return ['video-id', 'api-key', 'client-id', 'autoplay', 'base-url', 'width', 'height'];
+    return [
+      'video-id',
+      'api-key',
+      'client-id',
+      'autoplay',
+      'base-url',
+      'width',
+      'height',
+      'controls',
+      'show-logo',
+      'show-title',
+      'show-author',
+      'show-description',
+      'show-captions',
+    ];
   }
 
   constructor() {
@@ -69,6 +83,31 @@ export class JaaqVideoPlayerElement extends HTMLElement {
       this.initPlayer();
     } else if (name === 'width' || name === 'height') {
       this.updateContainerStyles();
+    } else if (
+      name === 'controls' ||
+      name === 'show-logo' ||
+      name === 'show-title' ||
+      name === 'show-author' ||
+      name === 'show-description' ||
+      name === 'show-captions'
+    ) {
+      if (this.player) {
+        const features: any = {};
+        if (name === 'controls') {
+          features.controls = !this.hasAttribute('controls') || this.getAttribute('controls') !== 'false';
+        } else if (name === 'show-logo') {
+          features.showLogo = !this.hasAttribute('show-logo') || this.getAttribute('show-logo') !== 'false';
+        } else if (name === 'show-title') {
+          features.showTitle = !this.hasAttribute('show-title') || this.getAttribute('show-title') !== 'false';
+        } else if (name === 'show-author') {
+          features.showAuthor = !this.hasAttribute('show-author') || this.getAttribute('show-author') !== 'false';
+        } else if (name === 'show-description') {
+          features.showDescription = !this.hasAttribute('show-description') || this.getAttribute('show-description') !== 'false';
+        } else if (name === 'show-captions') {
+          features.showCaptions = !this.hasAttribute('show-captions') || this.getAttribute('show-captions') !== 'false';
+        }
+        this.player.setFeatures(features);
+      }
     }
   }
 
@@ -114,6 +153,13 @@ export class JaaqVideoPlayerElement extends HTMLElement {
     const clientId = this.getAttribute('client-id');
     const baseUrl = this.getAttribute('base-url') || undefined;
     const autoplay = this.hasAttribute('autoplay') && this.getAttribute('autoplay') !== 'false';
+    const controls = !this.hasAttribute('controls') || this.getAttribute('controls') !== 'false';
+
+    const showLogo = !this.hasAttribute('show-logo') || this.getAttribute('show-logo') !== 'false';
+    const showTitle = !this.hasAttribute('show-title') || this.getAttribute('show-title') !== 'false';
+    const showAuthor = !this.hasAttribute('show-author') || this.getAttribute('show-author') !== 'false';
+    const showDescription = !this.hasAttribute('show-description') || this.getAttribute('show-description') !== 'false';
+    const showCaptions = !this.hasAttribute('show-captions') || this.getAttribute('show-captions') !== 'false';
 
     if (!this.clientInstance && !apiKey && !clientId) {
       this.emitError(new Error('Either client property or api-key and client-id attributes are required'));
@@ -128,6 +174,12 @@ export class JaaqVideoPlayerElement extends HTMLElement {
         client: this.clientInstance || undefined,
         baseUrl,
         autoplay,
+        controls,
+        showLogo,
+        showTitle,
+        showAuthor,
+        showDescription,
+        showCaptions,
       });
 
       this.attachPlayerEvents();
@@ -316,37 +368,5 @@ export class JaaqVideoPlayerElement extends HTMLElement {
    */
   destroy(): void {
     this.destroyPlayer();
-  }
-}
-
-declare global {
-  // eslint-disable-next-line no-unused-vars
-  interface HTMLElementTagNameMap {
-    'jaaq-video-player': JaaqVideoPlayerElement;
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  namespace JSX {
-    // eslint-disable-next-line no-unused-vars
-    interface IntrinsicElements {
-      'jaaq-video-player': Partial<JaaqVideoPlayerElement> & {
-        'video-id'?: string;
-        'api-key'?: string;
-        'client-id'?: string;
-        'base-url'?: string;
-        autoplay?: boolean | string;
-        width?: string;
-        height?: string;
-        ref?: ((_instance: JaaqVideoPlayerElement | null) => void) | { current: JaaqVideoPlayerElement | null } | null;
-        'onjaaq:loaded'?: (_event: CustomEvent) => void;
-        'onjaaq:play'?: (_event: CustomEvent) => void;
-        'onjaaq:pause'?: (_event: CustomEvent) => void;
-        'onjaaq:timeupdate'?: (_event: CustomEvent) => void;
-        'onjaaq:volumechange'?: (_event: CustomEvent) => void;
-        'onjaaq:ended'?: (_event: CustomEvent) => void;
-        'onjaaq:error'?: (_event: CustomEvent) => void;
-        'onjaaq:fullscreenchange'?: (_event: CustomEvent) => void;
-      };
-    }
   }
 }

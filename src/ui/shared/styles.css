@@ -1,25 +1,31 @@
 .jaaq-video-player {
   position: relative;
   width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   background: #000;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  aspect-ratio: 9 / 16;
 }
 
 .jaaq-video-player video {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   background: #000;
+  object-fit: cover;
 }
 
 .jaaq-video-player.fullscreen {
   max-width: 100%;
   border-radius: 0;
+  aspect-ratio: auto;
 }
 
 .jaaq-controls {
@@ -29,22 +35,18 @@
   right: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
   padding: 40px 16px 16px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.jaaq-video-player:hover .jaaq-controls,
-.jaaq-video-player.is-paused .jaaq-controls {
   opacity: 1;
+  z-index: 5;
 }
 
 .jaaq-progress-bar {
   width: 100%;
+  flex: 1 1 0;
+  min-width: 80px;
   height: 4px;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 2px;
   cursor: pointer;
-  margin-bottom: 12px;
   position: relative;
 }
 
@@ -63,6 +65,7 @@
 .jaaq-controls-bottom {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   color: white;
 }
@@ -90,52 +93,6 @@
   cursor: not-allowed;
 }
 
-.jaaq-time {
-  font-size: 13px;
-  color: white;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.jaaq-volume-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.jaaq-volume-slider {
-  width: 60px;
-  height: 4px;
-  -webkit-appearance: none;
-  appearance: none;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
-  outline: none;
-  cursor: pointer;
-}
-
-.jaaq-volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 12px;
-  height: 12px;
-  background: #007bff;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.jaaq-volume-slider::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  background: #007bff;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-}
-
-.jaaq-spacer {
-  flex: 1;
-}
 
 .jaaq-loading {
   position: absolute;
@@ -192,4 +149,142 @@
 
 .jaaq-video-info strong {
   color: #333;
+}
+
+.jaaq-logo {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  z-index: 10;
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+
+.jaaq-center-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 84px;
+  height: 84px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  padding: 0;
+}
+
+.jaaq-center-play-btn:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.jaaq-center-play-btn svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.jaaq-video-player.is-playing .jaaq-center-play-btn {
+  display: none;
+}
+
+.jaaq-gradient-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, transparent 0%, #0f0f0f 100%);
+  padding: 80px 22px 85px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.jaaq-caption-display {
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: white;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 8px 16px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  text-align: center;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.jaaq-video-title {
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 18.695px;
+  line-height: 21.5px;
+  color: white;
+  margin-bottom: 8px;
+  letter-spacing: 0.37px;
+}
+
+.jaaq-video-author {
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 14.021px;
+  line-height: 16.825px;
+  color: white;
+  opacity: 0.7;
+  margin-bottom: 8px;
+  letter-spacing: -0.14px;
+}
+
+.jaaq-video-description {
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 16px;
+  color: #aaa8aa;
+  letter-spacing: -0.11px;
+}
+
+.jaaq-description-text {
+  color: #aaa8aa;
+}
+
+.jaaq-read-more {
+  color: white;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.jaaq-read-more:hover {
+  text-decoration: underline;
+}
+
+.jaaq-progress-bar {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.jaaq-progress-filled {
+  background: white;
+}
+
+.jaaq-captions-btn {
+  font-size: 14px;
+  font-weight: 600;
+  border: 1.5px solid white;
+  border-radius: 3px;
+  padding: 4px 6px;
+  line-height: 1;
+}
+
+.jaaq-captions-btn.active {
+  background: white;
+  color: #000;
 }

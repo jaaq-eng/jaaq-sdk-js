@@ -1,9 +1,13 @@
 import { JaaqVideoPlayerElement } from './VideoPlayer';
+import { JaaqCollectionPlayerElement } from './CollectionPlayer';
 
-const COMPONENT_TAG = 'jaaq-video-player';
+const COMPONENT_TAGS = {
+  VIDEO_PLAYER: 'jaaq-video-player',
+  COLLECTION_PLAYER: 'jaaq-collection-player',
+};
 
 /**
- * Registers the <jaaq-video-player> custom element
+ * Registers JAAQ custom elements (<jaaq-video-player> and <jaaq-collection-player>)
  * Safe to call multiple times - only registers if not already registered
  *
  * @example
@@ -16,8 +20,12 @@ export function registerJaaqComponents(): void {
     return;
   }
 
-  if (!customElements.get(COMPONENT_TAG)) {
-    customElements.define(COMPONENT_TAG, JaaqVideoPlayerElement);
+  if (!customElements.get(COMPONENT_TAGS.VIDEO_PLAYER)) {
+    customElements.define(COMPONENT_TAGS.VIDEO_PLAYER, JaaqVideoPlayerElement);
+  }
+
+  if (!customElements.get(COMPONENT_TAGS.COLLECTION_PLAYER)) {
+    customElements.define(COMPONENT_TAGS.COLLECTION_PLAYER, JaaqCollectionPlayerElement);
   }
 }
 
@@ -29,7 +37,7 @@ export function isRegistered(): boolean {
   if (typeof window === 'undefined' || typeof customElements === 'undefined') {
     return false;
   }
-  return !!customElements.get(COMPONENT_TAG);
+  return !!customElements.get(COMPONENT_TAGS.VIDEO_PLAYER) && !!customElements.get(COMPONENT_TAGS.COLLECTION_PLAYER);
 }
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {

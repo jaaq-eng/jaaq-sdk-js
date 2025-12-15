@@ -17,7 +17,7 @@ export type PlayerConfig = {
   baseUrl?: string;
   /** Whether to automatically start playback when video loads */
   autoplay?: boolean;
-  /** Whether to show player controls (not used in current implementation) */
+  /** Whether to show player controls */
   controls?: boolean;
   /** CSS width of the player container */
   width?: string;
@@ -25,6 +25,16 @@ export type PlayerConfig = {
   height?: string;
   /** Additional CSS class name(s) to apply to the player */
   className?: string;
+  /** Whether to show the JAAQ logo */
+  showLogo?: boolean;
+  /** Whether to show the video title */
+  showTitle?: boolean;
+  /** Whether to show the author name */
+  showAuthor?: boolean;
+  /** Whether to show the description */
+  showDescription?: boolean;
+  /** Whether to show captions button */
+  showCaptions?: boolean;
 };
 
 /**
@@ -49,6 +59,8 @@ export type PlayerState = {
   error: string | null;
   /** Loaded video data, null if not yet loaded */
   videoData: VideoDTO | null;
+  /** Whether captions are currently enabled */
+  captionsEnabled: boolean;
 };
 
 /**

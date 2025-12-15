@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JAAQ SDK - Collection Carousel Example</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: #f5f5f5;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .card h2 {
+        margin-bottom: 16px;
+        color: #333;
+      }
+
+      .info {
+        background: #e7f3ff;
+        padding: 16px;
+        border-radius: 8px;
+        border-left: 4px solid #007bff;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #004085;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+
+      button {
+        padding: 12px 24px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      button.secondary {
+        background: #6c757d;
+      }
+
+      button.secondary:hover {
+        background: #545b62;
+      }
+
+      #carousel-container {
+        margin-top: 20px;
+      }
+
+      .controls-demo {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .collection-info {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        margin-top: 16px;
+      }
+
+      .collection-info h3 {
+        margin: 0 0 8px 0;
+        color: #333;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .collection-info p {
+        margin: 4px 0;
+        color: #666;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JAAQ SDK - Collection Carousel</h1>
+        <p>Video collection carousel with Splide.js integration</p>
+      </div>
+
+      <div class="info">
+        <strong>Features:</strong> This example demonstrates a responsive video carousel that fetches collections and displays videos with a
+        center-focused layout. The center video is larger, and the carousel adapts to different screen sizes (3 videos on desktop, 2 on
+        tablet, 1 on mobile).
+      </div>
+
+      <div class="card">
+        <h2>CDN Usage</h2>
+        <p style="margin-bottom: 16px; color: #666">Use this snippet to load the collection player from CDN:</p>
+        <pre style="background: #f8f9fa; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; border: 1px solid #dee2e6">
+&lt;script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/webcomponents/jaaq-webcomponents-bundled.min.js"&gt;&lt;/script&gt;
+
+&lt;jaaq-collection-player 
+  collection-id="your-collection-id" 
+  api-key="your-api-key" 
+  client-id="your-client-id"&gt;
+&lt;/jaaq-collection-player&gt;
+</pre
+        >
+      </div>
+
+      <div class="card">
+        <h2>Configuration</h2>
+        <div class="form-group">
+          <label for="apiKey">API Key</label>
+          <input type="text" id="apiKey" placeholder="Enter your API key" value="" />
+        </div>
+        <div class="form-group">
+          <label for="clientId">Client ID</label>
+          <input type="text" id="clientId" placeholder="Enter your client ID" value="" />
+        </div>
+        <div class="form-group">
+          <label for="collectionId">Collection ID</label>
+          <input type="text" id="collectionId" placeholder="Enter collection ID" value="" />
+        </div>
+        <div class="form-group">
+          <label for="subscriptionId">Subscription ID (optional)</label>
+          <input type="text" id="subscriptionId" placeholder="Enter subscription ID (optional)" value="" />
+        </div>
+        <button id="loadBtn">Load Collection Carousel</button>
+      </div>
+
+      <div id="carousel-container"></div>
+
+      <div class="card" id="controlsCard" style="display: none">
+        <h2>Carousel Controls (Programmatic API)</h2>
+        <div class="controls-demo">
+          <button id="nextBtn">Next Slide</button>
+          <button id="prevBtn">Previous Slide</button>
+          <button id="goToBtn">Go to Slide 0</button>
+          <button class="secondary" id="refreshBtn">Refresh</button>
+        </div>
+        <div class="collection-info" id="collectionInfo" style="display: none">
+          <h3 id="collectionName"></h3>
+          <p id="collectionDescription"></p>
+          <p><strong>Videos:</strong> <span id="videoCount"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../dist/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
+    <script>
+      let carouselElement = null;
+
+      document.getElementById('loadBtn').addEventListener('click', () => {
+        console.log('Load button clicked');
+        console.log('Components registered?', customElements.get('jaaq-collection-player'));
+
+        const apiKey = document.getElementById('apiKey').value;
+        const clientId = document.getElementById('clientId').value;
+        const collectionId = document.getElementById('collectionId').value;
+        const subscriptionId = document.getElementById('subscriptionId').value;
+
+        if (!apiKey || !clientId || !collectionId) {
+          alert('Please fill in API Key, Client ID, and Collection ID');
+          return;
+        }
+
+        if (carouselElement) {
+          carouselElement.destroy();
+          carouselElement.remove();
+        }
+
+        const container = document.getElementById('carousel-container');
+        container.innerHTML = '';
+
+        carouselElement = document.createElement('jaaq-collection-player');
+        carouselElement.setAttribute('collection-id', collectionId);
+        carouselElement.setAttribute('api-key', apiKey);
+        carouselElement.setAttribute('client-id', clientId);
+        if (subscriptionId) {
+          carouselElement.setAttribute('subscription-id', subscriptionId);
+        }
+
+        carouselElement.addEventListener('jaaq:collection:loaded', (e) => {
+          console.log('Collection loaded:', e.detail);
+          const collection = e.detail;
+
+          document.getElementById('controlsCard').style.display = 'block';
+          document.getElementById('collectionInfo').style.display = 'block';
+          document.getElementById('collectionName').textContent = collection.name || 'Untitled Collection';
+          document.getElementById('collectionDescription').textContent = collection.description || 'No description';
+          document.getElementById('videoCount').textContent = collection.videos.length;
+        });
+
+        carouselElement.addEventListener('jaaq:collection:slidechange', (e) => {
+          console.log('Slide changed:', e.detail);
+        });
+
+        carouselElement.addEventListener('jaaq:collection:error', (e) => {
+          console.error('Error:', e.detail);
+          alert('Error: ' + e.detail.message);
+        });
+
+        container.appendChild(carouselElement);
+      });
+
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        carouselElement?.next();
+      });
+
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        carouselElement?.prev();
+      });
+
+      document.getElementById('goToBtn').addEventListener('click', () => {
+        carouselElement?.go(0);
+      });
+
+      document.getElementById('refreshBtn').addEventListener('click', () => {
+        carouselElement?.refresh();
+      });
+    </script>
+  </body>
+</html>
+

@@ -50,6 +50,7 @@ function cssAutoInject() {
                 }
               }
             })();
+            export default ${JSON.stringify(css)};
           `,
           map: null,
         };
@@ -86,26 +87,29 @@ function buildEmbed() {
         return;
       }
 
-      const templatePath = join(__dirname, 'src/ui/embed/embed.html');
+      const embedFiles = ['embed.html', 'embed-collection.html'];
       const outputDir = join(__dirname, 'dist/embed');
-      const outputPath = join(outputDir, 'embed.html');
-
-      if (!existsSync(templatePath)) {
-        console.error(`Template file not found: ${templatePath}`);
-        return;
-      }
-
-      let template = readFileSync(templatePath, 'utf8');
-
       const cdnUrl = `${cdnBaseUrl}/jaaq-sdk-js/latest`;
-      template = template.replace(/__JAAQ_CDN_URL__/g, cdnUrl);
 
       if (!existsSync(outputDir)) {
         mkdirSync(outputDir, { recursive: true });
       }
 
-      writeFileSync(outputPath, template, 'utf8');
-      console.log(`✓ Embed HTML written to: ${outputPath} (CDN: ${cdnUrl})`);
+      embedFiles.forEach((fileName) => {
+        const templatePath = join(__dirname, 'src/ui/embed', fileName);
+        const outputPath = join(outputDir, fileName);
+
+        if (!existsSync(templatePath)) {
+          console.error(`Template file not found: ${templatePath}`);
+          return;
+        }
+
+        let template = readFileSync(templatePath, 'utf8');
+        template = template.replace(/__JAAQ_CDN_URL__/g, cdnUrl);
+
+        writeFileSync(outputPath, template, 'utf8');
+        console.log(`✓ Embed HTML written to: ${outputPath} (CDN: ${cdnUrl})`);
+      });
     },
   };
 }
@@ -358,6 +362,79 @@ export default defineConfig([
     external: ['hls.js', /\.css$/],
     output: {
       file: 'dist/ui/webcomponents/index.d.ts',
+      format: 'es',
+    },
+    plugins: [tsConfigPathsPlugin, dts()],
+  },
+  {
+    input: 'src/ui/vanilla/index.ts',
+    external: ['hls.js'],
+    output: [
+      {
+        file: 'dist/ui/vanilla/index.mjs',
+        format: 'esm',
+        sourcemap: true,
+      },
+      {
+        file: 'dist/ui/vanilla/index.cjs',
+        format: 'cjs',
+        sourcemap: true,
+      },
+    ],
+    plugins: [
+      tsConfigPathsPlugin,
+      cssAutoInject(),
+      typescript({ tsconfig: './tsconfig.json', declaration: false, exclude: ['tests', '**/*.test.ts', 'src/ui/react/**/*'] }),
+      resolve({ browser: true, preferBuiltins: false, extensions: ['.ts', '.js', '.css'] }),
+      replacePlugin,
+      commonjs(),
+    ],
+  },
+  {
+    input: 'src/ui/vanilla/index.ts',
+    external: ['hls.js'],
+    output: {
+      file: 'dist/ui/vanilla/jaaq-vanilla.min.js',
+      format: 'umd',
+      name: 'JaaqVanilla',
+      sourcemap: true,
+      globals: {
+        'hls.js': 'Hls',
+      },
+    },
+    plugins: [
+      tsConfigPathsPlugin,
+      cssAutoInject(),
+      typescript({ tsconfig: './tsconfig.json', declaration: false, exclude: ['tests', '**/*.test.ts', 'src/ui/react/**/*'] }),
+      resolve({ browser: true, preferBuiltins: false, extensions: ['.ts', '.js', '.css'] }),
+      replacePlugin,
+      commonjs(),
+      terser(),
+    ],
+  },
+  {
+    input: 'src/ui/vanilla/index.ts',
+    output: {
+      file: 'dist/ui/vanilla/jaaq-vanilla-bundled.min.js',
+      format: 'umd',
+      name: 'JaaqVanilla',
+      sourcemap: true,
+    },
+    plugins: [
+      tsConfigPathsPlugin,
+      cssAutoInject(),
+      typescript({ tsconfig: './tsconfig.json', declaration: false, exclude: ['tests', '**/*.test.ts', 'src/ui/react/**/*'] }),
+      resolve({ browser: true, preferBuiltins: false, extensions: ['.ts', '.js', '.css'] }),
+      replacePlugin,
+      commonjs(),
+      terser(),
+    ],
+  },
+  {
+    input: 'src/ui/vanilla/index.ts',
+    external: ['hls.js', /\.css$/],
+    output: {
+      file: 'dist/ui/vanilla/index.d.ts',
       format: 'es',
     },
     plugins: [tsConfigPathsPlugin, dts()],
