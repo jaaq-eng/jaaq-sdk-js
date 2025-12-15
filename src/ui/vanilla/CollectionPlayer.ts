@@ -12,6 +12,8 @@ type CollectionPlayerConfig = {
   clientId?: string;
   baseUrl?: string;
   autoplay?: boolean;
+  showArrows?: boolean;
+  showDots?: boolean;
   className?: string;
 };
 
@@ -41,7 +43,7 @@ export class JaaqCollectionPlayer {
       throw new Error('Container element not found');
     }
 
-    this.config = { autoplay: false, ...config };
+    this.config = { autoplay: false, showArrows: true, showDots: true, ...config };
 
     if (config.client) {
       this.client = config.client;
@@ -172,8 +174,8 @@ export class JaaqCollectionPlayer {
           perPage: 2,
         },
       },
-      arrows: true,
-      pagination: true,
+      arrows: this.config.showArrows !== false,
+      pagination: this.config.showDots !== false,
       autoplay: false,
     });
 

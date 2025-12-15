@@ -26,7 +26,7 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
   private autoplayTimeoutId: number | null = null;
 
   static get observedAttributes() {
-    return ['collection-id', 'api-key', 'client-id', 'subscription-id', 'base-url', 'autoplay'];
+    return ['collection-id', 'api-key', 'client-id', 'subscription-id', 'base-url', 'autoplay', 'show-arrows', 'show-dots'];
   }
 
   constructor() {
@@ -52,6 +52,17 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
       this.destroyCarousel();
       this.initCarousel();
     }
+
+    if (name === 'show-arrows' || name === 'show-dots') {
+      this.destroyCarousel();
+      this.initCarousel();
+    }
+  }
+
+  private getBooleanAttr(name: string, defaultValue: boolean): boolean {
+    const v = this.getAttribute(name);
+    if (v === null) return defaultValue;
+    return v !== 'false';
   }
 
   private render() {
@@ -174,6 +185,9 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
   private initSplide() {
     if (!this.carouselElement) return;
 
+    const showArrows = this.getBooleanAttr('show-arrows', true);
+    const showDots = this.getBooleanAttr('show-dots', true);
+
     this.splide = new Splide(this.carouselElement, {
       type: 'loop',
       perPage: 3,
@@ -191,8 +205,8 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
           perPage: 2,
         },
       },
-      arrows: true,
-      pagination: true,
+      arrows: showArrows,
+      pagination: showDots,
       autoplay: false,
     });
 

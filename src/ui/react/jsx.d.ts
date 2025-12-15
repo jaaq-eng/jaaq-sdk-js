@@ -27,6 +27,8 @@ type JaaqCollectionPlayerAttributes = Partial<JaaqCollectionPlayerElement> & {
   'subscription-id'?: string;
   'base-url'?: string;
   autoplay?: boolean | string;
+  'show-arrows'?: boolean | string;
+  'show-dots'?: boolean | string;
 };
 
 declare module 'react' {
