@@ -120,6 +120,15 @@ jobs:
           aws s3 cp dist/embed/embed.html s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/embed.html
           aws s3 cp dist/embed/embed.html s3://$S3_BUCKET/jaaq-sdk-js/latest/embed.html
 
+          aws s3 cp dist/embed/embed-collection.html s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/embed-collection.html
+          aws s3 cp dist/embed/embed-collection.html s3://$S3_BUCKET/jaaq-sdk-js/latest/embed-collection.html
+
+          aws s3 cp dist/embed/embed.html s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/embed/embed.html
+          aws s3 cp dist/embed/embed.html s3://$S3_BUCKET/jaaq-sdk-js/latest/embed/embed.html
+
+          aws s3 cp dist/embed/embed-collection.html s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/embed/embed-collection.html
+          aws s3 cp dist/embed/embed-collection.html s3://$S3_BUCKET/jaaq-sdk-js/latest/embed/embed-collection.html
+
       - name: Invalidate CloudFront cache
         env:
           CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
