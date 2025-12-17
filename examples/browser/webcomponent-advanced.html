@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JAAQ SDK - Web Component Advanced Example</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: #f5f5f5;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .card h2 {
+        margin-bottom: 16px;
+        color: #333;
+      }
+
+      .info {
+        background: #e7f3ff;
+        padding: 16px;
+        border-radius: 8px;
+        border-left: 4px solid #007bff;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #004085;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+
+      button {
+        padding: 12px 24px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      button.secondary {
+        background: #6c757d;
+      }
+
+      button.secondary:hover {
+        background: #545b62;
+      }
+
+      #player-container {
+        margin-top: 20px;
+      }
+
+      .controls-demo {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .state-display {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        margin-top: 16px;
+      }
+
+      .state-display pre {
+        margin: 0;
+        color: #212529;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>JAAQ SDK - Web Component Advanced</h1>
+        <p>Programmatic control and state management</p>
+      </div>
+
+      <div class="info">
+        <strong>Advanced Features:</strong> This example demonstrates programmatic control of the web component, including property setters,
+        method calls, and state inspection. Components are auto-registered on import.
+      </div>
+
+      <div class="card">
+        <h2>CDN Usage</h2>
+        <p style="margin-bottom: 16px; color: #666">Use this snippet to load the player from CDN without building:</p>
+        <pre style="background: #f8f9fa; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; border: 1px solid #dee2e6">
+&lt;script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/webcomponents/jaaq-webcomponents-bundled.min.js"&gt;&lt;/script&gt;
+
+&lt;jaaq-video-player 
+  video-id="your-video-id" 
+  api-key="your-api-key" 
+  client-id="your-client-id"&gt;
+&lt;/jaaq-video-player&gt;
+</pre
+        >
+      </div>
+
+      <div class="card">
+        <h2>Configuration</h2>
+        <div class="form-group">
+          <label for="apiKey">API Key</label>
+          <input type="text" id="apiKey" placeholder="Enter your API key" value="" />
+        </div>
+        <div class="form-group">
+          <label for="clientId">Client ID</label>
+          <input type="text" id="clientId" placeholder="Enter your client ID" value="" />
+        </div>
+        <div class="form-group">
+          <label for="videoId">Video ID</label>
+          <input type="text" id="videoId" placeholder="Enter video ID" value="" />
+        </div>
+        <button id="loadBtn">Load Video</button>
+      </div>
+
+      <div id="player-container"></div>
+
+      <div class="card" id="controlsCard" style="display: none">
+        <h2>Player Controls (Programmatic API)</h2>
+        <div class="controls-demo">
+          <button id="playBtn">Play</button>
+          <button id="pauseBtn">Pause</button>
+          <button id="muteBtn">Toggle Mute</button>
+          <button id="seekBtn">Seek to 10s</button>
+          <button id="volumeBtn">Set Volume 50%</button>
+          <button class="secondary" id="stateBtn">Get State</button>
+        </div>
+        <div class="state-display" id="stateDisplay" style="display: none">
+          <strong>Player State:</strong>
+          <pre id="stateContent"></pre>
+        </div>
+      </div>
+
+      <div class="card" id="dynamicCard" style="display: none">
+        <h2>Dynamic Property Changes</h2>
+        <div class="form-group">
+          <label for="newVideoId">Change Video ID</label>
+          <input type="text" id="newVideoId" placeholder="Enter new video ID" />
+        </div>
+        <button id="changeVideoBtn">Change Video</button>
+      </div>
+    </div>
+
+    <script src="../../dist/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
+    <script>
+      let playerElement = null;
+
+      document.getElementById('loadBtn').addEventListener('click', () => {
+        console.log('Load button clicked');
+        console.log('Component registered?', customElements.get('jaaq-video-player'));
+        const apiKey = document.getElementById('apiKey').value;
+        const clientId = document.getElementById('clientId').value;
+        const videoId = document.getElementById('videoId').value;
+
+        if (!apiKey || !clientId || !videoId) {
+          alert('Please fill in all fields');
+          return;
+        }
+
+        if (playerElement) {
+          playerElement.destroy();
+          playerElement.remove();
+        }
+
+        const container = document.getElementById('player-container');
+        container.innerHTML = '';
+
+        playerElement = document.createElement('jaaq-video-player');
+        playerElement.setAttribute('video-id', videoId);
+        playerElement.setAttribute('api-key', apiKey);
+        playerElement.setAttribute('client-id', clientId);
+        playerElement.setAttribute('width', '100%');
+
+        playerElement.addEventListener('jaaq:loaded', (e) => {
+          console.log('Video loaded:', e.detail);
+          document.getElementById('controlsCard').style.display = 'block';
+          document.getElementById('dynamicCard').style.display = 'block';
+        });
+
+        playerElement.addEventListener('jaaq:play', () => {
+          console.log('Playing');
+        });
+
+        playerElement.addEventListener('jaaq:pause', () => {
+          console.log('Paused');
+        });
+
+        playerElement.addEventListener('jaaq:error', (e) => {
+          console.error('Error:', e.detail);
+          alert('Error: ' + e.detail.message);
+        });
+
+        container.appendChild(playerElement);
+      });
+
+      document.getElementById('playBtn').addEventListener('click', () => {
+        playerElement?.play();
+      });
+
+      document.getElementById('pauseBtn').addEventListener('click', () => {
+        playerElement?.pause();
+      });
+
+      document.getElementById('muteBtn').addEventListener('click', () => {
+        playerElement?.toggleMute();
+      });
+
+      document.getElementById('seekBtn').addEventListener('click', () => {
+        playerElement?.seek(10);
+      });
+
+      document.getElementById('volumeBtn').addEventListener('click', () => {
+        playerElement?.setVolume(0.5);
+      });
+
+      document.getElementById('stateBtn').addEventListener('click', () => {
+        if (playerElement) {
+          const state = playerElement.getState();
+          document.getElementById('stateDisplay').style.display = 'block';
+          document.getElementById('stateContent').textContent = JSON.stringify(state, null, 2);
+        }
+      });
+
+      document.getElementById('changeVideoBtn').addEventListener('click', () => {
+        const newVideoId = document.getElementById('newVideoId').value;
+        if (newVideoId && playerElement) {
+          playerElement.videoId = newVideoId;
+          console.log('Changed video ID to:', newVideoId);
+        } else {
+          alert('Please enter a new video ID');
+        }
+      });
+    </script>
+  </body>
+</html>

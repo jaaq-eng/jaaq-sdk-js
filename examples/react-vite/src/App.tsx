@@ -3,9 +3,23 @@ import CollectionsList from './components/CollectionsList';
 import VideoPlayer from './components/VideoPlayer';
 import HLSPlayer from './components/HLSPlayer';
 import VideoGallery from './components/VideoGallery';
+import UIPlayerExample from './components/UIPlayerExample';
+import WebComponentExample from './components/WebComponentExample';
+import CollectionCarousel from './components/CollectionCarousel';
+import CollectionCarouselToggles from './components/CollectionCarouselToggles';
+import UIPlayerFeatureToggles from './components/UIPlayerFeatureToggles';
 import './App.css';
 
-type DemoType = 'collections' | 'video' | 'hls' | 'gallery';
+type DemoType =
+  | 'collections'
+  | 'video'
+  | 'hls'
+  | 'gallery'
+  | 'ui-player'
+  | 'web-component'
+  | 'collection-carousel'
+  | 'collection-carousel-toggles'
+  | 'feature-toggles';
 
 function App() {
   const [activeDemo, setActiveDemo] = useState<DemoType>('collections');
@@ -25,6 +39,29 @@ function App() {
         <button className={activeDemo === 'gallery' ? 'active' : ''} onClick={() => setActiveDemo('gallery')}>
           Video Gallery
         </button>
+
+        <button className={activeDemo === 'collection-carousel' ? 'active' : ''} onClick={() => setActiveDemo('collection-carousel')}>
+          Collection Carousel
+        </button>
+
+        <button
+          className={activeDemo === 'collection-carousel-toggles' ? 'active' : ''}
+          onClick={() => setActiveDemo('collection-carousel-toggles')}
+        >
+          Carousel Toggles
+        </button>
+
+        <button className={activeDemo === 'ui-player' ? 'active' : ''} onClick={() => setActiveDemo('ui-player')}>
+          UI Player
+        </button>
+
+        <button className={activeDemo === 'feature-toggles' ? 'active' : ''} onClick={() => setActiveDemo('feature-toggles')}>
+          Feature Toggles
+        </button>
+
+        <button className={activeDemo === 'web-component' ? 'active' : ''} onClick={() => setActiveDemo('web-component')}>
+          Web Component
+        </button>
       </nav>
 
       <main className="main">
@@ -32,6 +69,11 @@ function App() {
         {activeDemo === 'video' && <VideoPlayer />}
         {activeDemo === 'hls' && <HLSPlayer />}
         {activeDemo === 'gallery' && <VideoGallery />}
+        {activeDemo === 'collection-carousel' && <CollectionCarousel />}
+        {activeDemo === 'collection-carousel-toggles' && <CollectionCarouselToggles />}
+        {activeDemo === 'ui-player' && <UIPlayerExample />}
+        {activeDemo === 'feature-toggles' && <UIPlayerFeatureToggles />}
+        {activeDemo === 'web-component' && <WebComponentExample />}
       </main>
     </div>
   );

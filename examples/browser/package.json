@@ -4,7 +4,7 @@
   "description": "Browser examples for JAAQ SDK",
   "private": true,
   "scripts": {
-    "serve": "serve -p 3000 -c serve.json",
+    "serve": "serve -p 9999 -c serve.json",
     "start": "npm run serve",
     "dev": "npm run serve"
   },

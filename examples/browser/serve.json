@@ -13,7 +13,61 @@
     "pnpm-lock.yaml",
     "yarn.lock",
     "README.md",
-    "serve.json"
+    "serve.json",
+    "config.json",
+    "dist",
+    "config.example.json",
+    "config-loader.js"
+  ],
+  "rewrites": [
+    {
+      "source": "/jaaq-sdk-js/v:version/embed.html",
+      "destination": "../../dist/embed/embed.html"
+    },
+    {
+      "source": "/jaaq-sdk-js/v:version/jaaq-sdk.min.js",
+      "destination": "../../dist/jaaq-sdk.min.js"
+    },
+    {
+      "source": "/jaaq-sdk-js/v:version/jaaq-ui.min.js",
+      "destination": "../../dist/ui/jaaq-ui.min.js"
+    },
+    {
+      "source": "/jaaq-sdk-js/v:version/jaaq-ui-bundled.min.js",
+      "destination": "../../dist/ui/jaaq-ui-bundled.min.js"
+    },
+    {
+      "source": "/jaaq-sdk-js/v:version/jaaq-webcomponents.min.js",
+      "destination": "../../dist/ui/webcomponents/jaaq-webcomponents.min.js"
+    },
+    {
+      "source": "/jaaq-sdk-js/v:version/jaaq-webcomponents-bundled.min.js",
+      "destination": "../../dist/ui/webcomponents/jaaq-webcomponents-bundled.min.js"
+    },
+    {
+      "source": "/jaaq-sdk-js/latest/embed.html",
+      "destination": "../../dist/embed/embed.html"
+    },
+    {
+      "source": "/jaaq-sdk-js/latest/jaaq-sdk.min.js",
+      "destination": "../../dist/jaaq-sdk.min.js"
+    },
+    {
+      "source": "/jaaq-sdk-js/latest/jaaq-ui.min.js",
+      "destination": "../../dist/ui/jaaq-ui.min.js"
+    },
+    {
+      "source": "/jaaq-sdk-js/latest/jaaq-ui-bundled.min.js",
+      "destination": "../../dist/ui/jaaq-ui-bundled.min.js"
+    },
+    {
+      "source": "/jaaq-sdk-js/latest/jaaq-webcomponents.min.js",
+      "destination": "../../dist/ui/webcomponents/jaaq-webcomponents.min.js"
+    },
+    {
+      "source": "/jaaq-sdk-js/latest/jaaq-webcomponents-bundled.min.js",
+      "destination": "../../dist/ui/webcomponents/jaaq-webcomponents-bundled.min.js"
+    }
   ],
   "headers": [
     {
@@ -31,6 +85,10 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=3600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
         }
       ]
     }
