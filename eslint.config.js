@@ -40,6 +40,35 @@ module.exports = defineConfig([
     },
   },
 
+  // UI components - Browser environment
+  {
+    files: ['src/ui/**/*.ts', 'src/ui/**/*.tsx'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        ...globals.browser,
+      },
+    },
+    plugins: { '@typescript-eslint': tsPlugin },
+    rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    },
+  },
+
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      'no-unused-vars': 'off',
+    },
+  },
+
   // Node/CommonJS config files
   {
     files: ['eslint.config.js', 'tsup.config.ts', 'vitest.config.ts'],
@@ -87,6 +116,9 @@ module.exports = defineConfig([
       },
     },
     plugins: { '@typescript-eslint': tsPlugin },
+    rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    },
   },
 
   prettier,

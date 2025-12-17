@@ -22,6 +22,7 @@ jobs:
       NODE_ENV: ${{ inputs.environment }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       JAAQ_API_URL: ${{ vars.JAAQ_API_URL }}
+      JAAQ_CDN_URL: ${{ vars.JAAQ_CDN_URL }}
       S3_BUCKET: ${{ vars.S3_BUCKET }}
       CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
       AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
@@ -48,6 +49,7 @@ jobs:
           echo "ENVIRONMENT=${{ inputs.environment }}"
           echo "NODE_ENV=${{ env.NODE_ENV }}"
           echo "JAAQ_API_URL=${{ env.JAAQ_API_URL }}"
+          echo "JAAQ_CDN_URL=${{ env.JAAQ_CDN_URL }}"
           echo "S3_BUCKET=${{ env.S3_BUCKET }}"
           echo "CLOUDFRONT_DISTRIBUTION_ID=${{ env.CLOUDFRONT_DISTRIBUTION_ID }}"
           echo "AWS_ROLE_ARN=${{ env.AWS_ROLE_ARN }}"
@@ -66,7 +68,17 @@ jobs:
         run: pnpm run test:coverage
 
       - name: Build
-        run: pnpm build
+        env:
+          JAAQ_CDN_URL: ${{ vars.JAAQ_CDN_URL }}
+        run: |
+          BASE_VERSION=$(node -p "require('./package.json').version")
+          SHORT_HASH=$(git rev-parse --short HEAD)
+          DATE=$(date +%Y%m%d)
+
+          export SHORT_HASH
+          export BUILD_DATE=$DATE
+
+          pnpm build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -74,7 +86,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Upload UMD to S3
+      - name: Upload files to S3
         env:
           S3_BUCKET: ${{ vars.S3_BUCKET }}
         run: |
@@ -93,13 +105,37 @@ jobs:
           aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/jaaq-sdk.min.js
           aws s3 cp dist/jaaq-sdk.min.js s3://$S3_BUCKET/jaaq-sdk-js/latest/jaaq-sdk.min.js
 
+          aws s3 cp dist/ui/jaaq-ui.min.js s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/jaaq-ui.min.js
+          aws s3 cp dist/ui/jaaq-ui.min.js s3://$S3_BUCKET/jaaq-sdk-js/latest/jaaq-ui.min.js
+
+          aws s3 cp dist/ui/jaaq-ui-bundled.min.js s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/jaaq-ui-bundled.min.js
+          aws s3 cp dist/ui/jaaq-ui-bundled.min.js s3://$S3_BUCKET/jaaq-sdk-js/latest/jaaq-ui-bundled.min.js
+
+          aws s3 cp dist/ui/webcomponents/jaaq-webcomponents.min.js s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/jaaq-webcomponents.min.js
+          aws s3 cp dist/ui/webcomponents/jaaq-webcomponents.min.js s3://$S3_BUCKET/jaaq-sdk-js/latest/jaaq-webcomponents.min.js
+
+          aws s3 cp dist/ui/webcomponents/jaaq-webcomponents-bundled.min.js s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/jaaq-webcomponents-bundled.min.js
+          aws s3 cp dist/ui/webcomponents/jaaq-webcomponents-bundled.min.js s3://$S3_BUCKET/jaaq-sdk-js/latest/jaaq-webcomponents-bundled.min.js
+
+          aws s3 cp dist/embed/embed.html s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/embed.html
+          aws s3 cp dist/embed/embed.html s3://$S3_BUCKET/jaaq-sdk-js/latest/embed.html
+
+          aws s3 cp dist/embed/embed-collection.html s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/embed-collection.html
+          aws s3 cp dist/embed/embed-collection.html s3://$S3_BUCKET/jaaq-sdk-js/latest/embed-collection.html
+
+          aws s3 cp dist/embed/embed.html s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/embed/embed.html
+          aws s3 cp dist/embed/embed.html s3://$S3_BUCKET/jaaq-sdk-js/latest/embed/embed.html
+
+          aws s3 cp dist/embed/embed-collection.html s3://$S3_BUCKET/jaaq-sdk-js/v$FULL_VERSION/embed/embed-collection.html
+          aws s3 cp dist/embed/embed-collection.html s3://$S3_BUCKET/jaaq-sdk-js/latest/embed/embed-collection.html
+
       - name: Invalidate CloudFront cache
         env:
           CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
           aws cloudfront create-invalidation \
             --distribution-id $CLOUDFRONT_DISTRIBUTION_ID \
-            --paths "/jaaq-sdk-js/latest/*"
+            --paths "/jaaq-sdk-js/latest/*" "/jaaq-sdk-js/v*"
 
       - name: Smoke tests
         run: pnpm run test:smoke:ci

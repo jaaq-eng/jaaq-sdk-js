@@ -1,6 +1,6 @@
 {
   "name": "@jaaq/jaaq-sdk-js",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Official JavaScript SDK for JAAQ API",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -11,6 +11,7 @@
     "build:dev": "dotenvx run -f .env.development -- rollup -c",
     "build:staging": "dotenvx run -f .env.staging -- rollup -c",
     "build:prod": "dotenvx run -f .env.production -- rollup -c",
+    "build:local": "JAAQ_CDN_URL=http://localhost:9999 NODE_ENV=development rollup -c",
     "test": "vitest run --exclude=tests/build",
     "test:watch": "vitest --exclude=tests/build",
     "test:coverage": "vitest run --coverage --exclude=tests/build",
@@ -34,6 +35,24 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs",
       "default": "./dist/index.mjs"
+    },
+    "./ui": {
+      "types": "./dist/ui/index.d.ts",
+      "import": "./dist/ui/index.mjs",
+      "require": "./dist/ui/index.cjs",
+      "default": "./dist/ui/index.mjs"
+    },
+    "./ui/react": {
+      "types": "./dist/ui/react/index.d.ts",
+      "import": "./dist/ui/react/index.mjs",
+      "require": "./dist/ui/react/index.cjs",
+      "default": "./dist/ui/react/index.mjs"
+    },
+    "./ui/webcomponents": {
+      "types": "./dist/ui/webcomponents/index.d.ts",
+      "import": "./dist/ui/webcomponents/index.mjs",
+      "require": "./dist/ui/webcomponents/index.cjs",
+      "default": "./dist/ui/webcomponents/index.mjs"
     }
   },
   "keywords": [
@@ -54,7 +73,7 @@
   },
   "homepage": "https://github.com/jaaq-eng/jaaq-sdk-js#readme",
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "packageManager": "pnpm@10.17.1",
   "lint-staged": {
@@ -70,6 +89,22 @@
     "README.md",
     "LICENSE"
   ],
+  "dependencies": {
+    "@splidejs/splide": "^4.1.4",
+    "hls.js": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
@@ -80,7 +115,10 @@
     "@rollup/plugin-replace": "^6.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
+    "@types/hls.js": "^1.0.0",
     "@types/node": "^24.10.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.46.3",
     "@typescript-eslint/parser": "^8.46.3",
     "@vitest/coverage-v8": "^4.0.8",
@@ -92,6 +130,8 @@
     "msw": "^2.12.1",
     "openapi-typescript": "^7.10.1",
     "prettier": "^3.6.2",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "rollup": "^4.53.2",
     "rollup-plugin-dts": "^6.2.3",
     "rollup-plugin-tsconfig-paths": "^1.5.2",

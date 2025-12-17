@@ -1,0 +1,7 @@
+.jaaq-react-player {
+  user-select: none;
+}
+
+.jaaq-react-player video {
+  outline: none;
+}
