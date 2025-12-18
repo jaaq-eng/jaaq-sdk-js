@@ -89,7 +89,7 @@ function buildEmbed() {
 
       const embedFiles = ['embed.html', 'embed-collection.html'];
       const outputDir = join(__dirname, 'dist/embed');
-      const cdnUrl = `${cdnBaseUrl}/jaaq-sdk-js/latest`;
+      const cdnUrl = `${cdnBaseUrl}/latest`;
 
       if (!existsSync(outputDir)) {
         mkdirSync(outputDir, { recursive: true });

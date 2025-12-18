@@ -1,6 +1,7 @@
 import Splide from '@splidejs/splide';
 import { JaaqClient, BASE_URL, createJaaqClient } from '@src/index';
 import type { CollectionDTO, VideoDTO } from '@src/types';
+import type { VideoSettings } from '@ui/shared/types';
 import '@ui/shared/styles.css';
 import './styles.css';
 import '@splidejs/splide/css';
@@ -15,6 +16,7 @@ type CollectionPlayerConfig = {
   showArrows?: boolean;
   showDots?: boolean;
   className?: string;
+  videoSettings?: VideoSettings;
 };
 
 type CollectionPlayerEventMap = {
@@ -140,6 +142,34 @@ export class JaaqCollectionPlayer {
       if (this.config.baseUrl) player.setAttribute('base-url', this.config.baseUrl);
       player.setAttribute('autoplay', 'false');
       player.setAttribute('width', '100%');
+
+      if (this.config.videoSettings) {
+        const settings = this.config.videoSettings;
+        if (settings.controls !== undefined) {
+          player.setAttribute('controls', String(settings.controls));
+        }
+        if (settings.showLogo !== undefined) {
+          player.setAttribute('show-logo', String(settings.showLogo));
+        }
+        if (settings.showTitle !== undefined) {
+          player.setAttribute('show-title', String(settings.showTitle));
+        }
+        if (settings.showAuthor !== undefined) {
+          player.setAttribute('show-author', String(settings.showAuthor));
+        }
+        if (settings.showDescription !== undefined) {
+          player.setAttribute('show-description', String(settings.showDescription));
+        }
+        if (settings.showCaptions !== undefined) {
+          player.setAttribute('show-captions', String(settings.showCaptions));
+        }
+        if (settings.width !== undefined) {
+          player.setAttribute('width', String(settings.width));
+        }
+        if (settings.height !== undefined) {
+          player.setAttribute('height', String(settings.height));
+        }
+      }
 
       if (this.client && (player as any).client !== undefined) {
         (player as any).client = this.client;

@@ -202,7 +202,7 @@
         <code>&lt;jaaq-video-player&gt;</code> web component internally and communicates with the parent page via postMessage for events and
         commands. <br /><br />
         <strong>Local Testing:</strong> Run <code>pnpm build:local</code> from project root, then <code>pnpm serve</code> from
-        examples/browser. The embed will be available at <code>http://localhost:9999/jaaq-sdk-js/latest/embed.html</code>
+        examples/browser. The embed will be available at <code>http://localhost:9999/latest/embed/embed.html</code>
       </div>
 
       <div class="card">
@@ -211,7 +211,7 @@
         <div class="code-block">
           <pre>
 &lt;iframe 
-  src="https://cdn.jaaq.app/jaaq-sdk-js/latest/embed/embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID"
+  src="https://cdn.jaaq.app/latest/embed/embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID"
   width="800" 
   height="450" 
   frameborder="0" 
@@ -434,7 +434,7 @@ getState    - Get current player state</pre
           autoplay: autoplay.toString(),
         });
 
-        const iframeUrl = `jaaq-sdk-js/latest/embed.html?${params.toString()}`;
+        const iframeUrl = `latest/embed/embed.html?${params.toString()}`;
 
         const container = document.getElementById('iframeContainer');
         container.innerHTML = '';

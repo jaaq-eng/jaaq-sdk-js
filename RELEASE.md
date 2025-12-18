@@ -333,10 +333,10 @@ s3://prod-bucket/jaaq-sdk-js/
 **Usage in HTML:**
 
 ```html
-<script src="https://dev-cdn.example.com/jaaq-sdk-js/latest/index.min.js"></script>
-<script src="https://staging-cdn.example.com/jaaq-sdk-js/latest/index.min.js"></script>
-<script src="https://cdn.example.com/jaaq-sdk-js/latest/index.min.js"></script>
-<script src="https://cdn.example.com/jaaq-sdk-js/v1.2.3/index.min.js"></script>
+<script src="https://dev-cdn.example.com/latest/index.min.js"></script>
+<script src="https://staging-cdn.example.com/latest/index.min.js"></script>
+<script src="https://cdn.example.com/latest/index.min.js"></script>
+<script src="https://cdn.example.com/v1.2.3/index.min.js"></script>
 ```
 
 ## Switching from Private to Public Package

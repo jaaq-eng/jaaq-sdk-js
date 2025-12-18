@@ -90,3 +90,9 @@ export type PlayerEventMap = {
  * @template T - The type of data passed to the callback
  */
 export type PlayerEventCallback<T> = (_data: T) => void;
+
+/**
+ * Video settings that can be passed to carousel components
+ * Excludes carousel-specific props that are handled separately
+ */
+export type VideoSettings = Omit<PlayerConfig, 'videoId' | 'apiKey' | 'clientId' | 'baseUrl' | 'client' | 'autoplay'>;

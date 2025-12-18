@@ -118,6 +118,33 @@
           config.baseUrl = baseUrl;
         }
 
+        const showArrows = params.get('showArrows');
+        if (showArrows !== null) {
+          config.showArrows = showArrows === 'true' || showArrows === '1';
+        }
+
+        const showDots = params.get('showDots');
+        if (showDots !== null) {
+          config.showDots = showDots === 'true' || showDots === '1';
+        }
+
+        config.videoSettings = {};
+        const videoOptionKeys = ['controls', 'showLogo', 'showTitle', 'showAuthor', 'showDescription', 'showCaptions', 'width', 'height'];
+        videoOptionKeys.forEach((key) => {
+          const value = params.get(key);
+          if (value !== null) {
+            if (key === 'width' || key === 'height') {
+              config.videoSettings[key] = value;
+            } else {
+              config.videoSettings[key] = value === 'true' || value === '1';
+            }
+          }
+        });
+
+        if (Object.keys(config.videoSettings).length === 0) {
+          delete config.videoSettings;
+        }
+
         return config;
       }
 
@@ -153,6 +180,18 @@
 
           if (config.autoplay) {
             player.setAttribute('autoplay', 'true');
+          }
+
+          if (config.showArrows !== undefined) {
+            player.setAttribute('show-arrows', config.showArrows ? 'true' : 'false');
+          }
+
+          if (config.showDots !== undefined) {
+            player.setAttribute('show-dots', config.showDots ? 'true' : 'false');
+          }
+
+          if (config.videoSettings && Object.keys(config.videoSettings).length > 0) {
+            player.setAttribute('video-settings', JSON.stringify(config.videoSettings));
           }
 
           player.style.width = '100%';

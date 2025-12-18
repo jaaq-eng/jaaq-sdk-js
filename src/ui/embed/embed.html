@@ -118,6 +118,36 @@
           config.baseUrl = baseUrl;
         }
 
+        const controls = params.get('controls');
+        if (controls !== null) {
+          config.controls = controls === 'true' || controls === '1';
+        }
+
+        const showLogo = params.get('showLogo');
+        if (showLogo !== null) {
+          config.showLogo = showLogo === 'true' || showLogo === '1';
+        }
+
+        const showTitle = params.get('showTitle');
+        if (showTitle !== null) {
+          config.showTitle = showTitle === 'true' || showTitle === '1';
+        }
+
+        const showAuthor = params.get('showAuthor');
+        if (showAuthor !== null) {
+          config.showAuthor = showAuthor === 'true' || showAuthor === '1';
+        }
+
+        const showDescription = params.get('showDescription');
+        if (showDescription !== null) {
+          config.showDescription = showDescription === 'true' || showDescription === '1';
+        }
+
+        const showCaptions = params.get('showCaptions');
+        if (showCaptions !== null) {
+          config.showCaptions = showCaptions === 'true' || showCaptions === '1';
+        }
+
         return config;
       }
 
@@ -157,6 +187,30 @@
 
           player.setAttribute('width', config.width || '100%');
           player.setAttribute('height', config.height || '100%');
+
+          if (config.controls !== undefined) {
+            player.setAttribute('controls', config.controls ? 'true' : 'false');
+          }
+
+          if (config.showLogo !== undefined) {
+            player.setAttribute('show-logo', config.showLogo ? 'true' : 'false');
+          }
+
+          if (config.showTitle !== undefined) {
+            player.setAttribute('show-title', config.showTitle ? 'true' : 'false');
+          }
+
+          if (config.showAuthor !== undefined) {
+            player.setAttribute('show-author', config.showAuthor ? 'true' : 'false');
+          }
+
+          if (config.showDescription !== undefined) {
+            player.setAttribute('show-description', config.showDescription ? 'true' : 'false');
+          }
+
+          if (config.showCaptions !== undefined) {
+            player.setAttribute('show-captions', config.showCaptions ? 'true' : 'false');
+          }
 
           player.addEventListener('jaaq:loaded', (e) => {
             const video = e.detail;

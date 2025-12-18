@@ -26,7 +26,17 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
   private autoplayTimeoutId: number | null = null;
 
   static get observedAttributes() {
-    return ['collection-id', 'api-key', 'client-id', 'subscription-id', 'base-url', 'autoplay', 'show-arrows', 'show-dots'];
+    return [
+      'collection-id',
+      'api-key',
+      'client-id',
+      'subscription-id',
+      'base-url',
+      'autoplay',
+      'show-arrows',
+      'show-dots',
+      'video-settings',
+    ];
   }
 
   constructor() {
@@ -48,7 +58,7 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
   attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
     if (!this.connected || oldValue === newValue) return;
 
-    if (name === 'collection-id') {
+    if (name === 'collection-id' || name === 'video-settings') {
       this.destroyCarousel();
       this.initCarousel();
     }
@@ -160,6 +170,15 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
     const apiKey = this.getAttribute('api-key');
     const clientId = this.getAttribute('client-id');
     const baseUrl = this.getAttribute('base-url');
+    const videoSettingsAttr = this.getAttribute('video-settings');
+    let videoSettings: Record<string, unknown> | null = null;
+    if (videoSettingsAttr) {
+      try {
+        videoSettings = JSON.parse(videoSettingsAttr);
+      } catch (e) {
+        console.warn('[CollectionPlayer] Failed to parse video-settings attribute', e);
+      }
+    }
 
     this.collectionData.videos.forEach((video) => {
       const slide = document.createElement('li');
@@ -172,6 +191,33 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
       if (baseUrl) player.setAttribute('base-url', baseUrl);
       player.setAttribute('autoplay', 'false');
       player.setAttribute('width', '100%');
+
+      if (videoSettings) {
+        if (videoSettings.controls !== undefined) {
+          player.setAttribute('controls', String(videoSettings.controls));
+        }
+        if (videoSettings.showLogo !== undefined) {
+          player.setAttribute('show-logo', String(videoSettings.showLogo));
+        }
+        if (videoSettings.showTitle !== undefined) {
+          player.setAttribute('show-title', String(videoSettings.showTitle));
+        }
+        if (videoSettings.showAuthor !== undefined) {
+          player.setAttribute('show-author', String(videoSettings.showAuthor));
+        }
+        if (videoSettings.showDescription !== undefined) {
+          player.setAttribute('show-description', String(videoSettings.showDescription));
+        }
+        if (videoSettings.showCaptions !== undefined) {
+          player.setAttribute('show-captions', String(videoSettings.showCaptions));
+        }
+        if (videoSettings.width !== undefined) {
+          player.setAttribute('width', String(videoSettings.width));
+        }
+        if (videoSettings.height !== undefined) {
+          player.setAttribute('height', String(videoSettings.height));
+        }
+      }
 
       slide.appendChild(player);
       list.appendChild(slide);

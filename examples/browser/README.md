@@ -9,7 +9,7 @@ Browser examples demonstrating different integration patterns for the JAAQ video
 **`webcomponent-advanced.html`** - Full-featured web component example with programmatic control, event handling, and state management.
 
 ```html
-<script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
+<script src="https://cdn.jaaq.app/latest/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
 
 <jaaq-video-player video-id="your-video-id" api-key="your-api-key" client-id="your-client-id" autoplay="false"> </jaaq-video-player>
 
@@ -53,7 +53,7 @@ Useful for:
 
 ```html
 <iframe
-  src="https://cdn.jaaq.app/jaaq-sdk-js/latest/embed/embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID"
+  src="https://cdn.jaaq.app/latest/embed/embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID"
   width="800"
   height="450"
   frameborder="0"
@@ -86,7 +86,7 @@ Useful for:
 
 All examples can be run without building the SDK by using our CDN. This is perfect for quick prototyping or when you don't want to use npm.
 
-**CDN Base URL:** `https://cdn.jaaq.app/jaaq-sdk-js/latest/`
+**CDN Base URL:** `https://cdn.jaaq.app/latest/`
 
 ### Web Component from CDN
 
@@ -94,7 +94,7 @@ All examples can be run without building the SDK by using our CDN. This is perfe
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
+    <script src="https://cdn.jaaq.app/latest/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
   </head>
   <body>
     <jaaq-video-player video-id="your-video-id" api-key="your-api-key" client-id="your-client-id"> </jaaq-video-player>
@@ -108,7 +108,7 @@ All examples can be run without building the SDK by using our CDN. This is perfe
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/jaaq-ui-bundled.min.js"></script>
+    <script src="https://cdn.jaaq.app/latest/ui/jaaq-ui-bundled.min.js"></script>
   </head>
   <body>
     <div id="player"></div>
@@ -129,7 +129,7 @@ All examples can be run without building the SDK by using our CDN. This is perfe
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/jaaq-sdk.min.js"></script>
+    <script src="https://cdn.jaaq.app/latest/jaaq-sdk.min.js"></script>
   </head>
   <body>
     <script>
@@ -148,7 +148,7 @@ All examples can be run without building the SDK by using our CDN. This is perfe
 
 ```html
 <iframe
-  src="https://cdn.jaaq.app/jaaq-sdk-js/latest/embed/embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID&autoplay=false"
+  src="https://cdn.jaaq.app/latest/embed/embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID&autoplay=false"
   width="800"
   height="450"
   frameborder="0"
@@ -181,7 +181,7 @@ window.addEventListener('message', (event) => {
 
 ```html
 <iframe
-  src="https://cdn.jaaq.app/jaaq-sdk-js/latest/embed/embed-collection.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&collectionId=YOUR_COLLECTION_ID&autoplay=false"
+  src="https://cdn.jaaq.app/latest/embed/embed-collection.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&collectionId=YOUR_COLLECTION_ID&autoplay=false"
   width="100%"
   height="600"
   frameborder="0"
