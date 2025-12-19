@@ -117,6 +117,7 @@ export class JaaqVideoPlayer {
     this.videoElement = video;
     if (this.config.startMuted === true) {
       video.muted = true;
+      video.setAttribute('muted', '');
     }
     player.appendChild(video);
 
@@ -279,10 +280,16 @@ export class JaaqVideoPlayer {
 
           if (this.config.startMuted === true && this.videoElement) {
             this.videoElement.muted = true;
+            this.videoElement.setAttribute('muted', '');
           }
 
           hls.loadSource(videoUrl);
           hls.attachMedia(this.videoElement);
+
+          if (this.config.startMuted === true && this.videoElement) {
+            this.videoElement.muted = true;
+            this.videoElement.setAttribute('muted', '');
+          }
 
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             this.setState({ isLoading: false });
@@ -291,10 +298,14 @@ export class JaaqVideoPlayer {
             }
             if (this.config.startMuted === true && this.videoElement) {
               this.videoElement.muted = true;
+              this.videoElement.setAttribute('muted', '');
+              this.setState({ isMuted: true });
             }
             if (this.config.autoplay) {
               if (this.config.startMuted === true && this.videoElement) {
                 this.videoElement.muted = true;
+                this.videoElement.setAttribute('muted', '');
+                this.setState({ isMuted: true });
               }
               this.play();
             }
@@ -313,6 +324,8 @@ export class JaaqVideoPlayer {
           this.videoElement.src = videoUrl;
           if (this.config.startMuted === true) {
             this.videoElement.muted = true;
+            this.videoElement.setAttribute('muted', '');
+            this.setState({ isMuted: true });
           }
           this.setState({ isLoading: false });
           if (this.elements.loading) {
@@ -321,6 +334,8 @@ export class JaaqVideoPlayer {
           if (this.config.autoplay) {
             if (this.config.startMuted === true && this.videoElement) {
               this.videoElement.muted = true;
+              this.videoElement.setAttribute('muted', '');
+              this.setState({ isMuted: true });
             }
             this.play();
           }
@@ -331,6 +346,8 @@ export class JaaqVideoPlayer {
         this.videoElement.src = videoUrl;
         if (this.config.startMuted === true) {
           this.videoElement.muted = true;
+          this.videoElement.setAttribute('muted', '');
+          this.setState({ isMuted: true });
         }
         this.setState({ isLoading: false });
         if (this.elements.loading) {
@@ -339,6 +356,8 @@ export class JaaqVideoPlayer {
         if (this.config.autoplay) {
           if (this.config.startMuted === true && this.videoElement) {
             this.videoElement.muted = true;
+            this.videoElement.setAttribute('muted', '');
+            this.setState({ isMuted: true });
           }
           this.play();
         }
@@ -647,7 +666,14 @@ export class JaaqVideoPlayer {
    * Starts or resumes video playback
    */
   public play(): void {
-    this.videoElement?.play();
+    if (this.videoElement) {
+      if (this.config.startMuted === true && !this.videoElement.muted) {
+        this.videoElement.muted = true;
+        this.videoElement.setAttribute('muted', '');
+        this.setState({ isMuted: true });
+      }
+      this.videoElement.play();
+    }
   }
 
   /**
@@ -700,6 +726,11 @@ export class JaaqVideoPlayer {
 
     if (features.startMuted !== undefined && this.videoElement) {
       this.videoElement.muted = features.startMuted === true;
+      if (features.startMuted === true) {
+        this.videoElement.setAttribute('muted', '');
+      } else {
+        this.videoElement.removeAttribute('muted');
+      }
       this.setState({ isMuted: features.startMuted === true });
     }
 
