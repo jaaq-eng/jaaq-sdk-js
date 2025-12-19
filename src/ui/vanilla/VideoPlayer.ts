@@ -100,6 +100,9 @@ export class JaaqVideoPlayer {
     this.createDOM();
     await this.loadVideo();
     this.attachEventListeners();
+    if (this.config.startMuted === true) {
+      this.updateVolumeUI();
+    }
   }
 
   private createDOM(): void {
@@ -300,12 +303,14 @@ export class JaaqVideoPlayer {
               this.videoElement.muted = true;
               this.videoElement.setAttribute('muted', '');
               this.setState({ isMuted: true });
+              this.updateVolumeUI();
             }
             if (this.config.autoplay) {
               if (this.config.startMuted === true && this.videoElement) {
                 this.videoElement.muted = true;
                 this.videoElement.setAttribute('muted', '');
                 this.setState({ isMuted: true });
+                this.updateVolumeUI();
               }
               this.play();
             }
@@ -326,6 +331,7 @@ export class JaaqVideoPlayer {
             this.videoElement.muted = true;
             this.videoElement.setAttribute('muted', '');
             this.setState({ isMuted: true });
+            this.updateVolumeUI();
           }
           this.setState({ isLoading: false });
           if (this.elements.loading) {
@@ -336,6 +342,7 @@ export class JaaqVideoPlayer {
               this.videoElement.muted = true;
               this.videoElement.setAttribute('muted', '');
               this.setState({ isMuted: true });
+              this.updateVolumeUI();
             }
             this.play();
           }
@@ -348,6 +355,7 @@ export class JaaqVideoPlayer {
           this.videoElement.muted = true;
           this.videoElement.setAttribute('muted', '');
           this.setState({ isMuted: true });
+          this.updateVolumeUI();
         }
         this.setState({ isLoading: false });
         if (this.elements.loading) {
@@ -358,6 +366,7 @@ export class JaaqVideoPlayer {
             this.videoElement.muted = true;
             this.videoElement.setAttribute('muted', '');
             this.setState({ isMuted: true });
+            this.updateVolumeUI();
           }
           this.play();
         }
@@ -732,6 +741,7 @@ export class JaaqVideoPlayer {
         this.videoElement.removeAttribute('muted');
       }
       this.setState({ isMuted: features.startMuted === true });
+      this.updateVolumeUI();
     }
 
     if (this.state.videoData) {
