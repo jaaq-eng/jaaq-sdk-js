@@ -135,7 +135,7 @@ jobs:
         run: |
           aws cloudfront create-invalidation \
             --distribution-id $CLOUDFRONT_DISTRIBUTION_ID \
-            --paths "/jaaq-sdk-js/latest/*" "/jaaq-sdk-js/v*"
+            --paths "/latest/*" "/v*"
 
       - name: Smoke tests
         run: pnpm run test:smoke:ci
