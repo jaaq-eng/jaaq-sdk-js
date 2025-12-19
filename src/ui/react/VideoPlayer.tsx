@@ -60,7 +60,7 @@ function VideoPlayerComponent(
     showInfo = false,
   }: VideoPlayerProps,
   ref: React.ForwardedRef<VideoPlayerHandle>,
-) {
+): React.ReactElement {
   const playerRef = useRef<JaaqVideoPlayerElement>(null);
   const videoDataRef = useRef<VideoDTO | null>(null);
 
