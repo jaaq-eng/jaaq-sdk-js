@@ -129,7 +129,17 @@
         }
 
         config.videoSettings = {};
-        const videoOptionKeys = ['controls', 'showLogo', 'showTitle', 'showAuthor', 'showDescription', 'showCaptions', 'width', 'height'];
+        const videoOptionKeys = [
+          'controls',
+          'showLogo',
+          'showTitle',
+          'showAuthor',
+          'showDescription',
+          'showCaptions',
+          'startMuted',
+          'width',
+          'height',
+        ];
         videoOptionKeys.forEach((key) => {
           const value = params.get(key);
           if (value !== null) {

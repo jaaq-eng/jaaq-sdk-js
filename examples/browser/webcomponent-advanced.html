@@ -116,6 +116,9 @@
 
       #player-container {
         margin-top: 20px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .controls-demo {
@@ -182,6 +185,7 @@
           <input type="text" id="videoId" placeholder="Enter video ID" value="" />
         </div>
         <button id="loadBtn">Load Video</button>
+        <button id="loadConfigBtn" class="secondary">Load from config.json</button>
       </div>
 
       <div id="player-container"></div>
@@ -262,6 +266,24 @@
         });
 
         container.appendChild(playerElement);
+      });
+
+      document.getElementById('loadConfigBtn').addEventListener('click', async () => {
+        try {
+          const response = await fetch('./config.json');
+          if (!response.ok) {
+            throw new Error('Failed to load config.json');
+          }
+          const config = await response.json();
+
+          document.getElementById('apiKey').value = config.apiKey || '';
+          document.getElementById('clientId').value = config.clientId || '';
+          document.getElementById('videoId').value = config.videoId || '';
+
+          alert('Config loaded! Click "Load Video" to continue.');
+        } catch (error) {
+          alert('Could not load config.json. Please create one based on config.example.json or enter values manually.');
+        }
       });
 
       document.getElementById('playBtn').addEventListener('click', () => {

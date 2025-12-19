@@ -148,6 +148,11 @@
           config.showCaptions = showCaptions === 'true' || showCaptions === '1';
         }
 
+        const startMuted = params.get('startMuted');
+        if (startMuted !== null) {
+          config.startMuted = startMuted === 'true' || startMuted === '1';
+        }
+
         return config;
       }
 
@@ -210,6 +215,10 @@
 
           if (config.showCaptions !== undefined) {
             player.setAttribute('show-captions', config.showCaptions ? 'true' : 'false');
+          }
+
+          if (config.startMuted !== undefined) {
+            player.setAttribute('start-muted', config.startMuted ? 'true' : 'false');
           }
 
           player.addEventListener('jaaq:loaded', (e) => {

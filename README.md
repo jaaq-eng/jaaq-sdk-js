@@ -157,6 +157,7 @@ document.body.appendChild(player);
 | `show-author`      | `boolean` | No          | `true`                 | Any value except `"false"` enables  |
 | `show-description` | `boolean` | No          | `true`                 | Any value except `"false"` enables  |
 | `show-captions`    | `boolean` | No          | `true`                 | Any value except `"false"` enables  |
+| `start-muted`      | `boolean` | No          | `false`                | Any value except `"false"` enables  |
 
 #### Properties / methods
 
@@ -198,7 +199,7 @@ Declarative usage:
   autoplay="false"
   show-arrows="true"
   show-dots="true"
-  video-settings='{"controls":true,"showLogo":false,"showTitle":true,"showAuthor":true,"showDescription":false,"showCaptions":true}'
+  video-settings='{"controls":true,"showLogo":false,"showTitle":true,"showAuthor":true,"showDescription":false,"showCaptions":true,"startMuted":false}'
 ></jaaq-collection-player>
 ```
 
@@ -290,6 +291,7 @@ export function App() {
       showAuthor={true}
       showDescription={true}
       showCaptions={true}
+      startMuted={false}
       onLoaded={(video) => console.log(video)}
       onError={(err) => console.error(err)}
     />
@@ -318,6 +320,7 @@ export function App() {
 | `showAuthor`         | `boolean`                         | No          | `true`  |
 | `showDescription`    | `boolean`                         | No          | `true`  |
 | `showCaptions`       | `boolean`                         | No          | `true`  |
+| `startMuted`         | `boolean`                         | No          | `false` |
 | `onPlay`             | `() => void`                      | No          | -       |
 | `onPause`            | `() => void`                      | No          | -       |
 | `onEnded`            | `() => void`                      | No          | -       |
@@ -361,6 +364,7 @@ export function App() {
         showAuthor: true,
         showDescription: false,
         showCaptions: true,
+        startMuted: false,
       }}
       onLoaded={(collection) => console.log(collection)}
       onSlideChange={(data) => console.log(data)}
@@ -418,6 +422,7 @@ const player = new JaaqVideoPlayer('#container', {
   showAuthor: true,
   showDescription: true,
   showCaptions: true,
+  startMuted: false,
 });
 
 player.on('loaded', (video) => console.log(video));
@@ -443,6 +448,7 @@ player.on('error', (err) => console.error(err));
 | `showAuthor`      | `boolean`    | No          | `true`  |
 | `showDescription` | `boolean`    | No          | `true`  |
 | `showCaptions`    | `boolean`    | No          | `true`  |
+| `startMuted`      | `boolean`    | No          | `false` |
 
 #### Events
 
@@ -488,6 +494,7 @@ const player = new JaaqCollectionPlayer('#container', {
     showAuthor: true,
     showDescription: false,
     showCaptions: true,
+    startMuted: false,
   },
 });
 
@@ -677,15 +684,16 @@ import { VideoPlayer } from '@jaaq/jaaq-sdk-js/ui/react';
 
 ### URL parameters
 
-| Parameter  | Required | Notes                     |
-| ---------- | -------- | ------------------------- |
-| `apiKey`   | Yes      | API key                   |
-| `clientId` | Yes      | Client ID                 |
-| `videoId`  | Yes      | Video ID                  |
-| `autoplay` | No       | `true`, `false`, `1`, `0` |
-| `width`    | No       | CSS width                 |
-| `height`   | No       | CSS height                |
-| `baseUrl`  | No       | API base URL              |
+| Parameter    | Required | Notes                     |
+| ------------ | -------- | ------------------------- |
+| `apiKey`     | Yes      | API key                   |
+| `clientId`   | Yes      | Client ID                 |
+| `videoId`    | Yes      | Video ID                  |
+| `autoplay`   | No       | `true`, `false`, `1`, `0` |
+| `startMuted` | No       | `true`, `false`, `1`, `0` |
+| `width`      | No       | CSS width                 |
+| `height`     | No       | CSS height                |
+| `baseUrl`    | No       | API base URL              |
 
 ### postMessage protocol
 
@@ -744,7 +752,7 @@ Embed a collection of videos in a carousel format:
 
 ```html
 <iframe
-  src="https://cdn.jaaq.app/latest/embed/embed-collection.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&collectionId=YOUR_COLLECTION_ID&autoplay=false&controls=true&showLogo=false&showTitle=true&showAuthor=true&showDescription=false&showCaptions=true"
+  src="https://cdn.jaaq.app/latest/embed/embed-collection.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&collectionId=YOUR_COLLECTION_ID&autoplay=false&controls=true&showLogo=false&showTitle=true&showAuthor=true&showDescription=false&showCaptions=true&startMuted=false"
   width="100%"
   height="600"
   frameborder="0"
@@ -767,6 +775,7 @@ Embed a collection of videos in a carousel format:
 | `showAuthor`      | No       | `true`, `false`, `1`, `0` |
 | `showDescription` | No       | `true`, `false`, `1`, `0` |
 | `showCaptions`    | No       | `true`, `false`, `1`, `0` |
+| `startMuted`      | No       | `true`, `false`, `1`, `0` |
 | `width`           | No       | CSS width string          |
 | `height`          | No       | CSS height string         |
 

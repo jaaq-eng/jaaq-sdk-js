@@ -120,11 +120,12 @@
       .iframe-container {
         position: relative;
         width: 100%;
+        max-width: 800px;
+        margin: 20px auto 0;
         padding-bottom: 56.25%;
         background: #000;
         border-radius: 8px;
         overflow: hidden;
-        margin-top: 20px;
       }
 
       .iframe-container iframe {
@@ -243,6 +244,7 @@
           </label>
         </div>
         <button id="loadBtn">Load Embedded Player</button>
+        <button id="loadConfigBtn" class="secondary">Load from config.json</button>
         <button class="secondary" id="clearBtn">Clear</button>
       </div>
 
@@ -427,14 +429,15 @@ getState    - Get current player state</pre
           return;
         }
 
-        const params = new URLSearchParams({
-          apiKey,
-          clientId,
-          videoId,
-          autoplay: autoplay.toString(),
-        });
+        const embedUrl = new URL('../../dist/embed/embed.html', window.location.href);
+        embedUrl.searchParams.set('apiKey', encodeURIComponent(apiKey));
+        embedUrl.searchParams.set('clientId', encodeURIComponent(clientId));
+        embedUrl.searchParams.set('videoId', encodeURIComponent(videoId));
+        embedUrl.searchParams.set('autoplay', autoplay ? 'true' : 'false');
 
-        const iframeUrl = `latest/embed/embed.html?${params.toString()}`;
+        embedUrl.searchParams.set('height', '800');
+        embedUrl.searchParams.set('width', '600');
+        const iframeUrl = embedUrl.toString();
 
         const container = document.getElementById('iframeContainer');
         container.innerHTML = '';
@@ -448,6 +451,24 @@ getState    - Get current player state</pre
         document.getElementById('playerCard').style.display = 'block';
 
         eventsLog.innerHTML = '<div class="event-item">Player loading...</div>';
+      });
+
+      document.getElementById('loadConfigBtn').addEventListener('click', async () => {
+        try {
+          const response = await fetch('./config.json');
+          if (!response.ok) {
+            throw new Error('Failed to load config.json');
+          }
+          const config = await response.json();
+
+          document.getElementById('apiKey').value = config.apiKey || '';
+          document.getElementById('clientId').value = config.clientId || '';
+          document.getElementById('videoId').value = config.videoId || '';
+
+          alert('Config loaded! Click "Load Embedded Player" to continue.');
+        } catch (error) {
+          alert('Could not load config.json. Please create one based on config.example.json or enter values manually.');
+        }
       });
 
       document.getElementById('clearBtn').addEventListener('click', () => {

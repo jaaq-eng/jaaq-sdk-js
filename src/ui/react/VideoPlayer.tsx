@@ -48,6 +48,7 @@ function VideoPlayerComponent(
     showAuthor = true,
     showDescription = true,
     showCaptions = true,
+    startMuted = false,
     onPlay,
     onPause,
     onError,
@@ -128,6 +129,12 @@ function VideoPlayerComponent(
     };
   }, [client, onPlay, onPause, onError, onLoaded, onTimeUpdate, onVolumeChange, onEnded, onFullscreenChange]);
 
+  useEffect(() => {
+    const player = playerRef.current;
+    if (!player) return;
+    player.setAttribute('start-muted', startMuted ? 'true' : 'false');
+  }, [startMuted]);
+
   return (
     <div style={{ width, height }} className={className}>
       <jaaq-video-player
@@ -143,6 +150,7 @@ function VideoPlayerComponent(
         show-author={showAuthor ? 'true' : 'false'}
         show-description={showDescription ? 'true' : 'false'}
         show-captions={showCaptions ? 'true' : 'false'}
+        start-muted={startMuted ? 'true' : 'false'}
         width="100%"
         height="auto"
       />

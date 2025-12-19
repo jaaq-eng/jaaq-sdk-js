@@ -211,6 +211,9 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
         if (videoSettings.showCaptions !== undefined) {
           player.setAttribute('show-captions', String(videoSettings.showCaptions));
         }
+        if (videoSettings.startMuted !== undefined) {
+          player.setAttribute('start-muted', String(videoSettings.startMuted));
+        }
         if (videoSettings.width !== undefined) {
           player.setAttribute('width', String(videoSettings.width));
         }

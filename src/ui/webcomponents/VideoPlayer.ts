@@ -56,6 +56,7 @@ export class JaaqVideoPlayerElement extends HTMLElement {
       'show-author',
       'show-description',
       'show-captions',
+      'start-muted',
     ];
   }
 
@@ -89,7 +90,8 @@ export class JaaqVideoPlayerElement extends HTMLElement {
       name === 'show-title' ||
       name === 'show-author' ||
       name === 'show-description' ||
-      name === 'show-captions'
+      name === 'show-captions' ||
+      name === 'start-muted'
     ) {
       if (this.player) {
         const features: any = {};
@@ -105,6 +107,8 @@ export class JaaqVideoPlayerElement extends HTMLElement {
           features.showDescription = !this.hasAttribute('show-description') || this.getAttribute('show-description') !== 'false';
         } else if (name === 'show-captions') {
           features.showCaptions = !this.hasAttribute('show-captions') || this.getAttribute('show-captions') !== 'false';
+        } else if (name === 'start-muted') {
+          features.startMuted = this.hasAttribute('start-muted') && this.getAttribute('start-muted') !== 'false';
         }
         this.player.setFeatures(features);
       }
@@ -160,6 +164,7 @@ export class JaaqVideoPlayerElement extends HTMLElement {
     const showAuthor = !this.hasAttribute('show-author') || this.getAttribute('show-author') !== 'false';
     const showDescription = !this.hasAttribute('show-description') || this.getAttribute('show-description') !== 'false';
     const showCaptions = !this.hasAttribute('show-captions') || this.getAttribute('show-captions') !== 'false';
+    const startMuted = this.hasAttribute('start-muted') && this.getAttribute('start-muted') !== 'false';
 
     if (!this.clientInstance && !apiKey && !clientId) {
       this.emitError(new Error('Either client property or api-key and client-id attributes are required'));
@@ -180,6 +185,7 @@ export class JaaqVideoPlayerElement extends HTMLElement {
         showAuthor,
         showDescription,
         showCaptions,
+        startMuted,
       });
 
       this.attachPlayerEvents();

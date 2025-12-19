@@ -163,6 +163,9 @@ export class JaaqCollectionPlayer {
         if (settings.showCaptions !== undefined) {
           player.setAttribute('show-captions', String(settings.showCaptions));
         }
+        if (settings.startMuted !== undefined) {
+          player.setAttribute('start-muted', String(settings.startMuted));
+        }
         if (settings.width !== undefined) {
           player.setAttribute('width', String(settings.width));
         }

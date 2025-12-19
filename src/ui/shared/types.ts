@@ -35,6 +35,8 @@ export type PlayerConfig = {
   showDescription?: boolean;
   /** Whether to show captions button */
   showCaptions?: boolean;
+  /** Whether to start the video muted */
+  startMuted?: boolean;
 };
 
 /**
