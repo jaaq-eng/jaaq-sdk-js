@@ -277,6 +277,10 @@ export class JaaqVideoPlayer {
             lowLatencyMode: true,
           });
 
+          if (this.config.startMuted === true && this.videoElement) {
+            this.videoElement.muted = true;
+          }
+
           hls.loadSource(videoUrl);
           hls.attachMedia(this.videoElement);
 
@@ -289,6 +293,9 @@ export class JaaqVideoPlayer {
               this.videoElement.muted = true;
             }
             if (this.config.autoplay) {
+              if (this.config.startMuted === true && this.videoElement) {
+                this.videoElement.muted = true;
+              }
               this.play();
             }
           });
@@ -312,6 +319,9 @@ export class JaaqVideoPlayer {
             this.elements.loading.style.display = 'none';
           }
           if (this.config.autoplay) {
+            if (this.config.startMuted === true && this.videoElement) {
+              this.videoElement.muted = true;
+            }
             this.play();
           }
         } else {
@@ -327,6 +337,9 @@ export class JaaqVideoPlayer {
           this.elements.loading.style.display = 'none';
         }
         if (this.config.autoplay) {
+          if (this.config.startMuted === true && this.videoElement) {
+            this.videoElement.muted = true;
+          }
           this.play();
         }
       }
