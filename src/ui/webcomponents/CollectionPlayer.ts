@@ -24,6 +24,7 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
   private connected = false;
   private collectionData: CollectionDTO | null = null;
   private autoplayTimeoutId: number | null = null;
+  private userInitiatedPlay = false;
 
   static get observedAttributes() {
     return [
@@ -180,12 +181,13 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
       }
     }
 
-    this.collectionData.videos.forEach((video) => {
+    this.collectionData.videos.forEach((video, videoIndex) => {
       const slide = document.createElement('li');
       slide.className = 'splide__slide';
 
       const player = document.createElement('jaaq-video-player');
       player.setAttribute('video-id', video.videoId);
+      player.setAttribute('data-video-index', String(videoIndex));
       if (apiKey) player.setAttribute('api-key', apiKey);
       if (clientId) player.setAttribute('client-id', clientId);
       if (baseUrl) player.setAttribute('base-url', baseUrl);
@@ -229,6 +231,20 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
     track.appendChild(list);
     this.carouselElement.appendChild(track);
     this.container.appendChild(this.carouselElement);
+
+    this.carouselElement.addEventListener('jaaq:play', (event: Event) => {
+      const target = event.target as HTMLElement;
+
+      if (target.tagName.toLowerCase() === 'jaaq-video-player') {
+        const videoIndex = Number(target.getAttribute('data-video-index')) || 0;
+
+        this.userInitiatedPlay = true;
+
+        if (this.splide) {
+          this.splide.go(videoIndex);
+        }
+      }
+    });
   }
 
   private initSplide() {
