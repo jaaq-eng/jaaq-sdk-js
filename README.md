@@ -157,6 +157,7 @@ document.body.appendChild(player);
 | `show-author`      | `boolean` | No          | `true`                 | Any value except `"false"` enables  |
 | `show-description` | `boolean` | No          | `true`                 | Any value except `"false"` enables  |
 | `show-captions`    | `boolean` | No          | `true`                 | Any value except `"false"` enables  |
+| `start-muted`      | `boolean` | No          | `false`                | Any value except `"false"` enables  |
 
 #### Properties / methods
 
@@ -198,6 +199,7 @@ Declarative usage:
   autoplay="false"
   show-arrows="true"
   show-dots="true"
+  video-settings='{"controls":true,"showLogo":false,"showTitle":true,"showAuthor":true,"showDescription":false,"showCaptions":true,"startMuted":false}'
 ></jaaq-collection-player>
 ```
 
@@ -210,6 +212,17 @@ const player = document.createElement('jaaq-collection-player');
 player.setAttribute('collection-id', 'your-collection-id');
 player.setAttribute('api-key', 'your-api-key');
 player.setAttribute('client-id', 'your-client-id');
+player.setAttribute(
+  'video-settings',
+  JSON.stringify({
+    controls: true,
+    showLogo: false,
+    showTitle: true,
+    showAuthor: true,
+    showDescription: false,
+    showCaptions: true,
+  }),
+);
 
 player.addEventListener('jaaq:collection:loaded', (e) => {
   console.log(e.detail);
@@ -220,16 +233,17 @@ document.body.appendChild(player);
 
 #### Attributes
 
-| Attribute         | Type      | Required    | Default                | Notes                               |
-| ----------------- | --------- | ----------- | ---------------------- | ----------------------------------- |
-| `collection-id`   | `string`  | Yes         | -                      | Collection ID                       |
-| `api-key`         | `string`  | Conditional | -                      | Required if you don’t set `.client` |
-| `client-id`       | `string`  | Conditional | -                      | Required if you don’t set `.client` |
-| `subscription-id` | `string`  | No          | -                      | Accepted attribute                  |
-| `base-url`        | `string`  | No          | `https://api.jaaq.app` | API base URL                        |
-| `autoplay`        | `boolean` | No          | `false`                | Any value except `"false"` enables  |
-| `show-arrows`     | `boolean` | No          | `true`                 | Any value except `"false"` enables  |
-| `show-dots`       | `boolean` | No          | `true`                 | Any value except `"false"` enables  |
+| Attribute         | Type      | Required    | Default                | Notes                                         |
+| ----------------- | --------- | ----------- | ---------------------- | --------------------------------------------- |
+| `collection-id`   | `string`  | Yes         | -                      | Collection ID                                 |
+| `api-key`         | `string`  | Conditional | -                      | Required if you don’t set `.client`           |
+| `client-id`       | `string`  | Conditional | -                      | Required if you don’t set `.client`           |
+| `subscription-id` | `string`  | No          | -                      | Accepted attribute                            |
+| `base-url`        | `string`  | No          | `https://api.jaaq.app` | API base URL                                  |
+| `autoplay`        | `boolean` | No          | `false`                | Any value except `"false"` enables            |
+| `show-arrows`     | `boolean` | No          | `true`                 | Any value except `"false"` enables            |
+| `show-dots`       | `boolean` | No          | `true`                 | Any value except `"false"` enables            |
+| `video-settings`  | `string`  | No          | -                      | JSON stringified video player settings object |
 
 #### Properties / methods
 
@@ -277,6 +291,7 @@ export function App() {
       showAuthor={true}
       showDescription={true}
       showCaptions={true}
+      startMuted={false}
       onLoaded={(video) => console.log(video)}
       onError={(err) => console.error(err)}
     />
@@ -305,6 +320,7 @@ export function App() {
 | `showAuthor`         | `boolean`                         | No          | `true`  |
 | `showDescription`    | `boolean`                         | No          | `true`  |
 | `showCaptions`       | `boolean`                         | No          | `true`  |
+| `startMuted`         | `boolean`                         | No          | `false` |
 | `onPlay`             | `() => void`                      | No          | -       |
 | `onPause`            | `() => void`                      | No          | -       |
 | `onEnded`            | `() => void`                      | No          | -       |
@@ -341,6 +357,15 @@ export function App() {
       autoplay={false}
       showArrows={true}
       showDots={true}
+      videoSettings={{
+        controls: true,
+        showLogo: false,
+        showTitle: true,
+        showAuthor: true,
+        showDescription: false,
+        showCaptions: true,
+        startMuted: false,
+      }}
       onLoaded={(collection) => console.log(collection)}
       onSlideChange={(data) => console.log(data)}
       onError={(err) => console.error(err)}
@@ -363,6 +388,7 @@ export function App() {
 | `showArrows`     | `boolean`                                                              | No          | `true`  |
 | `showDots`       | `boolean`                                                              | No          | `true`  |
 | `className`      | `string`                                                               | No          | `''`    |
+| `videoSettings`  | `VideoSettings`                                                        | No          | -       |
 | `onLoaded`       | `(collection: CollectionDTO) => void`                                  | No          | -       |
 | `onSlideChange`  | `(data: { index: number; video: CollectionDTO['videos'][0] }) => void` | No          | -       |
 | `onError`        | `(error: Error) => void`                                               | No          | -       |
@@ -396,6 +422,7 @@ const player = new JaaqVideoPlayer('#container', {
   showAuthor: true,
   showDescription: true,
   showCaptions: true,
+  startMuted: false,
 });
 
 player.on('loaded', (video) => console.log(video));
@@ -421,6 +448,7 @@ player.on('error', (err) => console.error(err));
 | `showAuthor`      | `boolean`    | No          | `true`  |
 | `showDescription` | `boolean`    | No          | `true`  |
 | `showCaptions`    | `boolean`    | No          | `true`  |
+| `startMuted`      | `boolean`    | No          | `false` |
 
 #### Events
 
@@ -459,6 +487,15 @@ const player = new JaaqCollectionPlayer('#container', {
   autoplay: false,
   showArrows: true,
   showDots: true,
+  videoSettings: {
+    controls: true,
+    showLogo: false,
+    showTitle: true,
+    showAuthor: true,
+    showDescription: false,
+    showCaptions: true,
+    startMuted: false,
+  },
 });
 
 player.on('loaded', (collection) => console.log(collection));
@@ -468,17 +505,18 @@ player.on('error', (err) => console.error(err));
 
 #### Config
 
-| Option         | Type         | Required    | Default |
-| -------------- | ------------ | ----------- | ------- |
-| `collectionId` | `string`     | Yes         | -       |
-| `apiKey`       | `string`     | Conditional | -       |
-| `clientId`     | `string`     | Conditional | -       |
-| `client`       | `JaaqClient` | Conditional | -       |
-| `baseUrl`      | `string`     | No          | -       |
-| `autoplay`     | `boolean`    | No          | `false` |
-| `showArrows`   | `boolean`    | No          | `true`  |
-| `showDots`     | `boolean`    | No          | `true`  |
-| `className`    | `string`     | No          | `''`    |
+| Option          | Type            | Required    | Default |
+| --------------- | --------------- | ----------- | ------- |
+| `collectionId`  | `string`        | Yes         | -       |
+| `apiKey`        | `string`        | Conditional | -       |
+| `clientId`      | `string`        | Conditional | -       |
+| `client`        | `JaaqClient`    | Conditional | -       |
+| `baseUrl`       | `string`        | No          | -       |
+| `autoplay`      | `boolean`       | No          | `false` |
+| `showArrows`    | `boolean`       | No          | `true`  |
+| `showDots`      | `boolean`       | No          | `true`  |
+| `className`     | `string`        | No          | `''`    |
+| `videoSettings` | `VideoSettings` | No          | -       |
 
 #### Events
 
@@ -546,11 +584,11 @@ Optional:
 
 ## CDN Usage
 
-CI publishes files under the `jaaq-sdk-js/latest/` prefix. Embed HTML files are also available under `jaaq-sdk-js/latest/embed/` for compatibility.
+CI publishes files under the `latest/` prefix. Embed HTML files are available under `latest/embed/`.
 
 Base URL:
 
-- `https://cdn.jaaq.app/jaaq-sdk-js/latest/`
+- `https://cdn.jaaq.app/latest/`
 
 ### Available files (published by CI)
 
@@ -567,7 +605,7 @@ Base URL:
 ### Core SDK (UMD)
 
 ```html
-<script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/jaaq-sdk.min.js"></script>
+<script src="https://cdn.jaaq.app/latest/jaaq-sdk.min.js"></script>
 <script>
   const client = JaaqSDK.createJaaqClient({
     apiKey: 'YOUR_API_KEY',
@@ -583,7 +621,7 @@ Base URL:
 Bundled (no external HLS dependency):
 
 ```html
-<script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/jaaq-ui-bundled.min.js"></script>
+<script src="https://cdn.jaaq.app/latest/jaaq-ui-bundled.min.js"></script>
 <script>
   const player = new JaaqUI.JaaqVideoPlayer(document.getElementById('player'), {
     apiKey: 'YOUR_API_KEY',
@@ -597,7 +635,7 @@ Non-bundled (load hls.js separately):
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/jaaq-ui.min.js"></script>
+<script src="https://cdn.jaaq.app/latest/jaaq-ui.min.js"></script>
 ```
 
 ### Web components (UMD)
@@ -605,7 +643,7 @@ Non-bundled (load hls.js separately):
 Bundled (no external HLS dependency):
 
 ```html
-<script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/jaaq-webcomponents-bundled.min.js"></script>
+<script src="https://cdn.jaaq.app/latest/jaaq-webcomponents-bundled.min.js"></script>
 <jaaq-video-player video-id="YOUR_VIDEO_ID" api-key="YOUR_API_KEY" client-id="YOUR_CLIENT_ID"></jaaq-video-player>
 ```
 
@@ -613,12 +651,12 @@ Non-bundled (load hls.js separately):
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/jaaq-webcomponents.min.js"></script>
+<script src="https://cdn.jaaq.app/latest/jaaq-webcomponents.min.js"></script>
 ```
 
 ### React from CDN
 
-The CI pipeline does not publish the React UMD bundle to `https://cdn.jaaq.app/jaaq-sdk-js/latest/`.
+The CI pipeline does not publish the React UMD bundle to `https://cdn.jaaq.app/latest/`.
 
 Use npm:
 
@@ -636,7 +674,7 @@ import { VideoPlayer } from '@jaaq/jaaq-sdk-js/ui/react';
 
 ```html
 <iframe
-  src="https://cdn.jaaq.app/jaaq-sdk-js/latest/embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID&autoplay=false"
+  src="https://cdn.jaaq.app/latest/embed/embed.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&videoId=YOUR_VIDEO_ID&autoplay=false"
   width="800"
   height="450"
   frameborder="0"
@@ -646,15 +684,16 @@ import { VideoPlayer } from '@jaaq/jaaq-sdk-js/ui/react';
 
 ### URL parameters
 
-| Parameter  | Required | Notes                     |
-| ---------- | -------- | ------------------------- |
-| `apiKey`   | Yes      | API key                   |
-| `clientId` | Yes      | Client ID                 |
-| `videoId`  | Yes      | Video ID                  |
-| `autoplay` | No       | `true`, `false`, `1`, `0` |
-| `width`    | No       | CSS width                 |
-| `height`   | No       | CSS height                |
-| `baseUrl`  | No       | API base URL              |
+| Parameter    | Required | Notes                     |
+| ------------ | -------- | ------------------------- |
+| `apiKey`     | Yes      | API key                   |
+| `clientId`   | Yes      | Client ID                 |
+| `videoId`    | Yes      | Video ID                  |
+| `autoplay`   | No       | `true`, `false`, `1`, `0` |
+| `startMuted` | No       | `true`, `false`, `1`, `0` |
+| `width`      | No       | CSS width                 |
+| `height`     | No       | CSS height                |
+| `baseUrl`    | No       | API base URL              |
 
 ### postMessage protocol
 
@@ -713,7 +752,7 @@ Embed a collection of videos in a carousel format:
 
 ```html
 <iframe
-  src="https://cdn.jaaq.app/jaaq-sdk-js/latest/embed-collection.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&collectionId=YOUR_COLLECTION_ID&autoplay=false"
+  src="https://cdn.jaaq.app/latest/embed/embed-collection.html?apiKey=YOUR_API_KEY&clientId=YOUR_CLIENT_ID&collectionId=YOUR_COLLECTION_ID&autoplay=false&controls=true&showLogo=false&showTitle=true&showAuthor=true&showDescription=false&showCaptions=true&startMuted=false"
   width="100%"
   height="600"
   frameborder="0"
@@ -723,13 +762,22 @@ Embed a collection of videos in a carousel format:
 
 ### URL parameters
 
-| Parameter      | Required | Notes                     |
-| -------------- | -------- | ------------------------- |
-| `apiKey`       | Yes      | API key                   |
-| `clientId`     | Yes      | Client ID                 |
-| `collectionId` | Yes      | Collection ID             |
-| `autoplay`     | No       | `true`, `false`, `1`, `0` |
-| `baseUrl`      | No       | API base URL              |
+| Parameter         | Required | Notes                     |
+| ----------------- | -------- | ------------------------- |
+| `apiKey`          | Yes      | API key                   |
+| `clientId`        | Yes      | Client ID                 |
+| `collectionId`    | Yes      | Collection ID             |
+| `autoplay`        | No       | `true`, `false`, `1`, `0` |
+| `baseUrl`         | No       | API base URL              |
+| `controls`        | No       | `true`, `false`, `1`, `0` |
+| `showLogo`        | No       | `true`, `false`, `1`, `0` |
+| `showTitle`       | No       | `true`, `false`, `1`, `0` |
+| `showAuthor`      | No       | `true`, `false`, `1`, `0` |
+| `showDescription` | No       | `true`, `false`, `1`, `0` |
+| `showCaptions`    | No       | `true`, `false`, `1`, `0` |
+| `startMuted`      | No       | `true`, `false`, `1`, `0` |
+| `width`           | No       | CSS width string          |
+| `height`          | No       | CSS height string         |
 
 ### postMessage protocol
 
