@@ -4,6 +4,7 @@ import { registerJaaqComponents } from '@ui/webcomponents/register';
 import { JaaqCollectionPlayerElement } from '@ui/webcomponents/CollectionPlayer';
 import type { CollectionDTO } from '@src/types';
 import type { JaaqClient } from '@src/index';
+import type { VideoSettings } from '@ui/shared/types';
 
 if (typeof window !== 'undefined') {
   registerJaaqComponents();
@@ -20,6 +21,7 @@ type CollectionPlayerProps = {
   showArrows?: boolean;
   showDots?: boolean;
   className?: string;
+  videoSettings?: VideoSettings;
   onLoaded?: (_collection: CollectionDTO) => void;
   onError?: (_error: Error) => void;
   onSlideChange?: (_data: { index: number; video: CollectionDTO['videos'][0] }) => void;
@@ -46,6 +48,7 @@ function CollectionPlayerComponent(
     showArrows = true,
     showDots = true,
     className = '',
+    videoSettings,
     onLoaded,
     onError,
     onSlideChange,
@@ -86,6 +89,12 @@ function CollectionPlayerComponent(
       player.client = client;
     }
 
+    if (videoSettings) {
+      player.setAttribute('video-settings', JSON.stringify(videoSettings));
+    } else {
+      player.removeAttribute('video-settings');
+    }
+
     player.addEventListener('jaaq:collection:loaded', handleLoaded);
     player.addEventListener('jaaq:collection:error', handleError);
     player.addEventListener('jaaq:collection:slidechange', handleSlideChange);
@@ -95,7 +104,7 @@ function CollectionPlayerComponent(
       player.removeEventListener('jaaq:collection:error', handleError);
       player.removeEventListener('jaaq:collection:slidechange', handleSlideChange);
     };
-  }, [client, onLoaded, onError, onSlideChange]);
+  }, [client, videoSettings, onLoaded, onError, onSlideChange]);
 
   return (
     <div className={className}>

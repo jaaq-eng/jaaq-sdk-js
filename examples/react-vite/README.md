@@ -187,7 +187,7 @@ For quick prototyping or when you can't use npm, load React components directly 
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/react/jaaq-ui-react.min.js"></script>
+    <script src="https://cdn.jaaq.app/latest/ui/react/jaaq-ui-react.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
@@ -228,7 +228,7 @@ For a more React-like experience without build tools:
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/react/jaaq-ui-react.min.js"></script>
+    <script src="https://cdn.jaaq.app/latest/ui/react/jaaq-ui-react.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
@@ -283,7 +283,7 @@ The React UMD bundle requires these external dependencies:
    - From unpkg: `https://unpkg.com/hls.js@latest`
 
 4. **JAAQ React Components**:
-   - `https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/react/jaaq-ui-react.min.js`
+   - `https://cdn.jaaq.app/latest/ui/react/jaaq-ui-react.min.js`
 
 ### Global Variables
 
@@ -300,7 +300,7 @@ For simpler CDN usage without React dependencies, consider using web components 
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdn.jaaq.app/jaaq-sdk-js/latest/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
+    <script src="https://cdn.jaaq.app/latest/ui/webcomponents/jaaq-webcomponents-bundled.min.js"></script>
   </head>
   <body>
     <jaaq-video-player video-id="your-video-id" api-key="your-api-key" client-id="your-client-id"> </jaaq-video-player>

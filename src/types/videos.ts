@@ -12,6 +12,9 @@ type VideoDTO = {
   severity: number | null;
   duration: number;
   description: string;
+  creator?: string;
+  creatorImage?: string;
+  creatorBiography?: string;
 };
 
 export type { VideoDTO };

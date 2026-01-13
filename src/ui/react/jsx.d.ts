@@ -17,6 +17,7 @@ type JaaqVideoPlayerAttributes = Partial<JaaqVideoPlayerElement> & {
   'show-author'?: boolean | string;
   'show-description'?: boolean | string;
   'show-captions'?: boolean | string;
+  'start-muted'?: boolean | string;
 };
 
 type JaaqCollectionPlayerAttributes = Partial<JaaqCollectionPlayerElement> & {

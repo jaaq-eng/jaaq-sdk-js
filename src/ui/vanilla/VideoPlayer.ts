@@ -73,7 +73,7 @@ export class JaaqVideoPlayer {
       currentTime: 0,
       duration: 0,
       volume: 1,
-      isMuted: false,
+      isMuted: config.startMuted === true,
       isFullscreen: false,
       isLoading: true,
       error: null,
@@ -100,6 +100,9 @@ export class JaaqVideoPlayer {
     this.createDOM();
     await this.loadVideo();
     this.attachEventListeners();
+    if (this.config.startMuted === true) {
+      this.updateVolumeUI();
+    }
   }
 
   private createDOM(): void {
@@ -115,6 +118,10 @@ export class JaaqVideoPlayer {
 
     const video = document.createElement('video');
     this.videoElement = video;
+    if (this.config.startMuted === true) {
+      video.muted = true;
+      video.setAttribute('muted', '');
+    }
     player.appendChild(video);
 
     const logo = document.createElement('div');
@@ -274,15 +281,37 @@ export class JaaqVideoPlayer {
             lowLatencyMode: true,
           });
 
+          if (this.config.startMuted === true && this.videoElement) {
+            this.videoElement.muted = true;
+            this.videoElement.setAttribute('muted', '');
+          }
+
           hls.loadSource(videoUrl);
           hls.attachMedia(this.videoElement);
+
+          if (this.config.startMuted === true && this.videoElement) {
+            this.videoElement.muted = true;
+            this.videoElement.setAttribute('muted', '');
+          }
 
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
             this.setState({ isLoading: false });
             if (this.elements.loading) {
               this.elements.loading.style.display = 'none';
             }
+            if (this.config.startMuted === true && this.videoElement) {
+              this.videoElement.muted = true;
+              this.videoElement.setAttribute('muted', '');
+              this.setState({ isMuted: true });
+              this.updateVolumeUI();
+            }
             if (this.config.autoplay) {
+              if (this.config.startMuted === true && this.videoElement) {
+                this.videoElement.muted = true;
+                this.videoElement.setAttribute('muted', '');
+                this.setState({ isMuted: true });
+                this.updateVolumeUI();
+              }
               this.play();
             }
           });
@@ -298,11 +327,23 @@ export class JaaqVideoPlayer {
           this.hls = hls;
         } else if (this.videoElement.canPlayType('application/vnd.apple.mpegurl')) {
           this.videoElement.src = videoUrl;
+          if (this.config.startMuted === true) {
+            this.videoElement.muted = true;
+            this.videoElement.setAttribute('muted', '');
+            this.setState({ isMuted: true });
+            this.updateVolumeUI();
+          }
           this.setState({ isLoading: false });
           if (this.elements.loading) {
             this.elements.loading.style.display = 'none';
           }
           if (this.config.autoplay) {
+            if (this.config.startMuted === true && this.videoElement) {
+              this.videoElement.muted = true;
+              this.videoElement.setAttribute('muted', '');
+              this.setState({ isMuted: true });
+              this.updateVolumeUI();
+            }
             this.play();
           }
         } else {
@@ -310,11 +351,23 @@ export class JaaqVideoPlayer {
         }
       } else {
         this.videoElement.src = videoUrl;
+        if (this.config.startMuted === true) {
+          this.videoElement.muted = true;
+          this.videoElement.setAttribute('muted', '');
+          this.setState({ isMuted: true });
+          this.updateVolumeUI();
+        }
         this.setState({ isLoading: false });
         if (this.elements.loading) {
           this.elements.loading.style.display = 'none';
         }
         if (this.config.autoplay) {
+          if (this.config.startMuted === true && this.videoElement) {
+            this.videoElement.muted = true;
+            this.videoElement.setAttribute('muted', '');
+            this.setState({ isMuted: true });
+            this.updateVolumeUI();
+          }
           this.play();
         }
       }
@@ -389,8 +442,11 @@ export class JaaqVideoPlayer {
     }
 
     if (this.elements.videoTitle) {
-      this.elements.videoTitle.textContent = video.question || '';
-      this.elements.videoTitle.style.display = showTitle && video.question ? 'block' : 'none';
+      const question = video.question || '';
+      const creator = video.creator || '';
+      const titleText = creator ? `${question} - ${creator}` : question;
+      this.elements.videoTitle.textContent = titleText;
+      this.elements.videoTitle.style.display = showTitle && question ? 'block' : 'none';
     }
 
     if (this.elements.videoAuthor) {
@@ -400,15 +456,16 @@ export class JaaqVideoPlayer {
     }
 
     if (this.elements.videoDescription) {
-      if (video.description) {
+      const descriptionText = video.creatorBiography || video.description || '';
+      if (descriptionText) {
         const maxLength = 150;
-        const truncated = video.description.length > maxLength ? video.description.substring(0, maxLength) + '...' : video.description;
+        const truncated = descriptionText.length > maxLength ? descriptionText.substring(0, maxLength) + '...' : descriptionText;
         this.elements.videoDescription.innerHTML = `
           <span class="jaaq-description-text">${truncated}</span>
-          ${video.description.length > maxLength ? '<span class="jaaq-read-more">  Read more</span>' : ''}
+          ${descriptionText.length > maxLength ? '<span class="jaaq-read-more">  Read more</span>' : ''}
         `;
       }
-      this.elements.videoDescription.style.display = showDescription && video.description ? 'block' : 'none';
+      this.elements.videoDescription.style.display = showDescription && descriptionText ? 'block' : 'none';
     }
 
     if (this.elements.captionsBtn) {
@@ -618,7 +675,14 @@ export class JaaqVideoPlayer {
    * Starts or resumes video playback
    */
   public play(): void {
-    this.videoElement?.play();
+    if (this.videoElement) {
+      if (this.config.startMuted === true && !this.videoElement.muted) {
+        this.videoElement.muted = true;
+        this.videoElement.setAttribute('muted', '');
+        this.setState({ isMuted: true });
+      }
+      this.videoElement.play();
+    }
   }
 
   /**
@@ -659,12 +723,25 @@ export class JaaqVideoPlayer {
   }
 
   public setFeatures(
-    features: Partial<Pick<PlayerConfig, 'showLogo' | 'showTitle' | 'showAuthor' | 'showDescription' | 'showCaptions' | 'controls'>>,
+    features: Partial<
+      Pick<PlayerConfig, 'showLogo' | 'showTitle' | 'showAuthor' | 'showDescription' | 'showCaptions' | 'controls' | 'startMuted'>
+    >,
   ): void {
     this.config = { ...this.config, ...features };
 
     if (features.controls !== undefined) {
       this.updateControlsVisibility();
+    }
+
+    if (features.startMuted !== undefined && this.videoElement) {
+      this.videoElement.muted = features.startMuted === true;
+      if (features.startMuted === true) {
+        this.videoElement.setAttribute('muted', '');
+      } else {
+        this.videoElement.removeAttribute('muted');
+      }
+      this.setState({ isMuted: features.startMuted === true });
+      this.updateVolumeUI();
     }
 
     if (this.state.videoData) {

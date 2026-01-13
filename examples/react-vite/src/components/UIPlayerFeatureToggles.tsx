@@ -25,6 +25,7 @@ export default function UIPlayerFeatureToggles() {
   const [showAuthor, setShowAuthor] = useState(true);
   const [showDescription, setShowDescription] = useState(true);
   const [showCaptions, setShowCaptions] = useState(true);
+  const [startMuted, setStartMuted] = useState(false);
 
   const playerRef = useRef<VideoPlayerHandle>(null);
 
@@ -210,6 +211,23 @@ export default function UIPlayerFeatureToggles() {
               >
                 {showCaptions ? '✓' : '○'} Captions
               </button>
+
+              <button
+                onClick={() => setStartMuted(!startMuted)}
+                style={{
+                  padding: '10px 20px',
+                  background: startMuted ? '#007bff' : '#e9ecef',
+                  color: startMuted ? 'white' : '#495057',
+                  border: startMuted ? '2px solid #007bff' : '2px solid #dee2e6',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {startMuted ? '✓' : '○'} Start Muted
+              </button>
             </div>
 
             <div style={{ paddingTop: '16px', borderTop: '1px solid #dee2e6' }}>
@@ -232,6 +250,7 @@ export default function UIPlayerFeatureToggles() {
               showAuthor={showAuthor}
               showDescription={showDescription}
               showCaptions={showCaptions}
+              startMuted={startMuted}
               onLoaded={handleLoaded}
               onPlay={() => console.log('Video started playing')}
               onPause={() => console.log('Video paused')}
