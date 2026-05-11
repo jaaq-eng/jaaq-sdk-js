@@ -326,8 +326,11 @@
 
     <script
       src="__JAAQ_CDN_URL__/jaaq-webcomponents-bundled.min.js"
-      onerror="console.error('[Embed] Failed to load web component script'); showError('Failed to load player script');"
-      onload="console.log('[Embed] Web component script loaded');"
+      onerror="
+        console.error('[Embed] Failed to load web component script');
+        showError('Failed to load player script');
+      "
+      onload="console.log('[Embed] Web component script loaded')"
     ></script>
   </body>
 </html>
