@@ -91,7 +91,7 @@
   ],
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
-    "hls.js": "^1.0.0"
+    "hls.js": "^1.6.16"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -106,42 +106,42 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.1.0",
+    "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^20.0.0",
-    "@dotenvx/dotenvx": "^1.51.1",
-    "@eslint/js": "^9.39.1",
-    "@rollup/plugin-commonjs": "^29.0.0",
+    "@dotenvx/dotenvx": "^1.65.0",
+    "@eslint/js": "^10.0.1",
+    "@rollup/plugin-commonjs": "^29.0.2",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
     "@types/hls.js": "^1.0.0",
-    "@types/node": "^24.10.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "@typescript-eslint/eslint-plugin": "^8.46.3",
-    "@typescript-eslint/parser": "^8.46.3",
-    "@vitest/coverage-v8": "^4.0.8",
-    "eslint": "^9.39.1",
+    "@types/node": "^25.6.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+    "@typescript-eslint/parser": "^8.59.2",
+    "@vitest/coverage-v8": "^4.1.5",
+    "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
-    "globals": "^16.5.0",
+    "globals": "^17.6.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
-    "msw": "^2.12.1",
-    "openapi-typescript": "^7.10.1",
-    "prettier": "^3.6.2",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "rollup": "^4.53.2",
-    "rollup-plugin-dts": "^6.2.3",
+    "msw": "^2.14.6",
+    "openapi-typescript": "^7.13.0",
+    "prettier": "^3.8.3",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "rollup": "^4.60.3",
+    "rollup-plugin-dts": "^6.4.1",
     "rollup-plugin-tsconfig-paths": "^1.5.2",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.8"
+    "vitest": "^4.1.5"
   },
   "pnpm": {
     "overrides": {
-      "js-yaml@>=4.0.0 <4.1.1": ">=4.1.1"
+      "vite@<=7.3.1": "7.3.2"
     }
   }
 }
