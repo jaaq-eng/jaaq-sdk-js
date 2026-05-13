@@ -1,4 +1,4 @@
-import type { VideoDTO } from '@src/types/videos';
+import type { VideoDTO } from './videos';
 
 type CollectionDTO = {
   id: string;

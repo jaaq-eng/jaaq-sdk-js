@@ -17,6 +17,7 @@ type CollectionPlayerProps = {
   subscriptionId?: string;
   client?: JaaqClient;
   baseUrl?: string;
+  apiVersion?: string;
   autoplay?: boolean;
   showArrows?: boolean;
   showDots?: boolean;
@@ -44,6 +45,7 @@ function CollectionPlayerComponent(
     subscriptionId,
     client,
     baseUrl,
+    apiVersion,
     autoplay = false,
     showArrows = true,
     showDots = true,
@@ -115,6 +117,7 @@ function CollectionPlayerComponent(
         client-id={clientId}
         subscription-id={subscriptionId}
         base-url={baseUrl}
+        api-version={apiVersion}
         autoplay={autoplay ? 'true' : 'false'}
         show-arrows={showArrows ? 'true' : 'false'}
         show-dots={showDots ? 'true' : 'false'}

@@ -12,6 +12,7 @@ type CollectionPlayerConfig = {
   apiKey?: string;
   clientId?: string;
   baseUrl?: string;
+  apiVersion?: string;
   autoplay?: boolean;
   showArrows?: boolean;
   showDots?: boolean;
@@ -54,6 +55,7 @@ export class JaaqCollectionPlayer {
         apiKey: config.apiKey,
         clientId: config.clientId,
         baseUrl: config.baseUrl || BASE_URL,
+        apiVersion: config.apiVersion,
       });
     } else {
       throw new Error('Either client property or apiKey and clientId are required');
@@ -140,6 +142,7 @@ export class JaaqCollectionPlayer {
       if (this.config.apiKey) player.setAttribute('api-key', this.config.apiKey);
       if (this.config.clientId) player.setAttribute('client-id', this.config.clientId);
       if (this.config.baseUrl) player.setAttribute('base-url', this.config.baseUrl);
+      if (this.config.apiVersion) player.setAttribute('api-version', this.config.apiVersion);
       player.setAttribute('autoplay', 'false');
       player.setAttribute('width', '100%');
 

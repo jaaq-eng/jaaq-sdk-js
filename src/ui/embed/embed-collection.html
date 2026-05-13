@@ -118,6 +118,11 @@
           config.baseUrl = baseUrl;
         }
 
+        const apiVersion = params.get('apiVersion');
+        if (apiVersion) {
+          config.apiVersion = apiVersion;
+        }
+
         const showArrows = params.get('showArrows');
         if (showArrows !== null) {
           config.showArrows = showArrows === 'true' || showArrows === '1';
@@ -186,6 +191,10 @@
 
           if (config.baseUrl) {
             player.setAttribute('base-url', config.baseUrl);
+          }
+
+          if (config.apiVersion) {
+            player.setAttribute('api-version', config.apiVersion);
           }
 
           if (config.autoplay) {

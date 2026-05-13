@@ -82,6 +82,7 @@ Note: Currently, types are manually maintained in `src/types/`. The OpenAPI gene
 - baseUrl (optional) – Defaults to https://api.jaaq.app.
 - fetch (optional) – Custom fetch implementation (for Node < 18).
 - timeoutMs (optional) – Request timeout in ms.
+- apiVersion (optional) – Defaults to v1.
 
 ## Linting
 

@@ -1,5 +1,5 @@
 import type { HttpClient } from '@core/httpClient';
-import type { CollectionDTO } from '@src/types/collection';
+import type { CollectionDTO } from '@src/types';
 
 export type CollectionsResource = {
   list(): Promise<CollectionDTO[]>;

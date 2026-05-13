@@ -63,13 +63,14 @@ const collection = await client.collections.getById('collection-id');
 
 ### Client config
 
-| Option      | Type           | Required | Default                | Notes                                |
-| ----------- | -------------- | -------- | ---------------------- | ------------------------------------ |
-| `apiKey`    | `string`       | Yes      | -                      | Required for authentication          |
-| `clientId`  | `string`       | Yes      | -                      | Used as subscription identifier      |
-| `baseUrl`   | `string`       | No       | `https://api.jaaq.app` | API base URL                         |
-| `fetch`     | `typeof fetch` | No       | `globalThis.fetch`     | Provide for Node/custom runtimes     |
-| `timeoutMs` | `number`       | No       | -                      | Passed through to HTTP client config |
+| Option       | Type           | Required | Default                | Notes                                |
+| ------------ | -------------- | -------- | ---------------------- | ------------------------------------ |
+| `apiKey`     | `string`       | Yes      | -                      | Required for authentication          |
+| `clientId`   | `string`       | Yes      | -                      | Used as subscription identifier      |
+| `baseUrl`    | `string`       | No       | `https://api.jaaq.app` | API base URL                         |
+| `apiVersion` | `string`       | No       | `v1`                   | API version                          |
+| `fetch`      | `typeof fetch` | No       | `globalThis.fetch`     | Provide for Node/custom runtimes     |
+| `timeoutMs`  | `number`       | No       | -                      | Passed through to HTTP client config |
 
 ## UI Overview
 
@@ -310,6 +311,7 @@ export function App() {
 | `clientId`           | `string`                          | Conditional | -       |
 | `client`             | `JaaqClient`                      | Conditional | -       |
 | `baseUrl`            | `string`                          | No          | -       |
+| `apiVersion`         | `string`                          | Conditional | `v1`    |
 | `autoplay`           | `boolean`                         | No          | `false` |
 | `controls`           | `boolean`                         | No          | `true`  |
 | `width`              | `string`                          | No          | `100%`  |
@@ -384,6 +386,7 @@ export function App() {
 | `subscriptionId` | `string`                                                               | No          | -       |
 | `client`         | `JaaqClient`                                                           | Conditional | -       |
 | `baseUrl`        | `string`                                                               | No          | -       |
+| `apiVersion`     | `string`                                                               | Conditional | `v1`    |
 | `autoplay`       | `boolean`                                                              | No          | `false` |
 | `showArrows`     | `boolean`                                                              | No          | `true`  |
 | `showDots`       | `boolean`                                                              | No          | `true`  |
@@ -438,6 +441,7 @@ player.on('error', (err) => console.error(err));
 | `clientId`        | `string`     | Conditional | -       |
 | `client`          | `JaaqClient` | Conditional | -       |
 | `baseUrl`         | `string`     | No          | -       |
+| `apiVersion`      | `string`     | Conditional | `v1`    |
 | `autoplay`        | `boolean`    | No          | `false` |
 | `controls`        | `boolean`    | No          | `true`  |
 | `width`           | `string`     | No          | `100%`  |
@@ -512,6 +516,7 @@ player.on('error', (err) => console.error(err));
 | `clientId`      | `string`        | Conditional | -       |
 | `client`        | `JaaqClient`    | Conditional | -       |
 | `baseUrl`       | `string`        | No          | -       |
+| `apiVersion`    | `string`        | No          | `v1`    |
 | `autoplay`      | `boolean`       | No          | `false` |
 | `showArrows`    | `boolean`       | No          | `true`  |
 | `showDots`      | `boolean`       | No          | `true`  |
@@ -694,6 +699,7 @@ import { VideoPlayer } from '@jaaq/jaaq-sdk-js/ui/react';
 | `width`      | No       | CSS width                 |
 | `height`     | No       | CSS height                |
 | `baseUrl`    | No       | API base URL              |
+| `apiVersion` | No       | API version               |
 
 ### postMessage protocol
 
@@ -769,6 +775,7 @@ Embed a collection of videos in a carousel format:
 | `collectionId`    | Yes      | Collection ID             |
 | `autoplay`        | No       | `true`, `false`, `1`, `0` |
 | `baseUrl`         | No       | API base URL              |
+| `apiVersion`      | No       | API version               |
 | `controls`        | No       | `true`, `false`, `1`, `0` |
 | `showLogo`        | No       | `true`, `false`, `1`, `0` |
 | `showTitle`       | No       | `true`, `false`, `1`, `0` |

@@ -105,6 +105,7 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
     const apiKey = this.getAttribute('api-key');
     const clientId = this.getAttribute('client-id');
     const baseUrl = this.getAttribute('base-url') || undefined;
+    const apiVersion = this.getAttribute('api-version') || undefined;
 
     if (!this.clientInstance && !apiKey && !clientId) {
       this.emitError(new Error('Either client property or api-key and client-id attributes are required'));
@@ -120,6 +121,7 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
           apiKey: apiKey!,
           clientId: clientId!,
           baseUrl: baseUrl || BASE_URL,
+          apiVersion: apiVersion,
         });
 
       this.collectionData = await client.collections.getById(collectionId);
@@ -170,6 +172,7 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
     const apiKey = this.getAttribute('api-key');
     const clientId = this.getAttribute('client-id');
     const baseUrl = this.getAttribute('base-url');
+    const apiVersion = this.getAttribute('api-version');
     const videoSettingsAttr = this.getAttribute('video-settings');
     let videoSettings: Record<string, unknown> | null = null;
     if (videoSettingsAttr) {
@@ -189,6 +192,7 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
       if (apiKey) player.setAttribute('api-key', apiKey);
       if (clientId) player.setAttribute('client-id', clientId);
       if (baseUrl) player.setAttribute('base-url', baseUrl);
+      if (apiVersion) player.setAttribute('api-version', apiVersion);
       player.setAttribute('autoplay', 'false');
       player.setAttribute('width', '100%');
 
