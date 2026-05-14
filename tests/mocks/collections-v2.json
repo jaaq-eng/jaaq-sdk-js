@@ -1,0 +1,95 @@
+{
+  "collections": [
+    {
+      "id": "11f8aa24-5544-405c-b3b0-abd0bad298b8",
+      "name": "Mental wellness",
+      "description": "Marketing",
+      "imageUrl": "https://cdn.sanity.io/images/vf3sc5hr/develop/6bbb1a6b44c31d9d9019fe7667ee3c87dba40990-335x373.png",
+      "createdAt": "2025-08-27T09:38:42.000Z",
+      "videoGroups": [
+        {
+          "id": "7ce8cb74-b8f4-4113-a9e1-ae8fb7c70c31",
+          "title": "All",
+          "videos": [
+            {
+              "id": "00055307-ab0e-414b-9e55-f9eeef6071ea",
+              "videoId": "lqlGs5AG",
+              "question": "Do autistic people usually eat differently?",
+              "transcription": "So this is something that I am very up and down with.I think for me it shows up in the waythat I have certain safe foods.So I think the best way to describe it isa lot of the time, if I'm just going about my life,if I'm doing normal things,then I have a fairly normal relationship with food.I think there's certain textures that I would always avoid.Anything that's a bit, I dunno, slimy or strange,but I think if there's a lot going on in my lifeand everything else feels unpredictable,then I don't have the energy left to dealwith food being unpredictable either.So for example, if I've fallen out with a friendor if I've got really busy week at work,or if there's a lot going on, that all feels unpredictable.So if I'm then to eat a piece of fruit that might be crunchyor might be a bit soggy, that uncertaintyand that not getting what I expect is goingto tip me over the edge.So I tend to have certain foods that I know are always goingto give me the same thing.Like a chicken nugget is always goingto be a chicken nugget, A bagelis always going to be a bagel.It's quite predictable what you're going to get.It's less risk of that being the one thingthat's going to tip me over the edge.So even if I can't predict if my friend's going to fall outwith me, if my project's going to go well at work,if I'm going to be tired from doing something, I still knowthat a bagel is a bagel.And I think a lot of autistic people have these kindof safe foods that they return back towhen things feel like a lot.I think another thing that we strugglewith is getting the signals from our bodies.So whereas a normal person might get a natural signalof being hungry, my body kindof doesn't naturally tell me that.So if it's lunchtimeand then everybody else is eating, then I kindof get the signal from everybody else eating that, oh,it's lunchtime, I must be hungry, I should eat.But if I am maybe alone at home, not around other peopleand I don't have that structure,then I won't naturally think to eat.I can just go and go and goand then suddenly think, ohmy goodness, I've not had any lunch.So I think the way the food that we eat can be more unusual,and I think the way that we know to eat can needreminders from the outside as well.",
+              "videoUrl": "https://d1qbtov12ipuur.cloudfront.net/lqlGs5AG.m3u8?subscriptionId=8d4db525-954d-4aef-a28b-f02ddd8320c5&collectionId=11f8aa24-5544-405c-b3b0-abd0bad298b8",
+              "tags": ["eating disorders", "autism"],
+              "severity": null,
+              "duration": 159,
+              "description": "Safe foods and eating routines explained"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4d4201ff-5fa3-4bb8-b6b9-a6a36c82d0fc",
+      "name": "Flip the fear",
+      "description": "Olympians, pros, and a brain expert break down what nerves really are, and how to stop them from hijacking your day.",
+      "imageUrl": "https://cdn.sanity.io/images/vf3sc5hr/develop/2061f572c8610112fc3c1824007febfaed6b3f4b-1048x1392.png",
+      "createdAt": "2025-07-02T11:46:15.000Z",
+      "videoGroups": [
+        {
+          "id": "8901b347-1f82-4b3e-bc9f-88d85f515863",
+          "title": "Part 1",
+          "videos": [
+            {
+              "id": "13b52263-3b05-46f8-aab0-8155c756e361",
+              "videoId": "4rhPAkkj",
+              "question": "Is there any calming exercises you can show me? Two sharp breaths",
+              "transcription": "Yes.So we're going to do an exercise that helpsyou calm down a little bit.By activating the vagus nerve, it's also goingto give a bit more oxygen to the brain, so a bit more fuelso your brain doesn't feel a little bit worried.And it's also going to move your spine a little bitbecause it, you move your spine,your diaphragm attaches in there, your ribcage, all ofthat stuff's going to move and just startfiring a little bit more.So what we're going to do, first of all, is we're goingto just focus on moving the spine part.Most people do find it hardto move the spine without moving their shoulders.So we're going to use our hand as feedback.So I'm going to put my hand in the centre of my chestand push my chest bone away,and then I'm going to use my chest boneto push my hand away.So it's flexion extension.What we're going to do is we're going to addtwo sharp breaths in and one loud exhale out.And this is where things like the vagus nerveand the oxygen to the brain come in.Okay, so we're going to go And then two sharp bes.So you want to do about three to five reps of that.And what that's going to do is it's goingto improve fuel to the brain.It's going to fire up. The information come fromthat vagus nerve, the wander nerve all throughout the body.That's what the wee hum is doing.And it's going to move your diaphragm, it's goingto move your lungs, your ribcage, all of thatwith the spinal movement.All of these are going to help makethat brain feel a little bit calmerand a little bit more at home and safer in your environment.",
+              "videoUrl": "https://d1qbtov12ipuur.cloudfront.net/4rhPAkkj.m3u8?subscriptionId=8d4db525-954d-4aef-a28b-f02ddd8320c5&collectionId=4d4201ff-5fa3-4bb8-b6b9-a6a36c82d0fc",
+              "tags": ["anxiety"],
+              "severity": null,
+              "duration": 102,
+              "description": "Calming exercise using breath and spine movement"
+            },
+            {
+              "id": "d40fafa1-76fc-40a4-b812-a2f2a3ce1d22",
+              "videoId": "dbDcrTGn",
+              "question": "How did you cope with your nerves?",
+              "transcription": "Through experience, I learned howto deal with 'em a little bit better.Probably the main thingthat I wish I'd done was have someonethat I could talk about it openly with.I felt like I was the only player that was feeling the waythat I did, but when you come out of it,when you get a bit olderand you talk to other players,everyone's going through the same thing.They're probably just hiding it in different ways.So knowing that I wasn't the only one feelingthat way would've been nice.And then just having someone that you can openly expressthat with that can help youso you're not just containing it all the timeand trying to deal with it on your own.",
+              "videoUrl": "https://d1qbtov12ipuur.cloudfront.net/dbDcrTGn.m3u8?subscriptionId=8d4db525-954d-4aef-a28b-f02ddd8320c5&collectionId=4d4201ff-5fa3-4bb8-b6b9-a6a36c82d0fc",
+              "tags": ["self-reflection", "anxiety"],
+              "severity": null,
+              "duration": 34,
+              "description": "Shared experiences help manage performance nerves"
+            }
+          ]
+        },
+        {
+          "id": "8901b347-1f82-4b3e-bc9f-88d85f515863",
+          "title": "Part 2",
+          "videos": [
+            {
+              "id": "2f26749c-98d3-4aa6-8833-cec3dfcbe236",
+              "videoId": "1T4zG1Bx",
+              "question": "How have you learnt to deal with nerves throughout your career?",
+              "transcription": "For myself, I think nerves were,and I was always very nervous if I hadn't prepared wellfor me, if I had prepared well in a week,I had done enough training, I had done my preparation.I was confident in my ability.I was confident in what I had amongst myself.However, if I had potentially had a little niggle in theweek and not trained all weekand only trained a little bit on Friday,and then going into a game,then I was really, really nervous.But I think also as well,whenever you played for England, there'd be nerves the daybefore all week you are a little bit nervousand you're kind of excited,but you were a little bit on edge.And then you get to Friday, you've done that last bitof training, and then you almost have this 24 hour windowof you're not really doing anything, you're having a bitof treatment, you might be travelling,and you're just trying to distract yourself.You're not trying to think about the game too much.So I might be mucking around with the restof the team in the games roomor the team room to watching a couple of silly films justto try and mentally switch offand hoping you can have a good night's sleep.It was always that night before the gamewhere sometimes in your head you are playing things through.And the night before game, I'd always like to go over moves,go over tactics in my head,and then switch off and kind of park that.So I think for me it was trying to distract yourselfwith good distractions.",
+              "videoUrl": "https://d1qbtov12ipuur.cloudfront.net/1T4zG1Bx.m3u8?subscriptionId=8d4db525-954d-4aef-a28b-f02ddd8320c5&collectionId=4d4201ff-5fa3-4bb8-b6b9-a6a36c82d0fc",
+              "tags": ["stress", "anxiety"],
+              "severity": null,
+              "duration": 83,
+              "description": "Preparation and distraction before big events"
+            },
+            {
+              "id": "e5e00d27-fef3-44c0-a388-36d3d85630bc",
+              "videoId": "niZ2ZWe1",
+              "question": "Do you get nervous before a big match?",
+              "transcription": "Yeah, I still do.Even at my age, I still get nervous.I don't think there's anything wrong with that.I think it sort of shows you care.You care about the event that's coming.So being nervous is not something that you shouldshy away from or think is a negative.I think those nerves are, as longas you learn to challenge them, right?And I reckon they can add to your performance.So I used to sort of like it when I felt a bit nervous.I knew that I was most really getting ready for a big one.So, yeah, I enjoyed it.",
+              "videoUrl": "https://d1qbtov12ipuur.cloudfront.net/niZ2ZWe1.m3u8?subscriptionId=8d4db525-954d-4aef-a28b-f02ddd8320c5&collectionId=4d4201ff-5fa3-4bb8-b6b9-a6a36c82d0fc",
+              "tags": ["self-reflection", "stress", "anxiety"],
+              "severity": null,
+              "duration": 29,
+              "description": "Turning pre-game nerves into performance"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
