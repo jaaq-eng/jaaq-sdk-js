@@ -1,5 +1,5 @@
 import type { HttpClient } from '@core/httpClient';
-import type { VideoDTO } from '@src/types/videos';
+import type { VideoDTO } from '@src/types';
 
 export type VideosResource = {
   getById(_id: string): Promise<VideoDTO>;

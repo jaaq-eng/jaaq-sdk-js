@@ -15,6 +15,8 @@ export type PlayerConfig = {
   client?: JaaqClient;
   /** Custom API base URL */
   baseUrl?: string;
+  /** Custom API version */
+  apiVersion?: string;
   /** Whether to automatically start playback when video loads */
   autoplay?: boolean;
   /** Whether to show player controls */
@@ -97,4 +99,4 @@ export type PlayerEventCallback<T> = (_data: T) => void;
  * Video settings that can be passed to carousel components
  * Excludes carousel-specific props that are handled separately
  */
-export type VideoSettings = Omit<PlayerConfig, 'videoId' | 'apiKey' | 'clientId' | 'baseUrl' | 'client' | 'autoplay'>;
+export type VideoSettings = Omit<PlayerConfig, 'videoId' | 'apiKey' | 'clientId' | 'baseUrl' | 'apiVersion' | 'client' | 'autoplay'>;

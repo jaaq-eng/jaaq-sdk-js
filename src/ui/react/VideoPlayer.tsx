@@ -38,6 +38,7 @@ function VideoPlayerComponent(
     clientId,
     client,
     baseUrl,
+    apiVersion,
     autoplay = false,
     controls = true,
     width = '100%',
@@ -143,6 +144,7 @@ function VideoPlayerComponent(
         api-key={apiKey}
         client-id={clientId}
         base-url={baseUrl}
+        api-version={apiVersion}
         autoplay={autoplay ? 'true' : 'false'}
         controls={controls ? 'true' : 'false'}
         show-logo={showLogo ? 'true' : 'false'}

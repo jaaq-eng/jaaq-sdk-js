@@ -156,6 +156,7 @@ export class JaaqVideoPlayerElement extends HTMLElement {
     const apiKey = this.getAttribute('api-key');
     const clientId = this.getAttribute('client-id');
     const baseUrl = this.getAttribute('base-url') || undefined;
+    const apiVersion = this.getAttribute('api-version') || undefined;
     const autoplay = this.hasAttribute('autoplay') && this.getAttribute('autoplay') !== 'false';
     const controls = !this.hasAttribute('controls') || this.getAttribute('controls') !== 'false';
 
@@ -178,6 +179,7 @@ export class JaaqVideoPlayerElement extends HTMLElement {
         clientId: clientId ?? undefined,
         client: this.clientInstance || undefined,
         baseUrl,
+        apiVersion,
         autoplay,
         controls,
         showLogo,
