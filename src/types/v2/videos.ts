@@ -1,4 +1,4 @@
-import { CreatorV2DTO } from './creator';
+import type { CreatorV2DTO } from './creator';
 
 type VideoV2DTO = {
   id: string;

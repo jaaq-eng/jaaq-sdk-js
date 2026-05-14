@@ -96,7 +96,8 @@ export class JaaqCollectionPlayer {
 
       this.collectionData = await this.client.collections.getById(collectionId);
 
-      if (!this.collectionData.videos || this.collectionData.videos.length === 0) {
+      const videos = this.getVideosFromCollection(this.collectionData);
+      if (videos.length === 0) {
         this.emitError(new Error('No videos found in collection'));
         return;
       }
@@ -119,6 +120,24 @@ export class JaaqCollectionPlayer {
     `;
   }
 
+  private getVideosFromCollection(collection: { videos?: VideoDTO[]; videoGroups?: { videos?: VideoDTO[] }[] }): VideoDTO[] {
+    if (collection.videos && collection.videos.length > 0) {
+      return collection.videos;
+    }
+
+    if (collection.videoGroups && collection.videoGroups.length > 0) {
+      const videos: VideoDTO[] = [];
+      collection.videoGroups.forEach((group) => {
+        if (group.videos && group.videos.length > 0) {
+          videos.push(...group.videos);
+        }
+      });
+      return videos;
+    }
+
+    return [];
+  }
+
   private renderCarousel(): void {
     if (!this.playerElement || !this.collectionData) return;
 
@@ -133,7 +152,8 @@ export class JaaqCollectionPlayer {
     const list = document.createElement('ul');
     list.className = 'splide__list';
 
-    this.collectionData.videos.forEach((video) => {
+    const videos = this.getVideosFromCollection(this.collectionData);
+    videos.forEach((video: any) => {
       const slide = document.createElement('li');
       slide.className = 'splide__slide';
 
@@ -219,7 +239,8 @@ export class JaaqCollectionPlayer {
       this.handleSlideChange(newIndex);
 
       if (this.collectionData) {
-        this.emit('slidechange', { index: newIndex, video: this.collectionData.videos[newIndex] });
+        const videos = this.getVideosFromCollection(this.collectionData);
+        this.emit('slidechange', { index: newIndex, video: videos[newIndex] });
       }
     });
 

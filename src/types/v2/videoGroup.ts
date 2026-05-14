@@ -1,4 +1,4 @@
-import { VideoV2DTO } from './videos';
+import type { VideoV2DTO } from './videos';
 
 type VideoGroupV2DTO = {
   id: string;

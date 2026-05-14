@@ -88,7 +88,6 @@ export class JaaqVideoPlayer {
         apiKey: config.apiKey,
         clientId: config.clientId,
         baseUrl: config.baseUrl,
-        apiVersion: config.apiVersion,
       });
     } else {
       throw new Error('Please provide either a client instance or apiKey and clientId');

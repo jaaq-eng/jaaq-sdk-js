@@ -36,6 +36,12 @@ function joinUrl(baseUrl: string, apiVersion: string, clientId: string, path: st
   return `${base}/b2b/${apiVersion}/subscription/${encodeURIComponent(clientId)}${relative.startsWith('/') ? relative : `/${relative}`}`;
 }
 
+function convertToValidAPIVersion(version: string): string {
+  const v = version.toLowerCase();
+  if (v === 'v1' || v === 'v2') return v;
+  return 'v1'; // default to v1 if invalid version provided
+}
+
 export function createHttpClient(config: HttpClientConfig): HttpClient {
   const { baseUrl, apiKey, clientId, fetch: fetchImpl, apiVersion } = config;
 
@@ -49,7 +55,7 @@ export function createHttpClient(config: HttpClientConfig): HttpClient {
     'x-api-key': apiKey,
   };
 
-  const fullUrl = (path: string, apiVersion: string) => joinUrl(baseUrl, apiVersion, clientId, path);
+  const fullUrl = (path: string) => joinUrl(baseUrl, convertToValidAPIVersion(apiVersion), clientId, path);
 
   const request = async <T>(method: string, path: string, init?: RequestOptions, body?: unknown) => {
     const reqInit: RequestOptions = {
@@ -61,7 +67,7 @@ export function createHttpClient(config: HttpClientConfig): HttpClient {
       ...init,
     };
     if (body !== undefined) reqInit.body = JSON.stringify(body);
-    const res = await f(fullUrl(path, apiVersion), reqInit);
+    const res = await f(fullUrl(path), reqInit);
     return parseJson<T>(res);
   };
 

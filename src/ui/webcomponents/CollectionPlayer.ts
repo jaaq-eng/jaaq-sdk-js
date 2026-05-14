@@ -1,6 +1,6 @@
 import Splide from '@splidejs/splide';
 import { JaaqClient, BASE_URL } from '@src/index';
-import type { CollectionDTO } from '@src/types';
+import type { CollectionDTO, VideoDTO } from '@src/types';
 import sharedStyles from '@ui/shared/styles.css';
 import collectionStyles from './CollectionPlayer.css';
 import splideStyles from '@splidejs/splide/css';
@@ -75,6 +75,24 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
     return v !== 'false';
   }
 
+  private getVideosFromCollection(collection: { videos?: VideoDTO[]; videoGroups?: { videos?: VideoDTO[] }[] }): VideoDTO[] {
+    if (collection.videos && collection.videos.length > 0) {
+      return collection.videos;
+    }
+
+    if (collection.videoGroups && collection.videoGroups.length > 0) {
+      const videos: VideoDTO[] = [];
+      collection.videoGroups.forEach((group) => {
+        if (group.videos && group.videos.length > 0) {
+          videos.push(...group.videos);
+        }
+      });
+      return videos;
+    }
+
+    return [];
+  }
+
   private render() {
     if (!this.shadowRoot) return;
 
@@ -125,8 +143,9 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
         });
 
       this.collectionData = await client.collections.getById(collectionId);
+      const videos = this.getVideosFromCollection(this.collectionData);
 
-      if (!this.collectionData.videos || this.collectionData.videos.length === 0) {
+      if (videos.length === 0) {
         this.emitError(new Error('No videos found in collection'));
         return;
       }
@@ -172,7 +191,6 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
     const apiKey = this.getAttribute('api-key');
     const clientId = this.getAttribute('client-id');
     const baseUrl = this.getAttribute('base-url');
-    const apiVersion = this.getAttribute('api-version');
     const videoSettingsAttr = this.getAttribute('video-settings');
     let videoSettings: Record<string, unknown> | null = null;
     if (videoSettingsAttr) {
@@ -183,7 +201,8 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
       }
     }
 
-    this.collectionData.videos.forEach((video) => {
+    const videos = this.getVideosFromCollection(this.collectionData);
+    videos.forEach((video) => {
       const slide = document.createElement('li');
       slide.className = 'splide__slide';
 
@@ -192,7 +211,6 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
       if (apiKey) player.setAttribute('api-key', apiKey);
       if (clientId) player.setAttribute('client-id', clientId);
       if (baseUrl) player.setAttribute('base-url', baseUrl);
-      if (apiVersion) player.setAttribute('api-version', apiVersion);
       player.setAttribute('autoplay', 'false');
       player.setAttribute('width', '100%');
 
@@ -271,9 +289,10 @@ export class JaaqCollectionPlayerElement extends HTMLElement {
       });
       this.handleSlideChange(newIndex);
 
+      const videos = this.collectionData ? this.getVideosFromCollection(this.collectionData) : [];
       this.dispatchEvent(
         new CustomEvent('jaaq:collection:slidechange', {
-          detail: { index: newIndex, video: this.collectionData?.videos[newIndex] },
+          detail: { index: newIndex, video: videos[newIndex] },
           bubbles: true,
           composed: true,
         }),

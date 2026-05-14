@@ -1,13 +1,14 @@
 import { createHttpClient, type HttpClient, type FetchLike } from '@core/httpClient';
 import {
-  CollectionsResourceV2,
+  createCollectionsResource,
   createCollectionsResourceV2,
   createVideosResource,
   createVideosResourceV2,
-  VideosResourceV2,
   type VideosResource,
+  type VideosResourceV2,
+  type CollectionsResource,
+  type CollectionsResourceV2,
 } from '@src/resources';
-import { createCollectionsResource, type CollectionsResource } from '@src/resources';
 
 // Public type exports for consumers (barrel)
 export * from '@src/types';

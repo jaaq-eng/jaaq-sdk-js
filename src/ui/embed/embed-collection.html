@@ -236,7 +236,8 @@
                 name: collection.name,
                 description: collection.description,
               },
-              videoCount: collection.videos?.length || 0,
+              videoCount:
+                collection.videos?.length || collection.videoGroups?.reduce((sum, group) => sum + (group.videos?.length || 0), 0) || 0,
             });
           });
 

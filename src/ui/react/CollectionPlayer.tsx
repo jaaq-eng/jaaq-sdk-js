@@ -2,7 +2,7 @@ import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import * as React from 'react';
 import { registerJaaqComponents } from '@ui/webcomponents/register';
 import { JaaqCollectionPlayerElement } from '@ui/webcomponents/CollectionPlayer';
-import type { CollectionDTO } from '@src/types';
+import type { CollectionDTO, CollectionV2DTO } from '@src/types';
 import type { JaaqClient } from '@src/index';
 import type { VideoSettings } from '@ui/shared/types';
 
@@ -25,7 +25,7 @@ type CollectionPlayerProps = {
   videoSettings?: VideoSettings;
   onLoaded?: (_collection: CollectionDTO) => void;
   onError?: (_error: Error) => void;
-  onSlideChange?: (_data: { index: number; video: CollectionDTO['videos'][0] }) => void;
+  onSlideChange?: (_data: { index: number; video: CollectionDTO['videos'][0] | CollectionV2DTO['videoGroups'][0]['videos'][0] }) => void;
 };
 
 type CollectionPlayerHandle = {
