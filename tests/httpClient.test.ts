@@ -248,6 +248,27 @@ describe('httpClient', () => {
       expect(customFetch).toHaveBeenCalled();
     });
 
+    it('joins baseUrl and relative path correctly - unsupported version', async () => {
+      const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
+        expect(input).toBe('http://localhost:3000/b2b/v1/subscription/test-client/test/get');
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      });
+
+      const http = createHttpClient({
+        baseUrl: 'http://localhost:3000',
+        apiKey: 'test-key',
+        clientId: 'test-client',
+        fetch: customFetch,
+        apiVersion: 'v999',
+      });
+
+      await http.get('test/get');
+      expect(customFetch).toHaveBeenCalled();
+    });
+
     it('handles baseUrl with trailing slash', async () => {
       const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
         expect(input).toBe('http://localhost:3000/b2b/v1/subscription/test-client/test/get');
