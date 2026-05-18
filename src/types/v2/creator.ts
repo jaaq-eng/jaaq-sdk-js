@@ -2,7 +2,7 @@ type CreatorV2DTO = {
   id: string;
   name: string;
   biography: string;
-  videoUrl: string;
+  imageUrl: string;
   type: string;
 };
 
