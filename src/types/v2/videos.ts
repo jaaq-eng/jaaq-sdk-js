@@ -1,5 +1,11 @@
 import type { CreatorV2DTO } from './creator';
 
+type CtaDTO = {
+  url?: string;
+  label?: string;
+  labelColor?: string;
+};
+
 type VideoV2DTO = {
   id: string;
   videoId: string;
@@ -9,6 +15,7 @@ type VideoV2DTO = {
   videoUrl: string;
   tags: string[];
   severity: number | null;
+  cta: CtaDTO | null;
   duration: number;
   description: string;
   creator?: CreatorV2DTO;
