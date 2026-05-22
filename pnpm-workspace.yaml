@@ -1,0 +1,31 @@
+# pnpm-workspace.yaml — pnpm 11+ settings live here, not in package.json's `pnpm` field.
+# This repo is not a pnpm workspace; the file exists solely to hold the settings below.
+#
+# `engineStrict: true` makes pnpm hard-fail the install when the active Node.js
+# version does not match the root `engines.node` field in package.json. Without it,
+# pnpm only logs `[WARN] Unsupported engine` and proceeds — which defeats the point
+# of declaring engines. (The kebab-case `engine-strict` in `.npmrc` is ignored by
+# pnpm 11; this camelCase key in pnpm-workspace.yaml is the canonical home.)
+engineStrict: true
+
+# `allowBuilds` is a security gate. Since pnpm 9, dependency install/postinstall
+# scripts are blocked by default — a supply-chain hardening so a malicious package
+# cannot run arbitrary code during `pnpm install`. Each entry below explicitly
+# authorises that package's scripts to run.
+#
+# Why these are allowlisted:
+#   - esbuild: native bundler binary used by vitest (for test transforms); install
+#              script links the platform-specific binary, vitest breaks without it.
+#   - msw:     Mock Service Worker; postinstall prints a CLI message, harmless
+#              but blocked by the default policy.
+allowBuilds:
+  esbuild: true
+  msw: true
+
+# `overrides` was previously declared as `pnpm.overrides` in root package.json
+# (pnpm 11 no longer reads the `pnpm` field). The single entry below is a
+# security mitigation: any transitive `vite` resolving to ≤7.3.1 (CVE range)
+# is rewritten to 7.3.2. Range/comparator syntax is intentional — it scopes
+# the override to the vulnerable line only.
+overrides:
+  vite@<=7.3.1: '7.3.2'
