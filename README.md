@@ -10,6 +10,10 @@ It includes:
 
 ## Installation
 
+### Requirements
+
+Node.js **≥ 22**. The SDK is tested against the Active LTS line and supports anything Node ≥ 22 at runtime; consumers on EOL Node 20 (and below) will see an `EBADENGINE` warning from their package manager.
+
 ```bash
 pnpm add @jaaq/jaaq-sdk-js
 ```
