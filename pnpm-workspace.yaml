@@ -8,6 +8,14 @@
 # pnpm 11; this camelCase key in pnpm-workspace.yaml is the canonical home.)
 engineStrict: true
 
+# `packageManagerStrictVersion: true` makes pnpm refuse to operate if a pnpm
+# version different from the one pinned in `packageManager` (currently 11.1.3) is
+# in use. We can't use `engines.pnpm` for this on a published library — that field
+# ships in the npm publish and would force every downstream consumer onto exactly
+# our pnpm version. This setting lives only in pnpm-workspace.yaml, which is
+# repo-local, so consumers are unaffected.
+packageManagerStrictVersion: true
+
 # `allowBuilds` is a security gate. Since pnpm 9, dependency install/postinstall
 # scripts are blocked by default — a supply-chain hardening so a malicious package
 # cannot run arbitrary code during `pnpm install`. Each entry below explicitly
