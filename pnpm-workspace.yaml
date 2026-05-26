@@ -1,5 +1,5 @@
 # pnpm-workspace.yaml — pnpm 11+ settings live here, not in package.json's `pnpm` field.
-# This repo is not a pnpm workspace; the file exists solely to hold the settings below.
+# This repo is not a multi-package/monorepo workspace; this file exists solely to hold the settings below.
 #
 # `engineStrict: true` makes pnpm hard-fail the install when the active Node.js
 # version does not match the root `engines.node` field in package.json. Without it,
