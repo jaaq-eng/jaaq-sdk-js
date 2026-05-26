@@ -216,7 +216,7 @@ Critical bugs in production require immediate fixes through hotfix branches.
    ```bash
    pnpm version patch --no-git-tag-version
    git add package.json
-   git commit -m "chore: bump version to $(node -p "require('./package.json').version")"
+   git commit -m "chore: bump version to $(node -p 'require(\"./package.json\").version')"
    ```
 
 4. Push hotfix branch:
