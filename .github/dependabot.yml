@@ -1,0 +1,72 @@
+# Dependabot configuration — B2B-347 package maintenance.
+# Groups bundle minor/patch updates for related packages so they land as a
+# single PR per ecosystem cycle. Majors fall outside the groups and surface
+# as individual PRs (one per package), keeping breaking-change reviews
+# distinct from routine bumps.
+#
+# This is a published SDK (single package, not a workspace). Dependency
+# bumps are particularly sensitive — a transitive vulnerability landing
+# here propagates to every downstream consumer.
+
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore(B2B-347)'
+    groups:
+      rollup:
+        patterns:
+          - '@rollup/*'
+        update-types:
+          - 'minor'
+          - 'patch'
+      vitest:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+        update-types:
+          - 'minor'
+          - 'patch'
+      eslint:
+        patterns:
+          - 'eslint'
+          - '@eslint/*'
+          - '@typescript-eslint/*'
+          - 'eslint-config-prettier'
+          - 'prettier'
+        update-types:
+          - 'minor'
+          - 'patch'
+      commitlint:
+        patterns:
+          - '@commitlint/*'
+          - 'husky'
+          - 'lint-staged'
+        update-types:
+          - 'minor'
+          - 'patch'
+      types:
+        patterns:
+          - '@types/*'
+        update-types:
+          - 'minor'
+          - 'patch'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'chore(B2B-347)'
+    groups:
+      actions:
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
