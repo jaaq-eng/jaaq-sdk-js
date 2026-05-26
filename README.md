@@ -10,6 +10,10 @@ It includes:
 
 ## Installation
 
+### Requirements
+
+Node.js **≥ 22**. The SDK is tested in CI against Node 22 and supports anything Node ≥ 22 at runtime; consumers on EOL Node 20 (and below) may see an unsupported engine warning or error from their package manager (npm typically reports this as `EBADENGINE`).
+
 ```bash
 pnpm add @jaaq/jaaq-sdk-js
 ```
