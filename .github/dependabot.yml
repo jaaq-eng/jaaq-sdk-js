@@ -4,8 +4,9 @@
 # as individual PRs (one per package), keeping breaking-change reviews
 # distinct from routine bumps.
 #
-# This is a published SDK (single package, not a workspace). Dependency
-# bumps are particularly sensitive — a transitive vulnerability landing
+# This repo publishes a single SDK package, but the repository also contains
+# example packages. A `pnpm-workspace.yaml` is present for pnpm settings only.
+# Dependency bumps are particularly sensitive — a transitive vulnerability
 # here propagates to every downstream consumer.
 
 version: 2
