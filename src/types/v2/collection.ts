@@ -5,6 +5,11 @@ type CollectionV2DTO = {
   name: string;
   description: string;
   imageUrl: string;
+  idleVideo: {
+    id: string;
+    duration: number;
+    videoUrl: string;
+  } | null;
   videoGroups: VideoGroupV2DTO[];
 };
 
