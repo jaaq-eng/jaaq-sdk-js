@@ -11,10 +11,11 @@ type VideoV2DTO = {
   videoUrl: string;
   tags: string[];
   severity: number | null;
-  cta: CtaV2DTO | null;
   duration: number;
   description: string;
   creator?: CreatorV2DTO;
+  cta?: CtaV2DTO;
+  allowFeedbackWidget?: boolean;
 };
 
 export type { VideoV2DTO };
