@@ -30,6 +30,22 @@ Types are imported from `@src/types/*` (e.g., `import type { VideoDTO } from '@s
 
 ## Installation
 
+### Prerequisites
+
+- **Node.js**: an even-LTS major satisfying `engines.node` in `package.json` (currently `>=22`). The required dev version is pinned in [`.nvmrc`](./.nvmrc) — `nvm use` (or `fnm use`) picks it up automatically.
+- **pnpm**: the exact version is pinned in `packageManager` in `package.json` (currently `pnpm@11.1.3`). Easiest way to get it: enable [corepack](https://nodejs.org/api/corepack.html) once, then pnpm auto-selects the pinned version on every invocation:
+
+  ```bash
+  corepack enable        # one-off; ships with Node.js
+  ```
+
+`pnpm install` is gated by `pnpm-workspace.yaml`:
+
+- `engineStrict: true` — installs hard-fail with `ERR_PNPM_UNSUPPORTED_ENGINE` if the active Node version doesn't satisfy `engines.node`.
+- `packageManagerStrictVersion: true` — installs hard-fail if a pnpm version other than the one pinned in `packageManager` is in use.
+
+### Install
+
 ```bash
 pnpm install
 ```
@@ -82,6 +98,7 @@ Note: Currently, types are manually maintained in `src/types/`. The OpenAPI gene
 - baseUrl (optional) – Defaults to https://api.jaaq.app.
 - fetch (optional) – Custom fetch implementation (for Node < 18).
 - timeoutMs (optional) – Request timeout in ms.
+- apiVersion (optional) – Defaults to v1.
 
 ## Linting
 

@@ -16,6 +16,7 @@ describe('URL normalization (joinUrl)', () => {
       apiKey: 'xxxxx',
       clientId: 'my-client-id',
       fetch: fetchFn,
+      apiVersion: 'v1',
     });
     await http.get<{ ok: boolean }>('b2b/videos');
     expect(fetchFn.mock.calls[0][0]).toBe('https://api.example.com/b2b/v1/subscription/my-client-id/b2b/videos');
@@ -28,6 +29,7 @@ describe('URL normalization (joinUrl)', () => {
       apiKey: 'xxxxx',
       clientId: 'my-client-id',
       fetch: fetchFn,
+      apiVersion: 'v1',
     });
     await http2.get<{ ok: boolean }>('/b2b/videos');
     expect(fetchFn.mock.calls[2][0]).toBe('https://api.example.com/b2b/v1/subscription/my-client-id/b2b/videos');

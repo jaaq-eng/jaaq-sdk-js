@@ -9,6 +9,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const result = await http.get<{ method: string; success: boolean }>('test/get');
@@ -22,6 +23,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const body = { name: 'test', value: 123 };
@@ -37,6 +39,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const body = { id: '1', name: 'updated' };
@@ -52,6 +55,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const body = { name: 'patched' };
@@ -67,6 +71,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const result = await http.delete<{ method: string; success: boolean }>('test/delete');
@@ -88,6 +93,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: customFetch,
+        apiVersion: 'v1',
       });
 
       await http.post('test/post', undefined);
@@ -102,6 +108,7 @@ describe('httpClient', () => {
         apiKey: 'my-api-key',
         clientId: 'my-client-id',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const result = await http.get<{ headers: Record<string, string> }>('test/check-headers');
@@ -115,6 +122,7 @@ describe('httpClient', () => {
         apiKey: 'my-api-key',
         clientId: 'my-client-id',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const result = await http.get<{ headers: Record<string, string> }>('test/check-headers', {
@@ -133,6 +141,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       await expect(http.get('test/400')).rejects.toThrow('HTTP 400');
@@ -144,6 +153,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       await expect(http.get('test/404')).rejects.toThrow('HTTP 404');
@@ -155,6 +165,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       await expect(http.get('test/500')).rejects.toThrow('HTTP 500');
@@ -166,6 +177,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       try {
@@ -185,6 +197,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const result = await http.get('test/204');
@@ -207,6 +220,49 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: customFetch,
+        apiVersion: 'v1',
+      });
+
+      await http.get('test/get');
+      expect(customFetch).toHaveBeenCalled();
+    });
+
+    it('joins baseUrl and relative path correctly - V2', async () => {
+      const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
+        expect(input).toBe('http://localhost:3000/b2b/v2/subscription/test-client/test/get');
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      });
+
+      const http = createHttpClient({
+        baseUrl: 'http://localhost:3000',
+        apiKey: 'test-key',
+        clientId: 'test-client',
+        fetch: customFetch,
+        apiVersion: 'v2',
+      });
+
+      await http.get('test/get');
+      expect(customFetch).toHaveBeenCalled();
+    });
+
+    it('joins baseUrl and relative path correctly - unsupported version', async () => {
+      const customFetch = vi.fn(async (input: Parameters<typeof fetch>[0]) => {
+        expect(input).toBe('http://localhost:3000/b2b/v1/subscription/test-client/test/get');
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      });
+
+      const http = createHttpClient({
+        baseUrl: 'http://localhost:3000',
+        apiKey: 'test-key',
+        clientId: 'test-client',
+        fetch: customFetch,
+        apiVersion: 'v999',
       });
 
       await http.get('test/get');
@@ -227,6 +283,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: customFetch,
+        apiVersion: 'v1',
       });
 
       await http.get('test/get');
@@ -247,6 +304,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: customFetch,
+        apiVersion: 'v1',
       });
 
       await http.get('/test/get');
@@ -259,6 +317,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const result = await http.get<{ absolute: boolean }>('https://absolute-url.com/test');
@@ -280,6 +339,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: customFetch,
+        apiVersion: 'v1',
       });
 
       const result = await http.get<{ custom: boolean }>('test/get');
@@ -296,6 +356,7 @@ describe('httpClient', () => {
           baseUrl: 'http://localhost:3000',
           apiKey: 'test-key',
           clientId: 'test-client',
+          apiVersion: 'v1',
         });
       }).toThrow('No fetch implementation found');
 
@@ -318,6 +379,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: customFetch,
+        apiVersion: 'v1',
       });
 
       const body = { test: 'value', number: 42 };
@@ -331,6 +393,7 @@ describe('httpClient', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: globalThis.fetch,
+        apiVersion: 'v1',
       });
 
       const body = {

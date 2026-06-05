@@ -118,6 +118,11 @@
           config.baseUrl = baseUrl;
         }
 
+        const apiVersion = params.get('apiVersion');
+        if (apiVersion) {
+          config.apiVersion = apiVersion;
+        }
+
         const showArrows = params.get('showArrows');
         if (showArrows !== null) {
           config.showArrows = showArrows === 'true' || showArrows === '1';
@@ -188,6 +193,10 @@
             player.setAttribute('base-url', config.baseUrl);
           }
 
+          if (config.apiVersion) {
+            player.setAttribute('api-version', config.apiVersion);
+          }
+
           if (config.autoplay) {
             player.setAttribute('autoplay', 'true');
           }
@@ -227,7 +236,8 @@
                 name: collection.name,
                 description: collection.description,
               },
-              videoCount: collection.videos?.length || 0,
+              videoCount:
+                collection.videos?.length || collection.videoGroups?.reduce((sum, group) => sum + (group.videos?.length || 0), 0) || 0,
             });
           });
 
@@ -317,8 +327,11 @@
 
     <script
       src="__JAAQ_CDN_URL__/jaaq-webcomponents-bundled.min.js"
-      onerror="console.error('[Embed Collection] Failed to load web component script'); showError('Failed to load collection player script');"
-      onload="console.log('[Embed Collection] Web component script loaded');"
+      onerror="
+        console.error('[Embed Collection] Failed to load web component script');
+        showError('Failed to load collection player script');
+      "
+      onload="console.log('[Embed Collection] Web component script loaded')"
     ></script>
   </body>
 </html>

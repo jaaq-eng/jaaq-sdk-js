@@ -12,6 +12,7 @@ type CollectionPlayerConfig = {
   apiKey?: string;
   clientId?: string;
   baseUrl?: string;
+  apiVersion?: string;
   autoplay?: boolean;
   showArrows?: boolean;
   showDots?: boolean;
@@ -54,6 +55,7 @@ export class JaaqCollectionPlayer {
         apiKey: config.apiKey,
         clientId: config.clientId,
         baseUrl: config.baseUrl || BASE_URL,
+        apiVersion: config.apiVersion,
       });
     } else {
       throw new Error('Either client property or apiKey and clientId are required');
@@ -94,7 +96,8 @@ export class JaaqCollectionPlayer {
 
       this.collectionData = await this.client.collections.getById(collectionId);
 
-      if (!this.collectionData.videos || this.collectionData.videos.length === 0) {
+      const videos = this.getVideosFromCollection(this.collectionData);
+      if (videos.length === 0) {
         this.emitError(new Error('No videos found in collection'));
         return;
       }
@@ -117,6 +120,24 @@ export class JaaqCollectionPlayer {
     `;
   }
 
+  private getVideosFromCollection(collection: { videos?: VideoDTO[]; videoGroups?: { videos?: VideoDTO[] }[] }): VideoDTO[] {
+    if (collection.videos && collection.videos.length > 0) {
+      return collection.videos;
+    }
+
+    if (collection.videoGroups && collection.videoGroups.length > 0) {
+      const videos: VideoDTO[] = [];
+      collection.videoGroups.forEach((group) => {
+        if (group.videos && group.videos.length > 0) {
+          videos.push(...group.videos);
+        }
+      });
+      return videos;
+    }
+
+    return [];
+  }
+
   private renderCarousel(): void {
     if (!this.playerElement || !this.collectionData) return;
 
@@ -131,7 +152,8 @@ export class JaaqCollectionPlayer {
     const list = document.createElement('ul');
     list.className = 'splide__list';
 
-    this.collectionData.videos.forEach((video) => {
+    const videos = this.getVideosFromCollection(this.collectionData);
+    videos.forEach((video: any) => {
       const slide = document.createElement('li');
       slide.className = 'splide__slide';
 
@@ -140,6 +162,7 @@ export class JaaqCollectionPlayer {
       if (this.config.apiKey) player.setAttribute('api-key', this.config.apiKey);
       if (this.config.clientId) player.setAttribute('client-id', this.config.clientId);
       if (this.config.baseUrl) player.setAttribute('base-url', this.config.baseUrl);
+      if (this.config.apiVersion) player.setAttribute('api-version', this.config.apiVersion);
       player.setAttribute('autoplay', 'false');
       player.setAttribute('width', '100%');
 
@@ -216,7 +239,8 @@ export class JaaqCollectionPlayer {
       this.handleSlideChange(newIndex);
 
       if (this.collectionData) {
-        this.emit('slidechange', { index: newIndex, video: this.collectionData.videos[newIndex] });
+        const videos = this.getVideosFromCollection(this.collectionData);
+        this.emit('slidechange', { index: newIndex, video: videos[newIndex] });
       }
     });
 

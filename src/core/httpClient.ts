@@ -4,6 +4,7 @@ type FetchResponse = Awaited<ReturnType<FetchLike>>;
 
 export interface HttpClientConfig {
   baseUrl: string;
+  apiVersion: string;
   apiKey: string;
   clientId: string;
   fetch?: FetchLike;
@@ -27,16 +28,22 @@ async function parseJson<T>(res: FetchResponse): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-function joinUrl(baseUrl: string, clientId: string, path: string): string {
+function joinUrl(baseUrl: string, apiVersion: string, clientId: string, path: string): string {
   // return path if it is an absolute URL
   if (/^https?:\/\//i.test(path)) return path;
   const base = baseUrl.replace(/\/+$/, '');
   const relative = path.replace(/^\/+/, '');
-  return `${base}/b2b/v1/subscription/${encodeURIComponent(clientId)}${relative.startsWith('/') ? relative : `/${relative}`}`;
+  return `${base}/b2b/${apiVersion}/subscription/${encodeURIComponent(clientId)}${relative.startsWith('/') ? relative : `/${relative}`}`;
+}
+
+function convertToValidAPIVersion(version: string): string {
+  const v = version.toLowerCase();
+  if (v === 'v1' || v === 'v2') return v;
+  return 'v1'; // default to v1 if invalid version provided
 }
 
 export function createHttpClient(config: HttpClientConfig): HttpClient {
-  const { baseUrl, apiKey, clientId, fetch: fetchImpl } = config;
+  const { baseUrl, apiKey, clientId, fetch: fetchImpl, apiVersion } = config;
 
   const f: FetchLike | undefined = fetchImpl ?? (globalThis.fetch as FetchLike | undefined);
   if (!f) {
@@ -48,7 +55,7 @@ export function createHttpClient(config: HttpClientConfig): HttpClient {
     'x-api-key': apiKey,
   };
 
-  const fullUrl = (path: string) => joinUrl(baseUrl, clientId, path);
+  const fullUrl = (path: string) => joinUrl(baseUrl, convertToValidAPIVersion(apiVersion), clientId, path);
 
   const request = async <T>(method: string, path: string, init?: RequestOptions, body?: unknown) => {
     const reqInit: RequestOptions = {

@@ -1,4 +1,4 @@
-import type { ISODateTimeString } from './commons';
+import type { ISODateTimeString } from '../commons';
 
 interface Subtopic {
   id: string;

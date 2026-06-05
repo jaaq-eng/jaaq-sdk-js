@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { JaaqClient, createJaaqClient } from '@src/index';
+import { JaaqClient, createJaaqClient, createJaaqClientV1, createJaaqClientV2 } from '@src/index';
 
 describe('SDK initialization', () => {
   const originalEnv = process.env.JAAQ_API_URL;
@@ -24,6 +24,48 @@ describe('SDK initialization', () => {
 
       const clientFromInit = JaaqClient.init(config);
       const clientFromFactory = createJaaqClient(config);
+
+      expect(Object.keys(clientFromInit)).toEqual(expect.arrayContaining(['videos', 'collections']));
+      expect(Object.keys(clientFromFactory)).toEqual(expect.arrayContaining(['videos', 'collections']));
+      expect(typeof clientFromInit.videos.getById).toBe('function');
+      expect(typeof clientFromFactory.videos.getById).toBe('function');
+      expect(typeof clientFromInit.collections.list).toBe('function');
+      expect(typeof clientFromFactory.collections.list).toBe('function');
+    });
+  });
+
+  describe('JaaqClient.init and createJaaqClient V1', () => {
+    it('both methods create equivalent clients', () => {
+      const config = {
+        baseUrl: 'http://localhost:3000',
+        apiKey: 'test-key',
+        clientId: 'acme',
+        apiVersion: 'v1',
+      };
+
+      const clientFromInit = JaaqClient.init(config);
+      const clientFromFactory = createJaaqClientV1(config);
+
+      expect(Object.keys(clientFromInit)).toEqual(expect.arrayContaining(['videos', 'collections']));
+      expect(Object.keys(clientFromFactory)).toEqual(expect.arrayContaining(['videos', 'collections']));
+      expect(typeof clientFromInit.videos.getById).toBe('function');
+      expect(typeof clientFromFactory.videos.getById).toBe('function');
+      expect(typeof clientFromInit.collections.list).toBe('function');
+      expect(typeof clientFromFactory.collections.list).toBe('function');
+    });
+  });
+
+  describe('JaaqClient.init and createJaaqClient V2', () => {
+    it('both methods create equivalent clients', () => {
+      const config = {
+        baseUrl: 'http://localhost:3000',
+        apiKey: 'test-key',
+        clientId: 'acme',
+        apiVersion: 'v2',
+      };
+
+      const clientFromInit = JaaqClient.init(config);
+      const clientFromFactory = createJaaqClientV2(config);
 
       expect(Object.keys(clientFromInit)).toEqual(expect.arrayContaining(['videos', 'collections']));
       expect(Object.keys(clientFromFactory)).toEqual(expect.arrayContaining(['videos', 'collections']));
