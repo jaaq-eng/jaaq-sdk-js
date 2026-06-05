@@ -2,7 +2,7 @@ import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import * as React from 'react';
 import { registerJaaqComponents } from '@ui/webcomponents/register';
 import { JaaqCollectionPlayerElement } from '@ui/webcomponents/CollectionPlayer';
-import type { CollectionDTO } from '@src/types';
+import type { CollectionDTO, CollectionV2DTO } from '@src/types';
 import type { JaaqClient } from '@src/index';
 import type { VideoSettings } from '@ui/shared/types';
 
@@ -17,6 +17,7 @@ type CollectionPlayerProps = {
   subscriptionId?: string;
   client?: JaaqClient;
   baseUrl?: string;
+  apiVersion?: string;
   autoplay?: boolean;
   showArrows?: boolean;
   showDots?: boolean;
@@ -24,7 +25,7 @@ type CollectionPlayerProps = {
   videoSettings?: VideoSettings;
   onLoaded?: (_collection: CollectionDTO) => void;
   onError?: (_error: Error) => void;
-  onSlideChange?: (_data: { index: number; video: CollectionDTO['videos'][0] }) => void;
+  onSlideChange?: (_data: { index: number; video: CollectionDTO['videos'][0] | CollectionV2DTO['videoGroups'][0]['videos'][0] }) => void;
 };
 
 type CollectionPlayerHandle = {
@@ -44,6 +45,7 @@ function CollectionPlayerComponent(
     subscriptionId,
     client,
     baseUrl,
+    apiVersion,
     autoplay = false,
     showArrows = true,
     showDots = true,
@@ -115,6 +117,7 @@ function CollectionPlayerComponent(
         client-id={clientId}
         subscription-id={subscriptionId}
         base-url={baseUrl}
+        api-version={apiVersion}
         autoplay={autoplay ? 'true' : 'false'}
         show-arrows={showArrows ? 'true' : 'false'}
         show-dots={showDots ? 'true' : 'false'}

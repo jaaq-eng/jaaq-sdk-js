@@ -52,6 +52,11 @@ function parseDataAttributes(element: Element): PlayerConfig | null {
     config.baseUrl = baseUrl;
   }
 
+  const apiVersion = element.getAttribute('data-api-version');
+  if (apiVersion) {
+    config.apiVersion = apiVersion;
+  }
+
   const className = element.getAttribute('data-class-name');
   if (className) {
     config.className = className;

@@ -118,6 +118,11 @@
           config.baseUrl = baseUrl;
         }
 
+        const apiVersion = params.get('apiVersion');
+        if (apiVersion) {
+          config.apiVersion = apiVersion;
+        }
+
         const controls = params.get('controls');
         if (controls !== null) {
           config.controls = controls === 'true' || controls === '1';
@@ -184,6 +189,10 @@
 
           if (config.baseUrl) {
             player.setAttribute('base-url', config.baseUrl);
+          }
+
+          if (config.apiVersion) {
+            player.setAttribute('api-version', config.apiVersion);
           }
 
           if (config.autoplay) {
@@ -326,8 +335,11 @@
 
     <script
       src="__JAAQ_CDN_URL__/jaaq-webcomponents-bundled.min.js"
-      onerror="console.error('[Embed] Failed to load web component script'); showError('Failed to load player script');"
-      onload="console.log('[Embed] Web component script loaded');"
+      onerror="
+        console.error('[Embed] Failed to load web component script');
+        showError('Failed to load player script');
+      "
+      onload="console.log('[Embed] Web component script loaded')"
     ></script>
   </body>
 </html>

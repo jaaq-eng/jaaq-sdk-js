@@ -14,6 +14,7 @@ describe('Error handling', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: failingFetch,
+        apiVersion: 'v1',
       });
 
       await expect(http.get('test/get')).rejects.toThrow('Network request failed');
@@ -29,6 +30,7 @@ describe('Error handling', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: dnsErrorFetch,
+        apiVersion: 'v1',
       });
 
       await expect(http.get('test')).rejects.toThrow('getaddrinfo ENOTFOUND');
@@ -49,6 +51,7 @@ describe('Error handling', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: htmlFetch,
+        apiVersion: 'v1',
       });
 
       await expect(http.get('test')).rejects.toThrow();
@@ -67,6 +70,7 @@ describe('Error handling', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: malformedJsonFetch,
+        apiVersion: 'v1',
       });
 
       await expect(http.get('test')).rejects.toThrow();
@@ -85,6 +89,7 @@ describe('Error handling', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: emptyFetch,
+        apiVersion: 'v1',
       });
 
       await expect(http.get('test')).rejects.toThrow();
@@ -105,6 +110,7 @@ describe('Error handling', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: errorFetch,
+        apiVersion: 'v1',
       });
 
       try {
@@ -130,6 +136,7 @@ describe('Error handling', () => {
         apiKey: 'test-key',
         clientId: 'test-client',
         fetch: emptyErrorFetch,
+        apiVersion: 'v1',
       });
 
       try {
