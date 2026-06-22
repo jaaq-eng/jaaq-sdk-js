@@ -135,7 +135,7 @@
     "prettier": "3.8.4",
     "react": "19.2.6",
     "react-dom": "19.2.6",
-    "rollup": "4.61.1",
+    "rollup": "4.62.2",
     "rollup-plugin-dts": "6.4.1",
     "rollup-plugin-tsconfig-paths": "1.5.2",
     "tslib": "2.8.1",
