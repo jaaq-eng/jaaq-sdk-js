@@ -109,8 +109,8 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "21.0.2",
-    "@commitlint/config-conventional": "21.0.2",
+    "@commitlint/cli": "21.1.0",
+    "@commitlint/config-conventional": "21.1.0",
     "@dotenvx/dotenvx": "1.75.1",
     "@eslint/js": "10.0.1",
     "@rollup/plugin-commonjs": "29.0.3",
