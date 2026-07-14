@@ -31,9 +31,23 @@ allowBuilds:
   msw: true
 
 # `overrides` was previously declared as `pnpm.overrides` in root package.json
-# (pnpm 11 no longer reads the `pnpm` field). The single entry below is a
-# security mitigation: any transitive `vite` resolving to ≤7.3.1 (CVE range)
-# is rewritten to 7.3.2. Range/comparator syntax is intentional — it scopes
-# the override to the vulnerable line only.
+# (pnpm 11 no longer reads the `pnpm` field). The entries below are security
+# mitigations for transitive-only vulnerabilities surfaced by `pnpm audit`.
+# All three vulnerable modules reach us only via dev/test tooling (vitest,
+# openapi-typescript); none is a direct dependency.
+#
+#   - esbuild: forced to the patched 0.28 line (GHSA-g7r4-m6w7-qqqr, dev-server
+#              arbitrary file read on Windows). Safe because the vite override
+#              below resolves vite to 7.3.6, whose esbuild range is
+#              `^0.27.0 || ^0.28.0` and therefore consumes 0.28.1.
+#   - js-yaml: forced past the quadratic-complexity merge-key DoS
+#              (GHSA-h67p-54hq-rp68); the vulnerable 4.1.1 copy reaches us via
+#              @redocly/openapi-core, which itself declares `^4.2.0`.
+#   - vite:    forced to the patched 7.3.5+ line, covering both the `server.fs.deny`
+#              bypass (GHSA-fx2h-pf6j-xcff, high) and the launch-editor NTLM hash
+#              disclosure (GHSA-v6wh-96g9-6wx3). Supersedes the earlier
+#              `vite@<=7.3.1: '7.3.2'` entry, which 7.3.2 itself later fell foul of.
 overrides:
-  vite@<=7.3.1: '7.3.2'
+  esbuild: '^0.28.1' # GHSA-g7r4-m6w7-qqqr — 2026-07-14
+  js-yaml: '^4.1.2' # GHSA-h67p-54hq-rp68 — 2026-07-14
+  vite: '^7.3.5' # GHSA-fx2h-pf6j-xcff + GHSA-v6wh-96g9-6wx3 — 2026-07-14
