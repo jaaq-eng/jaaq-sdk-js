@@ -9,6 +9,7 @@ type CollectionV2DTO = {
     id: string;
     duration: number;
     videoUrl: string;
+    isCroppable: boolean;
   } | null;
   videoGroups: VideoGroupV2DTO[];
 };
