@@ -28,8 +28,8 @@ importers:
         specifier: 21.2.0
         version: 21.2.0
       '@dotenvx/dotenvx':
-        specifier: 2.7.3
-        version: 2.7.3
+        specifier: 2.17.1
+        version: 2.17.1
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.6.0(jiti@2.6.1)(supports-color@10.2.2))
@@ -230,15 +230,15 @@ packages:
     resolution: {integrity: sha512-TzlTVpKPjaqW6qOYjQcYUDuGsLCNsvFHVBXkYGTAnf5V37jCWrE5haKNXzz0WZUtVHjrpV76L1buANjwXMfT8w==}
     engines: {node: '>=22'}
 
-  '@dotenvx/dotenvx@2.7.3':
-    resolution: {integrity: sha512-8NxYnlXy0aQW8Sjj/91VUmqSRmTwT2W3Gxbp6wXeKItWYODLcCbtlFcXF3ufCgQlCTrZ3zdIAUO1EU9/hcazsA==}
+  '@dotenvx/dotenvx@2.17.1':
+    resolution: {integrity: sha512-H8tbSn2a7izztsyz4S9rRUjlniJYuL6XfUBt5H2gRQwRXP94dUL3RNMMz46r5jfLmmjALQUhWzL+M8HagN5rfQ==}
     hasBin: true
 
-  '@dotenvx/primitives@1.8.1':
-    resolution: {integrity: sha512-xcEkhZDDA9E/ElU27Ft6ZaBBZN4EkXDmD0H4kZB7CcEMfQr43P6RMb7AMU6xYvqLyg2zT8rb0lEuaE8gUlUEiw==}
+  '@dotenvx/primitives@2.1.0':
+    resolution: {integrity: sha512-GIpMSSgjZk4URRCtAw12vBmobnw3VeSKL+p7/y8ypWvTHFW+StAMZvq4wCjdX+QKuw4alXu0IMGW6QPhKo6ufg==}
 
-  '@dotenvx/tooling@1.0.2':
-    resolution: {integrity: sha512-yf4VwIZUzSqlLy2pe0kH2xk6dME73oYW5XqcHE7M1zA1H0RX/dSUThsSRmpCjp622iW9f6VGQl5Aa6szt5Xc0w==}
+  '@dotenvx/tooling@1.0.3':
+    resolution: {integrity: sha512-Gd6qQol/ICb4MPRWpiIH56y+pR9AVB7kPBkbhrLSGLtAiF4Qgy+k651/f2pze0Xbm3H5XewbPfIm4y9K+ic30Q==}
 
   '@esbuild/aix-ppc64@0.28.1':
     resolution: {integrity: sha512-Svl7tq8k/08+p6CXPpRjQ1fKX+1odH/BQbb48fV6fj3CWHhsoIOoY87w1oHXm0qEpkIK3ZfVgp0hed3XBXzXMQ==}
@@ -1849,8 +1849,8 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  yocto-spinner@1.2.1:
-    resolution: {integrity: sha512-9cbFWLhbiZp+820O4pkHGNncI7+MrUGzBOjw8NMG+ewsY+aG0DdEXnr19Smxao32YOjLZRMdn1UtaxcrXOYOIg==}
+  yocto-spinner@1.2.2:
+    resolution: {integrity: sha512-DODGl1wJjA/s5pnJFKau9lIYHT81lnhob1i3e1TjxZRxEhWRKl74nTbWE6H5KlkViQQTo/Z29YFdxzTZAMY3ng==}
     engines: {node: '>=18.19'}
 
   yoctocolors@2.1.2:
@@ -1999,15 +1999,15 @@ snapshots:
 
   '@conventional-changelog/template@1.2.1': {}
 
-  '@dotenvx/dotenvx@2.7.3':
+  '@dotenvx/dotenvx@2.17.1':
     dependencies:
-      '@dotenvx/primitives': 1.8.1
-      '@dotenvx/tooling': 1.0.2
-      yocto-spinner: 1.2.1
+      '@dotenvx/primitives': 2.1.0
+      '@dotenvx/tooling': 1.0.3
+      yocto-spinner: 1.2.2
 
-  '@dotenvx/primitives@1.8.1': {}
+  '@dotenvx/primitives@2.1.0': {}
 
-  '@dotenvx/tooling@1.0.2': {}
+  '@dotenvx/tooling@1.0.3': {}
 
   '@esbuild/aix-ppc64@0.28.1':
     optional: true
@@ -3437,7 +3437,7 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  yocto-spinner@1.2.1:
+  yocto-spinner@1.2.2:
     dependencies:
       yoctocolors: 2.1.2
 
