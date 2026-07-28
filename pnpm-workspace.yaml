@@ -33,9 +33,16 @@ allowBuilds:
 # `overrides` was previously declared as `pnpm.overrides` in root package.json
 # (pnpm 11 no longer reads the `pnpm` field). The entries below are security
 # mitigations for transitive-only vulnerabilities surfaced by `pnpm audit`.
-# All three vulnerable modules reach us only via dev/test tooling (vitest,
-# openapi-typescript); none is a direct dependency.
+# Every vulnerable module below reaches us only via dev/test tooling (vitest,
+# eslint, openapi-typescript); none is a direct dependency.
 #
+#   - brace-expansion: only the 5.x copy is version-scoped here (GHSA-mh99-v99m-4gvg,
+#              unbounded-expansion DoS). It reaches us as minimatch@10's dependency
+#              via the eslint / typescript-eslint chain, and minimatch@10 declares
+#              `^5.0.5`, so 5.0.8 is an in-range patch bump. Deliberately scoped to
+#              `@^5.0.0` rather than applied bare: a second, older copy (2.1.2) sits
+#              under minimatch@5 and cannot take a 5.x override — see the
+#              `auditConfig.ignoreGhsas` note at the foot of this file.
 #   - esbuild: forced to the patched 0.28 line (GHSA-g7r4-m6w7-qqqr, dev-server
 #              arbitrary file read on Windows). Safe because the vite override
 #              below resolves vite to 7.3.6, whose esbuild range is
@@ -51,4 +58,27 @@ overrides:
   esbuild: '^0.28.1' # GHSA-g7r4-m6w7-qqqr — 2026-07-14
   js-yaml: '^4.1.2' # GHSA-h67p-54hq-rp68 — 2026-07-14
   vite: '^7.3.5' # GHSA-fx2h-pf6j-xcff + GHSA-v6wh-96g9-6wx3 — 2026-07-14
+  brace-expansion@^5.0.0: '^5.0.8' # GHSA-mh99-v99m-4gvg — 2026-07-28
   fast-uri@<=3.1.3: '3.1.4'
+
+# `auditConfig.ignoreGhsas` suppresses advisories that cannot currently be actioned,
+# so `pnpm run audit:moderate` (and the CI gate that runs it) stops failing on work
+# nobody can do. Suppression silences the report; it does not resolve the finding —
+# each entry below has a Jira follow-up.
+#
+#   - GHSA-mh99-v99m-4gvg (brace-expansion, high): the advisory's only patched
+#     release is 5.0.8 — there is no backport on the 1.x/2.x lines. The 5.x copy is
+#     fixed by the override above, but a second copy (2.1.2) reaches us via
+#     openapi-typescript > @redocly/openapi-core@1.x > minimatch@5.1.9, and that one
+#     cannot be forced forward: minimatch@5 declares `^2.0.1` and does
+#     `const expand = require('brace-expansion')`, calling the module export
+#     directly. brace-expansion@5's CommonJS build exports a namespace object
+#     (`exports.expand = expand`), not a callable, so an override would resolve
+#     cleanly at install time and then throw at runtime. (It also raises the
+#     engines floor to Node 20.)
+#     Upstream fix path: @redocly/openapi-core 2.x drops minimatch entirely in
+#     favour of picomatch, so this clears once openapi-typescript moves off the
+#     1.x line. Remove this entry then.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-mh99-v99m-4gvg
