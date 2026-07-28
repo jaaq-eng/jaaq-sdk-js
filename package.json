@@ -133,7 +133,7 @@
     "msw": "2.15.0",
     "openapi-typescript": "7.13.0",
     "prettier": "3.9.6",
-    "react": "19.2.7",
+    "react": "19.2.8",
     "react-dom": "19.2.7",
     "rollup": "4.62.3",
     "rollup-plugin-dts": "6.4.1",
