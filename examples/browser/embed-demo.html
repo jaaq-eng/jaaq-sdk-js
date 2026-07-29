@@ -218,8 +218,7 @@
   frameborder="0" 
   allowfullscreen&gt;
 &lt;/iframe&gt;
-</pre
-          >
+</pre>
         </div>
       </div>
 
@@ -278,8 +277,7 @@
   height="450"
   frameborder="0"
   allowfullscreen
-&gt;&lt;/iframe&gt;</pre
-          >
+&gt;&lt;/iframe&gt;</pre>
         </div>
 
         <h3>With Autoplay</h3>
@@ -291,8 +289,7 @@
   height="450"
   frameborder="0"
   allowfullscreen
-&gt;&lt;/iframe&gt;</pre
-          >
+&gt;&lt;/iframe&gt;</pre>
         </div>
 
         <h3>Dynamic JavaScript Creation</h3>
@@ -304,8 +301,7 @@ iframe.width = '800';
 iframe.height = '450';
 iframe.frameBorder = '0';
 iframe.allowFullscreen = true;
-document.getElementById('container').appendChild(iframe);</pre
-          >
+document.getElementById('container').appendChild(iframe);</pre>
         </div>
 
         <h3>Listening to Events (postMessage)</h3>
@@ -330,8 +326,7 @@ window.addEventListener('message', (event) => {
         break;
     }
   }
-});</pre
-          >
+});</pre>
         </div>
 
         <h3>Sending Commands to Player</h3>
@@ -354,8 +349,7 @@ iframe.contentWindow.postMessage({
   type: 'jaaq-player-command',
   command: 'seek',
   args: { time: 30 }
-}, '*');</pre
-          >
+}, '*');</pre>
         </div>
 
         <h3>Available URL Parameters</h3>
@@ -368,8 +362,7 @@ autoplay    (optional) - true/false, default: false
 width       (optional) - Player width, default: 100%
 height      (optional) - Player height, default: 100%
 baseUrl     (optional) - Custom API base URL
-apiVersion  (optional) - API version, default: v1</pre
-          >
+apiVersion  (optional) - API version, default: v1</pre>
         </div>
 
         <h3>Available Events</h3>
@@ -383,8 +376,7 @@ timeupdate      - Current time updated
 volumechange    - Volume changed
 ended           - Video finished playing
 error           - Error occurred
-fullscreenchange - Fullscreen toggled</pre
-          >
+fullscreenchange - Fullscreen toggled</pre>
         </div>
 
         <h3>Available Commands</h3>
@@ -395,8 +387,7 @@ pause       - Pause playback
 toggleMute  - Toggle mute
 setVolume   - Set volume (args: { volume: 0-1 })
 seek        - Seek to time (args: { time: seconds })
-getState    - Get current player state</pre
-          >
+getState    - Get current player state</pre>
         </div>
       </div>
     </div>
