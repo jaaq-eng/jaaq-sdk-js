@@ -10,14 +10,14 @@
     "skipLibCheck": true,
     "outDir": "dist",
     "resolveJsonModule": true,
-    "baseUrl": ".",
+    "types": ["node"],
     "paths": {
-      "@src/*": ["src/*"],
-      "@core/*": ["src/core/*"],
-      "@resources/*": ["src/resources/*"],
-      "@gen/*": ["src/gen/*"],
-      "@tests/*": ["tests/*"],
-      "@ui/*": ["src/ui/*"]
+      "@src/*": ["./src/*"],
+      "@core/*": ["./src/core/*"],
+      "@resources/*": ["./src/resources/*"],
+      "@gen/*": ["./src/gen/*"],
+      "@tests/*": ["./tests/*"],
+      "@ui/*": ["./src/ui/*"]
     }
   },
   "include": ["src", "tests"]
