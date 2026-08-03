@@ -42,10 +42,13 @@ allowBuilds:
 #              minimatch@5 does `require('brace-expansion')(…)` and would throw).
 #              Both entries cover GHSA-mh99-v99m-4gvg (unbounded-expansion DoS) and
 #              GHSA-rgw5-rvv9-x895 (unbounded intermediate arrays, which bypasses
-#              the mh99 mitigation).
+#              the mh99 mitigation). Both use a caret range deliberately, so later
+#              5.x / 2.x security releases flow through without editing this file;
+#              "in range" below means within the parent's declared range, and the
+#              version-scoped key is what keeps each copy inside its own major.
 #                * `@^5.0.0` → `^5.0.9`: reaches us as minimatch@10's dependency via
 #                  the eslint / typescript-eslint chain; minimatch@10 declares
-#                  `^5.0.5`, so this is an in-range patch bump.
+#                  `^5.0.5`, so 5.0.9 is in range for it.
 #                * `@^2.0.0` → `^2.1.4`: reaches us via openapi-typescript >
 #                  @redocly/openapi-core@1.x > minimatch@5.1.9, which declares
 #                  `^2.0.1`, so this too is in-range. brace-expansion 2.1.4 is the
@@ -65,7 +68,8 @@ allowBuilds:
 #              `sourceMappingURL` when `from` is unset (GHSA-fxqj-rqcc-2cmp, the
 #              incomplete-fix follow-up to GHSA-6g55-p6wh-862q). Applied bare because
 #              every copy arrives via vite (vitest / @vitest/mocker) and vite@7.3.6
-#              declares `^8.5.6`, so 8.5.23 is an in-range patch bump for all of them.
+#              declares `^8.5.6`, so 8.5.23 is in range for all of them. Caret again,
+#              so later 8.x security releases flow through (currently resolves 8.5.25).
 #   - vite:    forced to the patched 7.3.5+ line, covering both the `server.fs.deny`
 #              bypass (GHSA-fx2h-pf6j-xcff, high) and the launch-editor NTLM hash
 #              disclosure (GHSA-v6wh-96g9-6wx3). Supersedes the earlier
