@@ -36,49 +36,66 @@ allowBuilds:
 # Every vulnerable module below reaches us only via dev/test tooling (vitest,
 # eslint, openapi-typescript); none is a direct dependency.
 #
-#   - brace-expansion: only the 5.x copy is version-scoped here (GHSA-mh99-v99m-4gvg,
-#              unbounded-expansion DoS). It reaches us as minimatch@10's dependency
-#              via the eslint / typescript-eslint chain, and minimatch@10 declares
-#              `^5.0.5`, so 5.0.8 is an in-range patch bump. Deliberately scoped to
-#              `@^5.0.0` rather than applied bare: a second, older copy (2.1.2) sits
-#              under minimatch@5 and cannot take a 5.x override — see the
-#              `auditConfig.ignoreGhsas` note at the foot of this file.
+#   - brace-expansion: two copies reach us, each version-scoped to stay within its
+#              own major (a bare override would drag the 2.x copy onto 5.x, whose
+#              CommonJS build exports a namespace object rather than a callable —
+#              minimatch@5 does `require('brace-expansion')(…)` and would throw).
+#              Both entries cover GHSA-mh99-v99m-4gvg (unbounded-expansion DoS) and
+#              GHSA-rgw5-rvv9-x895 (unbounded intermediate arrays, which bypasses
+#              the mh99 mitigation). Both use a caret range deliberately, so later
+#              5.x / 2.x security releases flow through without editing this file;
+#              "in range" below means within the parent's declared range, and the
+#              version-scoped key is what keeps each copy inside its own major.
+#                * `@^5.0.0` → `^5.0.9`: reaches us as minimatch@10's dependency via
+#                  the eslint / typescript-eslint chain; minimatch@10 declares
+#                  `^5.0.5`, so 5.0.9 is in range for it.
+#                * `@^2.0.0` → `^2.1.4`: reaches us via openapi-typescript >
+#                  @redocly/openapi-core@1.x > minimatch@5.1.9, which declares
+#                  `^2.0.1`, so this too is in-range. brace-expansion 2.1.4 is the
+#                  2.x backport of both advisories (mh99 landed in 2.1.3, rgw5 in
+#                  2.1.4); it keeps the callable `module.exports = expandTop` shape
+#                  minimatch@5 needs and adds no `engines` floor. This backport is
+#                  what made the previous `auditConfig.ignoreGhsas` suppression of
+#                  GHSA-mh99-v99m-4gvg unnecessary — it has been removed.
 #   - esbuild: forced to the patched 0.28 line (GHSA-g7r4-m6w7-qqqr, dev-server
 #              arbitrary file read on Windows). Safe because the vite override
 #              below resolves vite to 7.3.6, whose esbuild range is
 #              `^0.27.0 || ^0.28.0` and therefore consumes 0.28.1.
+#   - fast-uri: forced past the host confusion via a backslash authority introducer
+#              (GHSA-7p8r-x3mc-p8w7). The single copy reaches us via
+#              @commitlint/cli > @commitlint/config-validator > ajv, which declares
+#              `^3.0.1`, so 3.1.5 is in range. Supersedes the earlier
+#              `fast-uri@<=3.1.3: '3.1.4'` entry: that pinned an exact 3.1.4, which
+#              this advisory then marked vulnerable, and its `<=3.1.3` comparator no
+#              longer matched the version it had itself installed — so the entry had
+#              become inert. A caret on the 3.x line replaces it, deliberately not
+#              crossing to 4.x (fast-uri 4.1.2 is also patched, but ajv cannot take
+#              a major bump).
 #   - js-yaml: forced past the quadratic-complexity merge-key DoS
 #              (GHSA-h67p-54hq-rp68); the vulnerable 4.1.1 copy reaches us via
 #              @redocly/openapi-core, which itself declares `^4.2.0`.
+#   - postcss: forced past the arbitrary `.map` file read via an attacker-controlled
+#              `sourceMappingURL` when `from` is unset (GHSA-fxqj-rqcc-2cmp, the
+#              incomplete-fix follow-up to GHSA-6g55-p6wh-862q). Applied bare because
+#              every copy arrives via vite (vitest / @vitest/mocker) and vite@7.3.6
+#              declares `^8.5.6`, so 8.5.23 is in range for all of them. Caret again,
+#              so later 8.x security releases flow through (currently resolves 8.5.25).
 #   - vite:    forced to the patched 7.3.5+ line, covering both the `server.fs.deny`
 #              bypass (GHSA-fx2h-pf6j-xcff, high) and the launch-editor NTLM hash
 #              disclosure (GHSA-v6wh-96g9-6wx3). Supersedes the earlier
 #              `vite@<=7.3.1: '7.3.2'` entry, which 7.3.2 itself later fell foul of.
 overrides:
   esbuild: '^0.28.1' # GHSA-g7r4-m6w7-qqqr — 2026-07-14
+  fast-uri: '^3.1.5' # GHSA-7p8r-x3mc-p8w7 — 2026-08-03
   js-yaml: '^4.1.2' # GHSA-h67p-54hq-rp68 — 2026-07-14
+  postcss: '^8.5.23' # GHSA-fxqj-rqcc-2cmp — 2026-08-03
   vite: '^7.3.5' # GHSA-fx2h-pf6j-xcff + GHSA-v6wh-96g9-6wx3 — 2026-07-14
-  brace-expansion@^5.0.0: '^5.0.8' # GHSA-mh99-v99m-4gvg — 2026-07-28
-  fast-uri@<=3.1.3: '3.1.4'
+  brace-expansion@^2.0.0: '^2.1.4' # GHSA-mh99-v99m-4gvg + GHSA-rgw5-rvv9-x895 — 2026-08-03
+  brace-expansion@^5.0.0: '^5.0.9' # GHSA-mh99-v99m-4gvg + GHSA-rgw5-rvv9-x895 — 2026-08-03
 
-# `auditConfig.ignoreGhsas` suppresses advisories that cannot currently be actioned,
-# so `pnpm run audit:moderate` (and the CI gate that runs it) stops failing on work
-# nobody can do. Suppression silences the report; it does not resolve the finding —
-# each entry below has a Jira follow-up.
-#
-#   - GHSA-mh99-v99m-4gvg (brace-expansion, high): the advisory's only patched
-#     release is 5.0.8 — there is no backport on the 1.x/2.x lines. The 5.x copy is
-#     fixed by the override above, but a second copy (2.1.2) reaches us via
-#     openapi-typescript > @redocly/openapi-core@1.x > minimatch@5.1.9, and that one
-#     cannot be forced forward: minimatch@5 declares `^2.0.1` and does
-#     `const expand = require('brace-expansion')`, calling the module export
-#     directly. brace-expansion@5's CommonJS build exports a namespace object
-#     (`exports.expand = expand`), not a callable, so an override would resolve
-#     cleanly at install time and then throw at runtime. (It also raises the
-#     engines floor to Node 20.)
-#     Upstream fix path: @redocly/openapi-core 2.x drops minimatch entirely in
-#     favour of picomatch, so this clears once openapi-typescript moves off the
-#     1.x line. Remove this entry then.
-auditConfig:
-  ignoreGhsas:
-    - GHSA-mh99-v99m-4gvg
+
+# No `auditConfig.ignoreGhsas` block: every advisory currently reported by
+# `pnpm audit` is actioned by an override above. The previous suppression of
+# GHSA-mh99-v99m-4gvg (brace-expansion) was removed on 2026-08-03 — it existed only
+# because the advisory had no 2.x backport at the time, and 2.1.3/2.1.4 now provide
+# one, so the 2.x copy under minimatch@5 can be forced forward in-range instead.
