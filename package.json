@@ -111,7 +111,7 @@
   "devDependencies": {
     "@commitlint/cli": "21.2.1",
     "@commitlint/config-conventional": "21.2.0",
-    "@dotenvx/dotenvx": "2.19.0",
+    "@dotenvx/dotenvx": "2.19.1",
     "@eslint/js": "10.0.1",
     "@rollup/plugin-commonjs": "29.0.3",
     "@rollup/plugin-node-resolve": "16.0.3",
@@ -135,7 +135,7 @@
     "prettier": "3.9.6",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "rollup": "4.62.3",
+    "rollup": "4.62.4",
     "rollup-plugin-dts": "6.4.1",
     "rollup-plugin-tsconfig-paths": "1.5.2",
     "tslib": "2.8.1",
