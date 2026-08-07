@@ -71,9 +71,16 @@ allowBuilds:
 #              become inert. A caret on the 3.x line replaces it, deliberately not
 #              crossing to 4.x (fast-uri 4.1.2 is also patched, but ajv cannot take
 #              a major bump).
-#   - js-yaml: forced past the quadratic-complexity merge-key DoS
-#              (GHSA-h67p-54hq-rp68); the vulnerable 4.1.1 copy reaches us via
-#              @redocly/openapi-core, which itself declares `^4.2.0`.
+#   - js-yaml: forced past two quadratic-complexity DoS advisories — the merge-key
+#              one (GHSA-h67p-54hq-rp68) and the `!!omap` resolution one
+#              (GHSA-5p4m-2wfm-xmqj / CVE-2026-59870, which is fixed only in
+#              4.3.1+; the 4.3.0 the previous `^4.1.2` range resolved to is
+#              vulnerable). Three copies reach us: cosmiconfig (declares `^4.1.0`,
+#              via @commitlint/cli) and @redocly/openapi-core (declares an exact
+#              `4.2.0`, via openapi-typescript). Applied bare because every copy is
+#              on the 4.x line and 4.3.1 is a patch-level move within it. Caret, so
+#              later 4.x security releases flow through; deliberately not crossing
+#              to 5.x, which neither parent declares.
 #   - postcss: forced past the arbitrary `.map` file read via an attacker-controlled
 #              `sourceMappingURL` when `from` is unset (GHSA-fxqj-rqcc-2cmp, the
 #              incomplete-fix follow-up to GHSA-6g55-p6wh-862q). Applied bare because
@@ -87,7 +94,7 @@ allowBuilds:
 overrides:
   esbuild: '^0.28.1' # GHSA-g7r4-m6w7-qqqr — 2026-07-14
   fast-uri: '^3.1.5' # GHSA-7p8r-x3mc-p8w7 — 2026-08-03
-  js-yaml: '^4.1.2' # GHSA-h67p-54hq-rp68 — 2026-07-14
+  js-yaml: '^4.3.1' # GHSA-h67p-54hq-rp68 + GHSA-5p4m-2wfm-xmqj — 2026-08-07
   postcss: '^8.5.23' # GHSA-fxqj-rqcc-2cmp — 2026-08-03
   vite: '^7.3.5' # GHSA-fx2h-pf6j-xcff + GHSA-v6wh-96g9-6wx3 — 2026-07-14
   brace-expansion@^2.0.0: '^2.1.4' # GHSA-mh99-v99m-4gvg + GHSA-rgw5-rvv9-x895 — 2026-08-03
