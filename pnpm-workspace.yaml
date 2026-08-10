@@ -81,6 +81,14 @@ allowBuilds:
 #              on the 4.x line and 4.3.1 is a patch-level move within it. Caret, so
 #              later 4.x security releases flow through; deliberately not crossing
 #              to 5.x, which neither parent declares.
+#   - nanoid:  forced past the infinite loop a custom-alphabet generator enters when
+#              called with `size` 0 (GHSA-2v37-7h3g-55p8, a DoS). A single copy
+#              reaches us, as postcss@8.5.25's dependency via vite (vitest /
+#              @vitest/mocker); postcss declares `^3.3.16`, so 3.3.17 is in range.
+#              Applied bare because that copy is the only one in the tree. Caret on
+#              the 3.x line, so later 3.x security releases flow through;
+#              deliberately not crossing to 5.x, which is ESM-only and would break
+#              postcss's `require('nanoid/non-secure')` call.
 #   - postcss: forced past the arbitrary `.map` file read via an attacker-controlled
 #              `sourceMappingURL` when `from` is unset (GHSA-fxqj-rqcc-2cmp, the
 #              incomplete-fix follow-up to GHSA-6g55-p6wh-862q). Applied bare because
@@ -95,6 +103,7 @@ overrides:
   esbuild: '^0.28.1' # GHSA-g7r4-m6w7-qqqr — 2026-07-14
   fast-uri: '^3.1.5' # GHSA-7p8r-x3mc-p8w7 — 2026-08-03
   js-yaml: '^4.3.1' # GHSA-h67p-54hq-rp68 + GHSA-5p4m-2wfm-xmqj — 2026-08-07
+  nanoid: '^3.3.17' # GHSA-2v37-7h3g-55p8 — 2026-08-10
   postcss: '^8.5.23' # GHSA-fxqj-rqcc-2cmp — 2026-08-03
   vite: '^7.3.5' # GHSA-fx2h-pf6j-xcff + GHSA-v6wh-96g9-6wx3 — 2026-07-14
   brace-expansion@^2.0.0: '^2.1.4' # GHSA-mh99-v99m-4gvg + GHSA-rgw5-rvv9-x895 — 2026-08-03
