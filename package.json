@@ -111,7 +111,7 @@
   "devDependencies": {
     "@commitlint/cli": "21.2.1",
     "@commitlint/config-conventional": "21.2.0",
-    "@dotenvx/dotenvx": "2.19.1",
+    "@dotenvx/dotenvx": "2.21.0",
     "@eslint/js": "10.0.1",
     "@rollup/plugin-commonjs": "29.0.3",
     "@rollup/plugin-node-resolve": "16.0.3",
@@ -119,15 +119,15 @@
     "@rollup/plugin-terser": "1.0.0",
     "@rollup/plugin-typescript": "12.3.0",
     "@types/hls.js": "1.0.0",
-    "@types/node": "26.1.2",
+    "@types/node": "26.2.0",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
-    "@typescript-eslint/eslint-plugin": "8.65.0",
-    "@typescript-eslint/parser": "8.65.0",
-    "@vitest/coverage-v8": "4.1.10",
-    "eslint": "10.8.0",
+    "@typescript-eslint/eslint-plugin": "8.66.0",
+    "@typescript-eslint/parser": "8.66.0",
+    "@vitest/coverage-v8": "4.1.11",
+    "eslint": "10.8.1",
     "eslint-config-prettier": "10.1.8",
-    "globals": "17.8.0",
+    "globals": "17.11.0",
     "husky": "9.1.7",
     "lint-staged": "17.3.0",
     "msw": "2.15.0",
@@ -136,10 +136,10 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "rollup": "4.62.4",
-    "rollup-plugin-dts": "6.4.1",
+    "rollup-plugin-dts": "6.5.1",
     "rollup-plugin-tsconfig-paths": "1.5.2",
     "tslib": "2.8.1",
     "typescript": "6.0.3",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   }
 }
