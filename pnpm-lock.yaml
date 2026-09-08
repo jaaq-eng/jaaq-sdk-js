@@ -22,8 +22,8 @@ importers:
         specifier: 4.1.4
         version: 4.1.4
       hls.js:
-        specifier: 1.6.16
-        version: 1.6.16
+        specifier: 1.7.2
+        version: 1.7.2
     devDependencies:
       '@commitlint/cli':
         specifier: 21.2.1
@@ -1252,8 +1252,8 @@ packages:
   headers-polyfill@5.0.1:
     resolution: {integrity: sha512-1TJ6Fih/b8h5TIcv+1+Hw0PDQWJTKDKzFZzcKOiW1wJza3XoAQlkCuXLbymPYB8+ZQyw8mHvdw560e8zVFIWyA==}
 
-  hls.js@1.6.16:
-    resolution: {integrity: sha512-VSIRpLfRwlAAdGL4wiTucx2ScRipo0ed1FBatWkyt832jC4CReKstga6yIhYVwGu9LOBjuX9wzmRMeQdBJtzEA==}
+  hls.js@1.7.2:
+    resolution: {integrity: sha512-CW/pPvSOFIRsosbwxrYaE9ERmpTo5fbTqL7wCvuCFlqW1Bmb1K5fXsY7yiH95rmlr4rVuA7UXHbM/cIXQ6AXwg==}
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -2422,7 +2422,7 @@ snapshots:
 
   '@types/hls.js@1.0.0':
     dependencies:
-      hls.js: 1.6.16
+      hls.js: 1.7.2
 
   '@types/json-schema@7.0.15': {}
 
@@ -2933,7 +2933,7 @@ snapshots:
       '@types/set-cookie-parser': 2.4.10
       set-cookie-parser: 3.1.2
 
-  hls.js@1.6.16: {}
+  hls.js@1.7.2: {}
 
   html-escaper@2.0.2: {}
 
