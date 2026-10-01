@@ -49,7 +49,7 @@ allowBuilds:
 #                * `@^5.0.0` → `^5.0.9`: reaches us as minimatch@10's dependency via
 #                  the eslint / typescript-eslint chain; minimatch@10 declares
 #                  `^5.0.5`, so 5.0.9 is in range for it.
-#                * `@^2.0.0` → `^2.1.4`: reaches us via openapi-typescript >
+#                * `@^2.0.0` → `^2.1.7`: reaches us via openapi-typescript >
 #                  @redocly/openapi-core@1.x > minimatch@5.1.9, which declares
 #                  `^2.0.1`, so this too is in-range. brace-expansion 2.1.4 is the
 #                  2.x backport of both advisories (mh99 landed in 2.1.3, rgw5 in
