@@ -127,16 +127,25 @@ overrides:
 
 # `auditConfig.ignoreGhsas` suppresses advisories that no override can action yet.
 #
-#   - GHSA-86w9-cpqp-85rv (node-forge, high): RSA PKCS#1 v1.5 signature verification
-#              accepts extra nested DigestAlgorithm elements. The advisory lists
-#              `>=1.4.1` as patched, but no node-forge release past 1.4.0 has been
-#              published, so an override has nothing to resolve to. The single copy
-#              reaches us via the dev-only @dotenvx/dotenvx (declares `^1.4.0`), which
-#              uses it only for the certificates of its Armor credential proxy – a
-#              `dotenvx run` mode that starts only when proxy credentials are set,
-#              which this repo never does.
-#              Added 2026-10-02; remove once node-forge 1.4.1 ships (the `^1.4.0`
-#              range will pick it up without an override).
+#   - GHSA-86w9-cpqp-85rv (node-forge, high; CVE-2026-85393, an incomplete fix
+#              for CVE-2026-33894): RSA PKCS#1 v1.5 signature verification accepts
+#              extra nested DigestAlgorithm elements. pnpm reports `>=1.4.1` as
+#              patched, but GitHub's advisory lists no patched version and no
+#              node-forge release past 1.4.0 has been published, so an override has
+#              nothing to resolve to. The only fix is the unmerged community PR
+#              https://github.com/digitalbazaar/forge/pull/1152; overriding to that
+#              fork, or applying its diff via `pnpm patch`, was rejected – the first
+#              ships unreviewed crypto code, and the second leaves the version (and
+#              so the audit finding) unchanged. The single copy reaches us via the
+#              dev-only @dotenvx/dotenvx (declares `^1.4.0`), which uses it only for
+#              the certificates of its Armor credential proxy – a `dotenvx run` mode
+#              that starts only when proxy credentials are set, which this repo never
+#              does. dotenvx gained node-forge in 2.27.0, so pinning it back to 2.26.1
+#              would also clear the finding; suppression was chosen over that
+#              downgrade because the vulnerable code path is unreachable here.
+#              Added 2026-10-02; remove once node-forge publishes a release
+#              containing the fix (the `^1.4.0` range will pick it up without an
+#              override).
 auditConfig:
   ignoreGhsas:
     - GHSA-86w9-cpqp-85rv
