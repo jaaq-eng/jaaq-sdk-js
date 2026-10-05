@@ -318,7 +318,11 @@
         const timestamp = new Date().toLocaleTimeString();
         const eventDiv = document.createElement('div');
         eventDiv.className = 'event';
-        eventDiv.innerHTML = `<span class="timestamp">[${timestamp}]</span><strong>${type}:</strong> ${JSON.stringify(data)}`;
+        eventDiv.innerHTML = '<span class="timestamp"></span><strong></strong> <span></span>';
+        const [timestampSpan, eventType, eventData] = eventDiv.children;
+        timestampSpan.textContent = `[${timestamp}]`;
+        eventType.textContent = `${type}:`;
+        eventData.textContent = JSON.stringify(data);
 
         eventLog.insertBefore(eventDiv, eventLog.firstChild);
 
@@ -332,7 +336,8 @@
       function showError(message) {
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error';
-        errorDiv.innerHTML = `<strong>Error:</strong> ${message}`;
+        errorDiv.innerHTML = '<strong>Error:</strong> ';
+        errorDiv.append(message);
         errorContainer.appendChild(errorDiv);
       }
 

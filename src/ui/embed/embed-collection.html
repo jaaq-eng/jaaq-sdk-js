@@ -82,10 +82,11 @@
           <div class="error-container">
             <div class="error-content">
               <h1>⚠️ Collection Player Error</h1>
-              <p>${message}</p>
+              <p></p>
             </div>
           </div>
         `;
+        container.querySelector('.error-content p').textContent = message;
       }
 
       function getQueryParams() {
