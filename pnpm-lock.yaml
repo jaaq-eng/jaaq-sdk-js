@@ -32,8 +32,8 @@ importers:
         specifier: 21.2.2
         version: 21.2.2
       '@dotenvx/dotenvx':
-        specifier: 2.28.0
-        version: 2.28.0
+        specifier: 2.31.1
+        version: 2.31.1
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.11.0(jiti@2.6.1)(supports-color@10.2.2))
@@ -248,12 +248,12 @@ packages:
     resolution: {integrity: sha512-aalGyl7dbB5PArRebDIX43ZvBlXrYm9uWzGJ26t+4SzJVPsOuvfILGGbw5X4yX7i50YEmJ8zvbiWnqH/AAnZqg==}
     engines: {node: '>=22'}
 
-  '@dotenvx/dotenvx@2.28.0':
-    resolution: {integrity: sha512-NBG5qBkNp5ZYlPsTzB5Zjk5y7dstE94MrlrWpJex22YtGOgcFb41WQ8PzLtjiEBlf98TOO4nr1n/PsEXAFYo9g==}
+  '@dotenvx/dotenvx@2.31.1':
+    resolution: {integrity: sha512-Sen23BJL57MID4y7ATSHKokTYbJjsTqDWXOjDGBxydRddc2MEknaYMRz90LC7iTO9VXS5HyYBnA5N8oOKdUhug==}
     hasBin: true
 
-  '@dotenvx/primitives@3.0.2':
-    resolution: {integrity: sha512-qhddO125donMnxDZRK7Wvw1Oyd5744wJD5j7a8U5254IKwpnAxcpFcjwiUHhmIfGYnAuGBoCRIK5Rlm3bd6y7Q==}
+  '@dotenvx/primitives@3.0.3':
+    resolution: {integrity: sha512-KodBtwW8IgXhDiic04+cMvMKGjGLLew3jJq2JUGmh7c0M7u+twSylCkygkixzDvIvXrugKcCUQLkvDhgK7RN2g==}
 
   '@dotenvx/tooling@1.0.3':
     resolution: {integrity: sha512-Gd6qQol/ICb4MPRWpiIH56y+pR9AVB7kPBkbhrLSGLtAiF4Qgy+k651/f2pze0Xbm3H5XewbPfIm4y9K+ic30Q==}
@@ -2304,16 +2304,16 @@ snapshots:
 
   '@conventional-changelog/template@1.4.0': {}
 
-  '@dotenvx/dotenvx@2.28.0':
+  '@dotenvx/dotenvx@2.31.1':
     dependencies:
-      '@dotenvx/primitives': 3.0.2
+      '@dotenvx/primitives': 3.0.3
       '@dotenvx/tooling': 1.0.3
       global-agent: 3.0.0
       node-forge: 1.4.0
       undici: 6.28.1
       yocto-spinner: 1.2.2
 
-  '@dotenvx/primitives@3.0.2': {}
+  '@dotenvx/primitives@3.0.3': {}
 
   '@dotenvx/tooling@1.0.3': {}
 
