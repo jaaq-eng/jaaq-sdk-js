@@ -111,6 +111,7 @@ allowBuilds:
 #              every copy arrives via vite (vitest / @vitest/mocker) and vite@7.3.6
 #              declares `^8.5.6`, so 8.5.23 is in range for all of them. Caret again,
 #              so later 8.x security releases flow through (currently resolves 8.5.25).
+#   - source-map-js: magicast and postcss both declare `^1.2.1`, so the patched 1.2.2 is in range.
 #   - vite:    forced to the patched 7.3.5+ line, covering both the `server.fs.deny`
 #              bypass (GHSA-fx2h-pf6j-xcff, high) and the launch-editor NTLM hash
 #              disclosure (GHSA-v6wh-96g9-6wx3). Supersedes the earlier
@@ -121,6 +122,7 @@ overrides:
   js-yaml: '^4.3.2' # GHSA-h67p-54hq-rp68 + GHSA-5p4m-2wfm-xmqj + GHSA-2883-xcg3-v3hh — 2026-09-14
   nanoid: '^3.3.17' # GHSA-2v37-7h3g-55p8 — 2026-08-10
   postcss: '^8.5.23' # GHSA-fxqj-rqcc-2cmp — 2026-08-03
+  source-map-js: '^1.2.2' # GHSA-68fv-2mgg-jv7q – 2026-10-06
   vite: '^7.3.5' # GHSA-fx2h-pf6j-xcff + GHSA-v6wh-96g9-6wx3 — 2026-07-14
   brace-expansion@^2.0.0: '^2.1.7' # GHSA-mh99-v99m-4gvg + GHSA-rgw5-rvv9-x895 + GHSA-6j4f-fj2g-mc7p + GHSA-qhr7-859c-m2p7 + GHSA-q2hr-2g5m-vwhr — 2026-10-01
   brace-expansion@^5.0.0: '^5.0.9' # GHSA-mh99-v99m-4gvg + GHSA-rgw5-rvv9-x895 — 2026-08-03
@@ -146,6 +148,8 @@ overrides:
 #              Added 2026-10-02; remove once node-forge publishes a release
 #              containing the fix (the `^1.4.0` range will pick it up without an
 #              override).
+#   - GHSA-hp3w-g68c-fv3c (sprintf-js): no fixed release exists; reached only via dotenvx's proxy preload (needs `DOTENVX_PROXY_URL`), so remove once sprintf-js ships 1.1.4+.
 auditConfig:
   ignoreGhsas:
     - GHSA-86w9-cpqp-85rv
+    - GHSA-hp3w-g68c-fv3c
