@@ -33,8 +33,8 @@ importers:
         specifier: 21.2.3
         version: 21.2.3
       '@dotenvx/dotenvx':
-        specifier: 2.31.1
-        version: 2.31.1
+        specifier: 2.32.4
+        version: 2.32.4
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.11.0(jiti@2.6.1)(supports-color@10.2.2))
@@ -249,8 +249,8 @@ packages:
     resolution: {integrity: sha512-aalGyl7dbB5PArRebDIX43ZvBlXrYm9uWzGJ26t+4SzJVPsOuvfILGGbw5X4yX7i50YEmJ8zvbiWnqH/AAnZqg==}
     engines: {node: '>=22'}
 
-  '@dotenvx/dotenvx@2.31.1':
-    resolution: {integrity: sha512-Sen23BJL57MID4y7ATSHKokTYbJjsTqDWXOjDGBxydRddc2MEknaYMRz90LC7iTO9VXS5HyYBnA5N8oOKdUhug==}
+  '@dotenvx/dotenvx@2.32.4':
+    resolution: {integrity: sha512-nJJqsTXaY+mEITPpDFxoPVEPPS4mw815BU/YFjzamnp3eIELOR/CzJeOc7Lt9Vv2ZHH3sYDMUlnaN34FClc/zA==}
     hasBin: true
 
   '@dotenvx/primitives@3.0.3':
@@ -2157,7 +2157,7 @@ snapshots:
 
   '@conventional-changelog/template@1.4.0': {}
 
-  '@dotenvx/dotenvx@2.31.1':
+  '@dotenvx/dotenvx@2.32.4':
     dependencies:
       '@dotenvx/primitives': 3.0.3
       '@dotenvx/tooling': 1.0.3
