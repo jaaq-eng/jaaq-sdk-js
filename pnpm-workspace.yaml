@@ -1,5 +1,6 @@
 # pnpm-workspace.yaml – pnpm 11+ settings live here, not in package.json's `pnpm` field.
-# The root is the published SDK; the private examples are members, so these settings apply to them too.
+
+# The private examples are members, so the settings below apply to them too.
 packages:
   - 'examples/*'
 
