@@ -1,6 +1,9 @@
-# pnpm-workspace.yaml — pnpm 11+ settings live here, not in package.json's `pnpm` field.
-# This repo is not a multi-package/monorepo workspace; this file exists solely to hold the settings below.
-#
+# pnpm-workspace.yaml – pnpm 11+ settings live here, not in package.json's `pnpm` field.
+
+# The private examples are members, so the settings below apply to them too.
+packages:
+  - 'examples/*'
+
 # `engineStrict: true` makes pnpm hard-fail the install when the active Node.js
 # version does not match the root `engines.node` field in package.json. Without it,
 # pnpm only logs `[WARN] Unsupported engine` and proceeds — which defeats the point
@@ -34,7 +37,7 @@ allowBuilds:
 # (pnpm 11 no longer reads the `pnpm` field). The entries below are security
 # mitigations for transitive-only vulnerabilities surfaced by `pnpm audit`.
 # Every vulnerable module below reaches us only via dev/test tooling (vitest,
-# eslint, openapi-typescript); none is a direct dependency.
+# eslint, openapi-typescript) or the examples; none is a direct dependency of the SDK.
 #
 #   - brace-expansion: two copies reach us, each version-scoped to stay within its
 #              own major (a bare override would drag the 2.x copy onto 5.x, whose
