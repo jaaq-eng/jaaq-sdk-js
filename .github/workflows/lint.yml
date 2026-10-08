@@ -35,3 +35,6 @@ jobs:
 
       - name: Prettier (check)
         run: pnpm format:check
+
+  action-pins:
+    uses: jaaq-eng/jaaq-common/.github/workflows/wc-lint-github-action-pins.yml@main
