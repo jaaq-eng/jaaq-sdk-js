@@ -1,0 +1,15 @@
+name: pnpm checks (PR)
+
+# `high`, not `moderate`: a newly disclosed moderate CVE in a third-level dep must not block an unrelated PR.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    uses: jaaq-eng/jaaq-common/.github/workflows/wc-pnpm-checks.yml@main
+    with:
+      audit-level: high
