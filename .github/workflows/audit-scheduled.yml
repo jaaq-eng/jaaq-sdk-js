@@ -16,7 +16,7 @@ on:
         type: boolean
         default: false
 
-# A called workflow holds no permission its caller did not grant; the App token is minted by OIDC.
+# A called workflow holds no permission its caller did not grant; the App token is minted by OpenID Connect (OIDC).
 permissions:
   contents: write
   pull-requests: write
