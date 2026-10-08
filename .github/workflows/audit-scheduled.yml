@@ -1,7 +1,6 @@
 name: pnpm audit (scheduled)
 
-# jaaq-common's shared audit: on a red audit it raises the fix PR with /fix-pnpm-audit and tells Slack.
-# Needs the `audit-autofix` environment, allowing the default branch alone, and the secrets forwarded below.
+# jaaq-common's shared audit: a red audit raises the fix PR from the `audit-autofix` environment and tells Slack.
 
 on:
   schedule:
