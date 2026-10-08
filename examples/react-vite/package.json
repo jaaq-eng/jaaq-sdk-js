@@ -1,6 +1,7 @@
 {
   "name": "jaaq-sdk-react-vite-example",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -8,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@jaaq/jaaq-sdk-js": "file:../..",
+    "@jaaq/jaaq-sdk-js": "workspace:*",
     "hls.js": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
