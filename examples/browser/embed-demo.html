@@ -400,7 +400,11 @@ getState    - Get current player state</pre>
         const time = new Date().toLocaleTimeString();
         const eventItem = document.createElement('div');
         eventItem.className = 'event-item';
-        eventItem.innerHTML = `<span class="event-time">[${time}]</span> <strong>${event}</strong>: ${JSON.stringify(data || 'N/A')}`;
+        eventItem.innerHTML = '<span class="event-time"></span> <strong></strong>: <span></span>';
+        const [timeSpan, eventName, eventData] = eventItem.children;
+        timeSpan.textContent = `[${time}]`;
+        eventName.textContent = event;
+        eventData.textContent = JSON.stringify(data || 'N/A');
         eventsLog.insertBefore(eventItem, eventsLog.firstChild);
       }
 
