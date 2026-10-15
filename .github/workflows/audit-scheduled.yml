@@ -34,4 +34,4 @@ jobs:
           webhook: ${{ secrets.SECURITY_ALERTS_SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "${{ github.repository }} pnpm audit (moderate): ${{ needs.checks.result == 'success' && 'passed' || 'failed' }} – ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            text: "${{ github.repository }} pnpm checks (audit: moderate, exact pins): ${{ needs.checks.result == 'success' && 'passed' || 'failed' }} – ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
