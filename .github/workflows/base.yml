@@ -11,6 +11,10 @@ on:
         type: string
         default: ''
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -55,6 +59,11 @@ jobs:
 
       - name: audit dependencies
         run: pnpm run audit:moderate
+
+      - name: Verify exact-version pinning
+        run: |
+          set -ux
+          pnpm run check:pins
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

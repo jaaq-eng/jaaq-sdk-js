@@ -1,6 +1,7 @@
 {
   "name": "@jaaq/jaaq-sdk-js",
   "version": "1.2.1",
+  "private": false,
   "description": "Official JavaScript SDK for JAAQ API",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -23,6 +24,7 @@
     "check-paths-in-bundle": "grep -R -nE --exclude='*.map' '@core/|@resources/' dist || echo 'OK no aliases found'",
     "openapi:gen": "openapi-typescript ./openapi.json -o ./src/gen/openapi.ts",
     "audit:moderate": "pnpm audit --audit-level=moderate",
+    "check:pins": "node scripts/check-exact-version-pins.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
