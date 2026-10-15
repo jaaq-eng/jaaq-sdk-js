@@ -10,6 +10,6 @@
   },
   "dependencies": {
     "@jaaq/jaaq-sdk-js": "workspace:*",
-    "dotenv": "^16.0.0"
+    "dotenv": "16.6.1"
   }
 }
