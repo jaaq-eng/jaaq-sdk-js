@@ -24,6 +24,7 @@
     "check-paths-in-bundle": "grep -R -nE --exclude='*.map' '@core/|@resources/' dist || echo 'OK no aliases found'",
     "openapi:gen": "openapi-typescript ./openapi.json -o ./src/gen/openapi.ts",
     "audit:moderate": "pnpm audit --audit-level=moderate",
+    "check:pins": "node scripts/check-exact-version-pins.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
