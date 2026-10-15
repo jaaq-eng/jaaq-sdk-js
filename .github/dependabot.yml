@@ -15,9 +15,11 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 10
     commit-message:
-      prefix: 'chore(B2B-347)'
+      prefix: 'chore'
     groups:
       rollup:
         patterns:
@@ -58,12 +60,15 @@ updates:
           - 'patch'
 
   - package-ecosystem: 'github-actions'
-    directory: '/'
+    # `/` means `.github/workflows` alone here, so composite-action pins need the glob.
+    directories:
+      - '/'
+      - '/.github/actions/*'
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 10
     commit-message:
-      prefix: 'chore(B2B-347)'
+      prefix: 'chore'
     groups:
       actions:
         patterns:
