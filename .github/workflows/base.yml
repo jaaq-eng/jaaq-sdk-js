@@ -103,8 +103,6 @@ jobs:
 
           if [ "${{ inputs.environment }}" = "development" ]; then
             FULL_VERSION="$BASE_VERSION-dev-$SHORT_HASH-$DATE"
-          elif [ "${{ inputs.environment }}" = "staging" ]; then
-            FULL_VERSION="$BASE_VERSION-rc-$SHORT_HASH-$DATE"
           else
             FULL_VERSION="$BASE_VERSION"
           fi
@@ -161,10 +159,6 @@ jobs:
             PUBLISH_VERSION="$BASE_VERSION-dev-$SHORT_HASH-$DATE"
             pnpm version $PUBLISH_VERSION --no-git-tag-version
             pnpm publish --tag dev --no-git-checks
-          elif [ "${{ inputs.environment }}" = "staging" ]; then
-            PUBLISH_VERSION="$BASE_VERSION-rc-$SHORT_HASH-$DATE"
-            pnpm version $PUBLISH_VERSION --no-git-tag-version
-            pnpm publish --tag rc --no-git-checks
           elif [ "${{ inputs.environment }}" = "production" ]; then
             pnpm publish --tag latest --no-git-checks
           fi

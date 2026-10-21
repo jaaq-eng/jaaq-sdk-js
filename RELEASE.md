@@ -6,12 +6,10 @@ This document describes the branching strategy, version management, and release 
 
 ![Branching Strategy Diagram](./docs/branching-strategy.svg)
 
-We use a three-branch workflow with dedicated branches for each environment:
+We use a two-branch workflow with dedicated branches for each environment:
 
 ```
 main (development environment)
-  ↓
-staging (staging environment)
   ↓
 production (production environment)
 ```
@@ -19,7 +17,6 @@ production (production environment)
 ### Branch Overview
 
 - **main**: Development branch where features are merged. Deploys to development environment.
-- **staging**: Release candidate branch. Deploys to staging environment for final testing.
 - **production**: Production branch. Deploys to production environment with git tags.
 
 ### Visual Workflow
@@ -37,21 +34,15 @@ production (production environment)
 └─────────────────────────────────────────────────────────────┘
                                ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  Staging Release                                             │
-│  PR: main → staging                                          │
-│  Auto Deploy → 1.2.3-rc-a1b2c3d-20240118                   │
-└─────────────────────────────────────────────────────────────┘
-                               ↓
-┌─────────────────────────────────────────────────────────────┐
 │  Production Release                                          │
-│  PR: staging → production                                    │
+│  PR: main → production                                       │
 │  Auto Deploy → 1.2.3 + Git Tag v1.2.3                      │
 └─────────────────────────────────────────────────────────────┘
                                ↓
 ┌─────────────────────────────────────────────────────────────┐
 │  Hotfix (if needed)                                          │
 │  hotfix/critical-bug → PR → production                      │
-│  Deploy + Tag → Backmerge to staging → Backmerge to main   │
+│  Deploy + Tag → Backmerge to main                           │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -62,7 +53,6 @@ The SDK uses semantic versioning with environment-specific suffixes:
 | Environment | Format                        | Example                      | NPM Tag   |
 | ----------- | ----------------------------- | ---------------------------- | --------- |
 | Development | `{version}-dev-{hash}-{date}` | `1.2.3-dev-a1b2c3d-20240118` | `@dev`    |
-| Staging     | `{version}-rc-{hash}-{date}`  | `1.2.3-rc-a1b2c3d-20240118`  | `@rc`     |
 | Production  | `{version}`                   | `1.2.3`                      | `@latest` |
 
 Where:
@@ -137,36 +127,13 @@ npm install @jaaq/jaaq-sdk-js@dev
 
 **Note:** Every PR merge to main automatically triggers a development deployment.
 
-### 3. Staging Release
+### 3. Production Release
 
-When development testing is complete, promote to staging.
-
-**Steps:**
-
-1. Create PR from `main` to `staging`
-2. Review and merge PR
-3. Pipeline automatically deploys to staging
-
-**Result:**
-
-- Package published: `@jaaq/jaaq-sdk-js@1.3.0-rc-a1b2c3d-20240118`
-- NPM tag: `@rc`
-- S3 bucket: `jaaq-sdk-js/v1.3.0-rc-a1b2c3d-20240118/` and `jaaq-sdk-js/latest/`
-
-**Installation:**
-
-```bash
-npm login
-npm install @jaaq/jaaq-sdk-js@rc
-```
-
-### 4. Production Release
-
-When staging testing is complete, promote to production.
+When development testing is complete, promote to production.
 
 **Steps:**
 
-1. Create PR from `staging` to `production`
+1. Create PR from `main` to `production`
 2. Review and merge PR
 3. Pipeline automatically:
    - Deploys to production
@@ -231,20 +198,11 @@ Critical bugs in production require immediate fixes through hotfix branches.
    - Pipeline automatically deploys hotfix to production
    - Creates git tag (e.g., `v1.3.1`)
 
-7. **Backmerge to staging**:
-
-   ```bash
-   git checkout staging
-   git pull origin staging
-   git merge production
-   git push origin staging
-   ```
-
-8. **Backmerge to main**:
+7. **Backmerge to main**:
    ```bash
    git checkout main
    git pull origin main
-   git merge staging
+   git merge production
    git push origin main
    ```
 
@@ -259,7 +217,7 @@ Day 1 10:50 - Push hotfix branch
 Day 1 11:00 - Create PR: hotfix/fix-auth-leak → production
 Day 1 11:15 - PR reviewed and merged
 Day 1 11:20 - Production auto-deployed with v1.3.1 + git tag created
-Day 1 11:25 - Backmerge to staging and main
+Day 1 11:25 - Backmerge to main
 ```
 
 ## Git Tags
@@ -291,11 +249,10 @@ git checkout tags/v1.3.0
 
 The package uses npm distribution tags to manage different versions:
 
-| Tag      | Purpose                      | Command                             |
-| -------- | ---------------------------- | ----------------------------------- |
-| `latest` | Production releases          | `npm install @jaaq/jaaq-sdk-js`     |
-| `rc`     | Release candidates (staging) | `npm install @jaaq/jaaq-sdk-js@rc`  |
-| `dev`    | Development builds           | `npm install @jaaq/jaaq-sdk-js@dev` |
+| Tag      | Purpose             | Command                             |
+| -------- | ------------------- | ----------------------------------- |
+| `latest` | Production releases | `npm install @jaaq/jaaq-sdk-js`     |
+| `dev`    | Development builds  | `npm install @jaaq/jaaq-sdk-js@dev` |
 
 **Viewing all versions:**
 
@@ -317,12 +274,6 @@ s3://dev-bucket/jaaq-sdk-js/
   └── latest/
       └── index.min.js (latest dev)
 
-s3://staging-bucket/jaaq-sdk-js/
-  ├── v1.2.3-rc-a1b2c3d-20240118/
-  │   └── index.min.js
-  └── latest/
-      └── index.min.js (latest rc)
-
 s3://prod-bucket/jaaq-sdk-js/
   ├── v1.2.3/
   │   └── index.min.js
@@ -334,7 +285,6 @@ s3://prod-bucket/jaaq-sdk-js/
 
 ```html
 <script src="https://dev-cdn.example.com/latest/index.min.js"></script>
-<script src="https://staging-cdn.example.com/latest/index.min.js"></script>
 <script src="https://cdn.example.com/latest/index.min.js"></script>
 <script src="https://cdn.example.com/v1.2.3/index.min.js"></script>
 ```
@@ -365,21 +315,20 @@ Currently, the package is private and requires authentication to install. To mak
 
 1. **Always bump version before deployment** - Run Version Bump workflow first
 2. **Use semantic versioning** - Follow major.minor.patch conventions
-3. **One version across environments** - Same base version flows through dev → staging → production
+3. **One version across environments** - Same base version flows through dev → production
 4. **Document breaking changes** - Update CHANGELOG.md for major versions
 
 ### Branch Management
 
-1. **Keep branches in sync** - Regularly merge down (production → staging → main) for hotfixes
-2. **Never skip environments** - Always go dev → staging → production
+1. **Keep branches in sync** - Regularly merge down (production → main) for hotfixes
+2. **Never skip environments** - Always go dev → production
 3. **Delete feature branches** - After merge to main
-4. **Protect branches** - Enable branch protection for main, staging, production
+4. **Protect branches** - Enable branch protection for main and production
 
 ### Testing Requirements
 
-1. **Development** - Unit tests, integration tests must pass
-2. **Staging** - Full regression testing, UAT
-3. **Production** - Smoke tests only (already tested in staging)
+1. **Development** - Unit tests, integration tests, regression testing and UAT
+2. **Production** - Smoke tests only (already tested in development)
 
 ### Hotfix Guidelines
 
@@ -395,12 +344,11 @@ Currently, the package is private and requires authentication to install. To mak
 If versions get out of sync between branches:
 
 ```bash
-git checkout main
-git log --oneline -10
-git checkout staging
-git merge main
-git push origin staging
+git fetch origin
+git diff origin/production origin/main -- package.json
 ```
+
+Then open a PR from `main` to `production` to bring production up to date.
 
 ### Failed deployment
 
@@ -434,12 +382,6 @@ Then re-run the production deployment.
 **Trigger:** Automatic on PR merge to main, or manual workflow_dispatch  
 **Purpose:** Deploy to development environment  
 **Version format:** `{version}-dev-{hash}-{date}`
-
-### ci-staging.yml
-
-**Trigger:** Automatic on PR merge to staging  
-**Purpose:** Deploy to staging environment  
-**Version format:** `{version}-rc-{hash}-{date}`
 
 ### ci-production.yml
 
