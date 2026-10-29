@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { JaaqClient } from '@src/index';
+import { JaaqClient, type V2 } from '@src/index';
 import collectionsResp from '@tests/mocks/collections.json';
 import collectionsV2Resp from '@tests/mocks/collections-v2.json';
 import collectionResp from '@tests/mocks/collection.json';
@@ -54,10 +54,10 @@ describe('collections resource', () => {
 });
 
 describe('collections resource - V2', () => {
-  let sdk: JaaqClient;
+  let sdk: JaaqClient<V2>;
 
   beforeEach(() => {
-    sdk = JaaqClient.init({
+    sdk = JaaqClient.init<V2>({
       baseUrl: 'http://localhost:3000',
       apiKey: 'test-key',
       clientId: 'acme',
@@ -69,12 +69,15 @@ describe('collections resource - V2', () => {
     const res = await sdk.collections.list();
     expect(res.length).toBe(collectionsV2Resp.collections.length);
     expect(res[0].id).toBe(collectionsV2Resp.collections[0].id);
+    expect(res[0].series).toEqual(collectionsV2Resp.collections[0].series);
+    expect(res[1].series).toEqual([]);
   });
 
   it('getById returns a single collection', async () => {
     const res = await sdk.collections.getById(collectionV2Resp.collection.id);
     expect(res.id).toBe(collectionV2Resp.collection.id);
     expect(res.name).toBe(collectionV2Resp.collection.name);
+    expect(res.series).toEqual(collectionV2Resp.collection.series);
   });
 
   it('getById throws error for 404 status', async () => {
