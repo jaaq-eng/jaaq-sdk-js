@@ -3,6 +3,7 @@
     "id": "11f8aa24-5544-405c-b3b0-abd0bad298b8",
     "name": "Mental wellness",
     "description": "Marketing",
+    "series": ["Everyday wellbeing", "Neurodiversity"],
     "imageUrl": "https://cdn.sanity.io/images/vf3sc5hr/develop/6bbb1a6b44c31d9d9019fe7667ee3c87dba40990-335x373.png",
     "videoGroups": [
       {
