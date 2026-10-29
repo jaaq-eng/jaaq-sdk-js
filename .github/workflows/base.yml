@@ -58,7 +58,7 @@ jobs:
           echo "AWS_REGION=${{ env.AWS_REGION }}"
 
       - name: audit dependencies
-        run: pnpm run audit:moderate
+        run: pnpm run audit:high
 
       - name: Verify exact-version pinning
         run: |
