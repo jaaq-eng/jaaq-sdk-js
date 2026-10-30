@@ -131,8 +131,8 @@ importers:
         specifier: workspace:*
         version: link:../..
       dotenv:
-        specifier: 16.6.1
-        version: 16.6.1
+        specifier: 18.0.9
+        version: 18.0.9
 
   examples/browser:
     devDependencies:
@@ -1344,9 +1344,10 @@ packages:
   detect-node@2.1.0:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
 
-  dotenv@16.6.1:
-    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+  dotenv@18.0.9:
+    resolution: {integrity: sha512-3fVOW4cB02R066PUSwn8O4TJyz9NckQl7F81blIbaq9jKBm2tSmOKky7ZHIXzGvkVPXCSn6jkpziBPZdGFs8Tw==}
     engines: {node: '>=12'}
+    hasBin: true
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -3582,7 +3583,7 @@ snapshots:
 
   detect-node@2.1.0: {}
 
-  dotenv@16.6.1: {}
+  dotenv@18.0.9: {}
 
   eastasianwidth@0.2.0: {}
 
