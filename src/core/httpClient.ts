@@ -28,10 +28,16 @@ async function parseJson<T>(res: FetchResponse): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+function trimTrailingSlashes(value: string): string {
+  let end = value.length;
+  while (end > 0 && value[end - 1] === '/') end--;
+  return value.slice(0, end);
+}
+
 function joinUrl(baseUrl: string, apiVersion: string, clientId: string, path: string): string {
   // return path if it is an absolute URL
   if (/^https?:\/\//i.test(path)) return path;
-  const base = baseUrl.replace(/\/+$/, '');
+  const base = trimTrailingSlashes(baseUrl);
   const relative = path.replace(/^\/+/, '');
   return `${base}/b2b/${apiVersion}/subscription/${encodeURIComponent(clientId)}${relative.startsWith('/') ? relative : `/${relative}`}`;
 }

@@ -16,10 +16,11 @@ Modern React application demonstrating JAAQ SDK integration with TypeScript and 
 
 ## Setup
 
-1. Install dependencies:
+1. Install dependencies and build the SDK:
 
 ```bash
-npm install
+pnpm install
+pnpm --workspace-root build
 ```
 
 2. Create environment file:
@@ -43,7 +44,7 @@ Note: `VITE_JAAQ_API_URL` is optional. If not set, the SDK uses the default prod
 Start the development server:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 The app will open at `http://localhost:3000`
@@ -53,13 +54,13 @@ The app will open at `http://localhost:3000`
 Build for production:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Preview production build:
 
 ```bash
-npm run preview
+pnpm run preview
 ```
 
 ## Project Structure

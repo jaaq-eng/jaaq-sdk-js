@@ -4,10 +4,11 @@ Simple Node.js examples demonstrating core JAAQ SDK functionality.
 
 ## Setup
 
-1. Install dependencies:
+1. Install dependencies and build the SDK:
 
 ```bash
-npm install
+pnpm install
+pnpm --workspace-root build
 ```
 
 2. Configure environment:
@@ -33,7 +34,7 @@ Note: `JAAQ_API_URL` is optional. If not set, the SDK uses the default productio
 Run the ESM example:
 
 ```bash
-npm run esm
+pnpm run esm
 ```
 
 Features:
@@ -48,7 +49,7 @@ Features:
 Run the CommonJS example:
 
 ```bash
-npm run cjs
+pnpm run cjs
 ```
 
 Features:

@@ -1,0 +1,13 @@
+name: pnpm checks (PR)
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    uses: ./.github/workflows/pnpm-checks.yml
+    with:
+      audit-level: high

@@ -22,3 +22,6 @@ openapi.json
 
 # OS generated files
 .DS_Store
+
+.claude/settings.local.json
+.claude/worktrees/

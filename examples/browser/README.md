@@ -265,7 +265,7 @@ pnpm build
 
 ```bash
 cd examples/browser
-npx serve
+pnpm run serve
 ```
 
 3. Open the examples in your browser

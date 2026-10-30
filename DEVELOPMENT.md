@@ -33,7 +33,7 @@ Types are imported from `@src/types/*` (e.g., `import type { VideoDTO } from '@s
 ### Prerequisites
 
 - **Node.js**: an even-LTS major satisfying `engines.node` in `package.json` (currently `>=22`). The required dev version is pinned in [`.nvmrc`](./.nvmrc) — `nvm use` (or `fnm use`) picks it up automatically.
-- **pnpm**: the exact version is pinned in `packageManager` in `package.json` (currently `pnpm@11.1.3`). Easiest way to get it: enable [corepack](https://nodejs.org/api/corepack.html) once, then pnpm auto-selects the pinned version on every invocation:
+- **pnpm**: the exact version is pinned in `packageManager` in `package.json` (currently `pnpm@11.21.0`). Easiest way to get it: enable [corepack](https://nodejs.org/api/corepack.html) once, then pnpm auto-selects the pinned version on every invocation:
 
   ```bash
   corepack enable        # one-off; ships with Node.js

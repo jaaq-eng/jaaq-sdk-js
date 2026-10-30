@@ -1,0 +1,18 @@
+name: Dependabot merge
+
+on:
+  pull_request:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  merge:
+    uses: jaaq-eng/jaaq-common/.github/workflows/wc-dependabot-merge.yml@e4ebe71690a488c6237b0348aecd9f6e4c07f718 # v5.0.0
+    secrets:
+      APPROVER_PRIVATE_KEY: ${{ secrets.DEPENDABOT_APPROVER_PRIVATE_KEY }}
