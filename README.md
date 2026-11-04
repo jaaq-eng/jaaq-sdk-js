@@ -65,10 +65,18 @@ const collections = await client.collections.list();
 const collection = await client.collections.getById('collection-id');
 ```
 
-With `apiVersion: 'v2'`, `collections.getById` also takes an optional `subdomain`: the subdomain of the JAAQ website the collection is shown on. The returned `series` then lists the collection's series that are linked from that website; without it, `series` is empty.
+With a v2 client, `collections.getById` also takes an optional `subdomain`: the subdomain of the JAAQ website the collection is shown on. It is sent as the `subdomain` query parameter, and the returned `series` then lists the collection's series that are linked from that website. Without the option, no query parameter is sent and `series` is returned as the API provides it.
 
 ```typescript
-const collection = await client.collections.getById('collection-id', { subdomain: 'natwest' }); // natwest.jaaq.org
+import { createJaaqClientV2 } from '@jaaq/jaaq-sdk-js';
+
+const clientV2 = createJaaqClientV2({
+  apiKey: 'YOUR_API_KEY',
+  clientId: 'YOUR_CLIENT_ID',
+});
+
+// Collection shown on natwest.jaaq.org
+const collection = await clientV2.collections.getById('collection-id', { subdomain: 'natwest' });
 ```
 
 ### Client config
