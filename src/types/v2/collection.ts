@@ -4,6 +4,7 @@ type CollectionV2DTO = {
   id: string;
   name: string;
   description: string;
+  series?: string[];
   imageUrl: string;
   idleVideo: {
     id: string;

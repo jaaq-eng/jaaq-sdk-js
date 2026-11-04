@@ -4,6 +4,7 @@
       "id": "11f8aa24-5544-405c-b3b0-abd0bad298b8",
       "name": "Mental wellness",
       "description": "Marketing",
+      "series": ["Everyday wellbeing", "Neurodiversity"],
       "imageUrl": "https://cdn.sanity.io/images/vf3sc5hr/develop/6bbb1a6b44c31d9d9019fe7667ee3c87dba40990-335x373.png",
       "createdAt": "2025-08-27T09:38:42.000Z",
       "videoGroups": [
@@ -30,6 +31,7 @@
       "id": "4d4201ff-5fa3-4bb8-b6b9-a6a36c82d0fc",
       "name": "Flip the fear",
       "description": "Olympians, pros, and a brain expert break down what nerves really are, and how to stop them from hijacking your day.",
+      "series": [],
       "imageUrl": "https://cdn.sanity.io/images/vf3sc5hr/develop/2061f572c8610112fc3c1824007febfaed6b3f4b-1048x1392.png",
       "createdAt": "2025-07-02T11:46:15.000Z",
       "videoGroups": [

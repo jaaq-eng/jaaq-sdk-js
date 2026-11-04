@@ -63,13 +63,7 @@ Where:
 
 All versions are published to the same package: `@jaaq/jaaq-sdk-js`
 
-**Package Access:** Currently private (requires npm authentication and organization access). To make public later, update `publishConfig.access` in package.json to `"public"`.
-
-**Prerequisites for Private Package:**
-
-- Users must be added to the `@jaaq` npm organization
-- Users must authenticate: `npm login`
-- Requires npm Pro, Teams, or Enterprise plan for private scoped packages
+**Package Access:** Public (`publishConfig.access` is `"public"`), so installing needs no npm login or `@jaaq` organisation membership.
 
 ## Release Process
 
@@ -121,7 +115,6 @@ After version bump, deploy to development environment for testing.
 **Installation:**
 
 ```bash
-npm login
 npm install @jaaq/jaaq-sdk-js@dev
 ```
 
@@ -150,7 +143,6 @@ When development testing is complete, promote to production.
 **Installation:**
 
 ```bash
-npm login
 npm install @jaaq/jaaq-sdk-js
 npm install @jaaq/jaaq-sdk-js@latest
 ```
@@ -288,26 +280,6 @@ s3://prod-bucket/jaaq-sdk-js/
 <script src="https://cdn.example.com/latest/index.min.js"></script>
 <script src="https://cdn.example.com/v1.2.3/index.min.js"></script>
 ```
-
-## Switching from Private to Public Package
-
-Currently, the package is private and requires authentication to install. To make it public:
-
-1. Update `package.json`:
-
-   ```json
-   "publishConfig": {
-     "access": "public"
-   }
-   ```
-
-2. Commit and push the change to main
-
-3. All future releases will be publicly accessible without authentication
-
-4. Previous private versions remain private (cannot change retroactively)
-
-**Note:** Once any version is published as public, the entire package becomes public. You cannot mix private and public versions.
 
 ## Best Practices
 
