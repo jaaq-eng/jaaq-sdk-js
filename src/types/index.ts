@@ -5,7 +5,7 @@ export type { VideoDTO } from './v1/videos';
 export type { CollectionDTO } from './v1/collection';
 
 export type { VideoV2DTO } from './v2/videos';
-export type { CollectionV2DTO } from './v2/collection';
+export type { CollectionV2DTO, GetCollectionByIdV2Options } from './v2/collection';
 export type { VideoGroupV2DTO } from './v2/videoGroup';
 export type { CreatorV2DTO } from './v2/creator';
 export type { CtaV2DTO } from './v2/cta';

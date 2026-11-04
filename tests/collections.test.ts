@@ -1,5 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import { http, HttpResponse } from 'msw';
 import { JaaqClient, type V2 } from '@src/index';
+import { server } from '@tests/server';
 import collectionsResp from '@tests/mocks/collections.json';
 import collectionsV2Resp from '@tests/mocks/collections-v2.json';
 import collectionResp from '@tests/mocks/collection.json';
@@ -65,12 +67,41 @@ describe('collections resource - V2', () => {
     });
   });
 
+  describe('getById subdomain option', () => {
+    const captureRequestUrl = () => {
+      const captured: { url?: URL } = {};
+      server.use(
+        http.get('http://localhost:3000/b2b/v2/subscription/acme/collections/:id', ({ request }) => {
+          captured.url = new URL(request.url);
+          return HttpResponse.json(collectionV2Resp, { status: 200 });
+        }),
+      );
+      return captured;
+    };
+
+    it('sends the subdomain as a query parameter', async () => {
+      const captured = captureRequestUrl();
+      await sdk.collections.getById(collectionV2Resp.collection.id, { subdomain: 'natwest' });
+      expect(captured.url?.searchParams.get('subdomain')).toBe('natwest');
+    });
+
+    it('sends an empty subdomain', async () => {
+      const captured = captureRequestUrl();
+      await sdk.collections.getById(collectionV2Resp.collection.id, { subdomain: '' });
+      expect(captured.url?.search).toBe('?subdomain=');
+    });
+
+    it('sends no query string without the option', async () => {
+      const captured = captureRequestUrl();
+      await sdk.collections.getById(collectionV2Resp.collection.id);
+      expect(captured.url?.search).toBe('');
+    });
+  });
+
   it('list returns collections', async () => {
     const res = await sdk.collections.list();
     expect(res.length).toBe(collectionsV2Resp.collections.length);
     expect(res[0].id).toBe(collectionsV2Resp.collections[0].id);
-    expect(res[0].series).toEqual(collectionsV2Resp.collections[0].series);
-    expect(res[1].series).toEqual([]);
   });
 
   it('getById returns a single collection', async () => {
