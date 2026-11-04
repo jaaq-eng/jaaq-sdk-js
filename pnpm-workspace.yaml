@@ -101,6 +101,7 @@ allowBuilds:
 #              4.3.2 on 2026-09-14: `maxTotalMergeKeys` does not bound CPU use for
 #              empty merge sources (GHSA-2883-xcg3-v3hh), the follow-up to the
 #              merge-key advisory above, and is fixed only in 4.3.2.
+#   - minimatch: no parent declares 11.x yet; serve-handler and @redocly/openapi-core are patched for its named export.
 #   - nanoid:  forced past the infinite loop a custom-alphabet generator enters when
 #              called with `size` 0 (GHSA-2v37-7h3g-55p8, a DoS). A single copy
 #              reaches us, as postcss@8.5.25's dependency via vite (vitest /
@@ -115,6 +116,7 @@ allowBuilds:
 #              every copy arrives via vite (vitest / @vitest/mocker) and vite@7.3.7
 #              declares `^8.5.6`, so 8.5.23 is in range for all of them. Caret again,
 #              so later 8.x security releases flow through (currently resolves 8.5.25).
+#   - serialize-javascript: @rollup/plugin-terser declares `^7.0.3`, so 7.1.3 is in range.
 #   - source-map-js: magicast and postcss both declare `^1.2.1`, so the patched 1.2.2 is in range.
 #   - undici:  forced past three high advisories – DoS via an unhandled error on
 #              excessive content-encodings (GHSA-xjj6-f33q-929c), TLS certificate
@@ -132,10 +134,12 @@ allowBuilds:
 overrides:
   compression: '^1.8.2' # GHSA-vc2v-76pw-4v95 – 2026-10-07
   esbuild: '^0.28.1' # GHSA-g7r4-m6w7-qqqr — 2026-07-14
-  fast-uri: '^3.1.8' # GHSA-7p8r-x3mc-p8w7 + GHSA-5jgf-p345-68v8 + GHSA-f65p-4m7j-42xc + GHSA-fph4-wmhf-6fwf + GHSA-jqff-g426-hqxp + GHSA-hrr3-gc8f-f4qj — 2026-10-01
+  fast-uri: '^3.1.9' # GHSA-7p8r-x3mc-p8w7 + GHSA-5jgf-p345-68v8 + GHSA-f65p-4m7j-42xc + GHSA-fph4-wmhf-6fwf + GHSA-jqff-g426-hqxp + GHSA-hrr3-gc8f-f4qj + GHSA-w74x-v6f9-j3xg + GHSA-wjr9-j795-jxcr + GHSA-xhq7-xmqj-769h + GHSA-333x-w4r6-6crp – 2026-11-04
   js-yaml: '^4.3.2' # GHSA-h67p-54hq-rp68 + GHSA-5p4m-2wfm-xmqj + GHSA-2883-xcg3-v3hh — 2026-09-14
+  minimatch: '^11.0.4' # GHSA-g3hv-75wg-m249 – 2026-11-04
   nanoid: '^3.3.17' # GHSA-2v37-7h3g-55p8 — 2026-08-10
   postcss: '^8.5.23' # GHSA-fxqj-rqcc-2cmp — 2026-08-03
+  serialize-javascript: '^7.1.3' # GHSA-m5mm-p8h7-m29v – 2026-11-04
   source-map-js: '^1.2.2' # GHSA-68fv-2mgg-jv7q – 2026-10-06
   undici: '^6.29.1' # GHSA-xjj6-f33q-929c + GHSA-2m5v-pch6-74hx + GHSA-qrxm-fqhp-jwvm — 2026-10-29
   vite: '^7.3.7' # GHSA-fx2h-pf6j-xcff + GHSA-v6wh-96g9-6wx3 + GHSA-587h-7wmj-h5pm — 2026-10-21
@@ -148,3 +152,7 @@ overrides:
 auditConfig:
   ignoreGhsas:
     - GHSA-hp3w-g68c-fv3c
+
+patchedDependencies:
+  '@redocly/openapi-core@1.34.17': patches/@redocly__openapi-core@1.34.17.patch
+  serve-handler@6.1.7: patches/serve-handler@6.1.7.patch
