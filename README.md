@@ -65,6 +65,12 @@ const collections = await client.collections.list();
 const collection = await client.collections.getById('collection-id');
 ```
 
+With `apiVersion: 'v2'`, `collections.getById` also takes an optional `subdomain`: the subdomain of the JAAQ website the collection is shown on. The returned `series` then lists the collection's series that are linked from that website; without it, `series` is empty.
+
+```typescript
+const collection = await client.collections.getById('collection-id', { subdomain: 'natwest' }); // natwest.jaaq.org
+```
+
 ### Client config
 
 | Option       | Type           | Required | Default                | Notes                                |
