@@ -67,19 +67,6 @@ describe('collections resource - V2', () => {
     });
   });
 
-  it('list returns collections', async () => {
-    const res = await sdk.collections.list();
-    expect(res.length).toBe(collectionsV2Resp.collections.length);
-    expect(res[0].id).toBe(collectionsV2Resp.collections[0].id);
-  });
-
-  it('getById returns a single collection', async () => {
-    const res = await sdk.collections.getById(collectionV2Resp.collection.id);
-    expect(res.id).toBe(collectionV2Resp.collection.id);
-    expect(res.name).toBe(collectionV2Resp.collection.name);
-    expect(res.series).toEqual(collectionV2Resp.collection.series);
-  });
-
   describe('getById subdomain option', () => {
     const captureRequestUrl = () => {
       const captured: { url?: URL } = {};
@@ -109,6 +96,19 @@ describe('collections resource - V2', () => {
       await sdk.collections.getById(collectionV2Resp.collection.id);
       expect(captured.url?.search).toBe('');
     });
+  });
+
+  it('list returns collections', async () => {
+    const res = await sdk.collections.list();
+    expect(res.length).toBe(collectionsV2Resp.collections.length);
+    expect(res[0].id).toBe(collectionsV2Resp.collections[0].id);
+  });
+
+  it('getById returns a single collection', async () => {
+    const res = await sdk.collections.getById(collectionV2Resp.collection.id);
+    expect(res.id).toBe(collectionV2Resp.collection.id);
+    expect(res.name).toBe(collectionV2Resp.collection.name);
+    expect(res.series).toEqual(collectionV2Resp.collection.series);
   });
 
   it('getById throws error for 404 status', async () => {
