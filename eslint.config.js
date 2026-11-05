@@ -25,6 +25,13 @@ module.exports = defineConfig([
     },
   },
 
+  {
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+
   // Test files (Vitest) globals
   {
     files: ['**/*.test.ts', 'tests/**/*.ts'],

@@ -1,5 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { JaaqClient } from '@src/index';
+import { http, HttpResponse } from 'msw';
+import { JaaqClient, type V2 } from '@src/index';
+import { server } from '@tests/server';
 import collectionsResp from '@tests/mocks/collections.json';
 import collectionsV2Resp from '@tests/mocks/collections-v2.json';
 import collectionResp from '@tests/mocks/collection.json';
@@ -54,14 +56,45 @@ describe('collections resource', () => {
 });
 
 describe('collections resource - V2', () => {
-  let sdk: JaaqClient;
+  let sdk: JaaqClient<V2>;
 
   beforeEach(() => {
-    sdk = JaaqClient.init({
+    sdk = JaaqClient.init<V2>({
       baseUrl: 'http://localhost:3000',
       apiKey: 'test-key',
       clientId: 'acme',
       apiVersion: 'v2',
+    });
+  });
+
+  describe('getById subdomain option', () => {
+    const captureRequestUrl = () => {
+      const captured: { url?: URL } = {};
+      server.use(
+        http.get('http://localhost:3000/b2b/v2/subscription/acme/collections/:id', ({ request }) => {
+          captured.url = new URL(request.url);
+          return HttpResponse.json(collectionV2Resp, { status: 200 });
+        }),
+      );
+      return captured;
+    };
+
+    it('sends the subdomain as a query parameter', async () => {
+      const captured = captureRequestUrl();
+      await sdk.collections.getById(collectionV2Resp.collection.id, { subdomain: 'natwest' });
+      expect(captured.url?.searchParams.get('subdomain')).toBe('natwest');
+    });
+
+    it('sends an empty subdomain', async () => {
+      const captured = captureRequestUrl();
+      await sdk.collections.getById(collectionV2Resp.collection.id, { subdomain: '' });
+      expect(captured.url?.search).toBe('?subdomain=');
+    });
+
+    it('sends no query string without the option', async () => {
+      const captured = captureRequestUrl();
+      await sdk.collections.getById(collectionV2Resp.collection.id);
+      expect(captured.url?.search).toBe('');
     });
   });
 
@@ -75,6 +108,7 @@ describe('collections resource - V2', () => {
     const res = await sdk.collections.getById(collectionV2Resp.collection.id);
     expect(res.id).toBe(collectionV2Resp.collection.id);
     expect(res.name).toBe(collectionV2Resp.collection.name);
+    expect(res.series).toEqual(collectionV2Resp.collection.series);
   });
 
   it('getById throws error for 404 status', async () => {
