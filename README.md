@@ -79,6 +79,12 @@ const clientV2 = createJaaqClientV2({
 const collection = await clientV2.collections.getById('collection-id', { subdomain: 'natwest' });
 ```
 
+When only the collection's `name` and `series` are needed, `collections.getSummaryById` returns `{ id, name, series }` without the collection's videos. It takes the same `subdomain` option, and without it `series` is empty.
+
+```typescript
+const { name, series } = await clientV2.collections.getSummaryById('collection-id', { subdomain: 'natwest' });
+```
+
 ### Client config
 
 | Option       | Type           | Required | Default                | Notes                                |
