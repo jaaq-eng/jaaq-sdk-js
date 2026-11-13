@@ -16,9 +16,14 @@ type CollectionV2DTO = {
   videoGroups: VideoGroupV2DTO[];
 };
 
+// The collection's name and series without its videos, as returned by getSummaryById
+type CollectionSummaryV2DTO = Pick<CollectionV2DTO, 'id' | 'name'> & {
+  series: string[];
+};
+
 type GetCollectionByIdV2Options = {
   // Subdomain of the JAAQ website showing the collection, e.g. "natwest" for natwest.jaaq.org
   subdomain?: string;
 };
 
-export type { CollectionV2DTO, GetCollectionByIdV2Options };
+export type { CollectionV2DTO, CollectionSummaryV2DTO, GetCollectionByIdV2Options };
