@@ -5,6 +5,20 @@ import collection from '@tests/mocks/collection.json';
 import collectionV2 from '@tests/mocks/collection-v2.json';
 
 export const collectionsHandlers = [
+  http.get('http://localhost:3000/b2b/v2/subscription/:clientId/collections/:id/summary', ({ params }) => {
+    const { id } = params as { id: string };
+    const { id: collectionId, name, series } = collectionV2.collection;
+
+    if (id === 'server-error') {
+      return HttpResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    }
+
+    if (id === collectionId) {
+      return HttpResponse.json({ collection: { id: collectionId, name, series } }, { status: 200 });
+    }
+
+    return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+  }),
   http.get('http://localhost:3000/b2b/:version/subscription/:clientId/collections', ({ request, params }) => {
     const { version } = params as { version: string };
 

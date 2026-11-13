@@ -98,6 +98,56 @@ describe('collections resource - V2', () => {
     });
   });
 
+  describe('getSummaryById', () => {
+    const captureSummaryRequestUrl = () => {
+      const captured: { url?: URL } = {};
+      server.use(
+        http.get('http://localhost:3000/b2b/v2/subscription/acme/collections/:id/summary', ({ request }) => {
+          captured.url = new URL(request.url);
+          const { id, name, series } = collectionV2Resp.collection;
+          return HttpResponse.json({ collection: { id, name, series } }, { status: 200 });
+        }),
+      );
+      return captured;
+    };
+
+    it("returns only the collection's id, name and series", async () => {
+      const res = await sdk.collections.getSummaryById(collectionV2Resp.collection.id);
+      expect(res).toEqual({
+        id: collectionV2Resp.collection.id,
+        name: collectionV2Resp.collection.name,
+        series: collectionV2Resp.collection.series,
+      });
+    });
+
+    it('sends the subdomain as a query parameter', async () => {
+      const captured = captureSummaryRequestUrl();
+      await sdk.collections.getSummaryById(collectionV2Resp.collection.id, { subdomain: 'natwest' });
+      expect(captured.url?.pathname).toBe(`/b2b/v2/subscription/acme/collections/${collectionV2Resp.collection.id}/summary`);
+      expect(captured.url?.searchParams.get('subdomain')).toBe('natwest');
+    });
+
+    it('sends no query string without the option', async () => {
+      const captured = captureSummaryRequestUrl();
+      await sdk.collections.getSummaryById(collectionV2Resp.collection.id);
+      expect(captured.url?.search).toBe('');
+    });
+
+    it('encodes the collection ID', async () => {
+      const captured = captureSummaryRequestUrl();
+      await sdk.collections.getSummaryById('a/b c');
+      expect(captured.url?.pathname).toBe('/b2b/v2/subscription/acme/collections/a%2Fb%20c/summary');
+    });
+
+    it('throws error for 404 status', async () => {
+      await expect(sdk.collections.getSummaryById('non-existent-id')).rejects.toThrow('HTTP 404');
+    });
+
+    it('throws error for 500 status', async () => {
+      await expect(sdk.collections.getSummaryById('server-error')).rejects.toThrow('HTTP 500');
+    });
+  });
+
   it('list returns collections', async () => {
     const res = await sdk.collections.list();
     expect(res.length).toBe(collectionsV2Resp.collections.length);
