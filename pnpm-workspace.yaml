@@ -64,7 +64,7 @@ allowBuilds:
 #                  advisories (GHSA-6j4f-fj2g-mc7p, GHSA-qhr7-859c-m2p7) and a
 #                  quadratic-time `{a},b}` rewrite (GHSA-q2hr-2g5m-vwhr); 2.1.7
 #                  keeps the same callable export shape.
-#   - compression: serve@14.2.6 (examples/browser) pins an exact 1.8.1 and no newer serve exists.
+#   - compression: serve@14.2.7 (examples/browser) pins an exact 1.8.1 and no newer serve exists.
 #   - esbuild: forced to the patched 0.28 line (GHSA-g7r4-m6w7-qqqr, dev-server
 #              arbitrary file read on Windows). Safe because the vite override
 #              below resolves vite to 7.3.7, whose esbuild range is
