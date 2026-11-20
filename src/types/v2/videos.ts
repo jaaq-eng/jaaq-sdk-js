@@ -11,6 +11,7 @@ type VideoV2DTO = {
   videoUrl: string;
   tags: string[];
   severity: number | null;
+  triggerWarning?: boolean;
   isCroppable: boolean | null;
   duration: number;
   description: string;
